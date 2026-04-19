@@ -7,6 +7,7 @@ const schema = z.object({
   SESSION_SECRET: z.string().length(64, "SESSION_SECRET must be 32 bytes hex (64 chars)"),
   TOKEN_ENCRYPTION_KEY: z.string().length(64, "TOKEN_ENCRYPTION_KEY must be 32 bytes hex (64 chars)"),
   IG_SCOPES: z.string().min(1),
+  ADMIN_EMAIL: z.string().email().default("arcrxx@gmail.com"),
 });
 
 type Env = z.infer<typeof schema>;

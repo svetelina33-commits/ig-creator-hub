@@ -1,26 +1,150 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Nexus Club — cream editorial */
+  --paper: #F0EBE0;
+  --paper-raised: #F7F3E9;
+  --paper-sunken: #E6DFD1;
+  --ink: #14130F;
+  --ink-muted: #5A564E;
+  --ink-faint: #8A8579;
+  --hairline: rgba(20, 19, 15, 0.12);
+  --hairline-strong: rgba(20, 19, 15, 0.35);
+  --forest: #1F4A3C;
+  --forest-deep: #153429;
+  --vermillion: #B3261E;
+  --ochre: #B08437;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-paper-sunken: var(--paper-sunken);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-hairline: var(--hairline);
+  --color-hairline-strong: var(--hairline-strong);
+  --color-forest: var(--forest);
+  --color-forest-deep: var(--forest-deep);
+  --color-vermillion: var(--vermillion);
+  --color-ochre: var(--ochre);
+
+  --font-serif: var(--font-fraunces);
+  --font-sans: var(--font-figtree);
+  --font-mono: var(--font-jetbrains-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  background: var(--paper);
+  color: var(--ink);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+
+  /* Subtle paper grain */
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(20, 19, 15, 0.025) 0%, transparent 40%),
+    radial-gradient(circle at 80% 90%, rgba(20, 19, 15, 0.02) 0%, transparent 40%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.078 0 0 0 0 0.075 0 0 0 0 0.059 0 0 0 0.04 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-attachment: fixed;
+}
+
+/* Utility classes used throughout the app */
+.font-serif-display {
+  font-family: var(--font-fraunces), ui-serif, Georgia, serif;
+  font-variation-settings: "opsz" 144, "SOFT" 30, "WONK" 0;
+  letter-spacing: -0.02em;
+}
+
+.font-serif-italic {
+  font-family: var(--font-fraunces), ui-serif, Georgia, serif;
+  font-style: italic;
+  font-variation-settings: "opsz" 144, "SOFT" 80, "WONK" 1;
+}
+
+.font-mono-numeric {
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+  font-feature-settings: "tnum", "ss01", "zero";
+}
+
+.small-caps {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.12em;
+}
+
+.hairline-top {
+  border-top: 1px solid var(--hairline);
+}
+.hairline-bottom {
+  border-bottom: 1px solid var(--hairline);
+}
+
+.dot-leader {
+  overflow: hidden;
+}
+.dot-leader::after {
+  content: " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .";
+  letter-spacing: 0.2em;
+  color: var(--hairline-strong);
+  padding-left: 0.5rem;
+}
+
+/* Minimal selection style */
+::selection {
+  background: var(--forest);
+  color: var(--paper);
+}
+
+/* Buttons + inputs base */
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+/* Link underline reset for framed editorial look */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Page entrance — understated */
+@keyframes nc-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.nc-rise {
+  animation: nc-rise 600ms cubic-bezier(0.2, 0.7, 0.15, 1) both;
+}
+.nc-rise-1 { animation-delay: 40ms; }
+.nc-rise-2 { animation-delay: 140ms; }
+.nc-rise-3 { animation-delay: 260ms; }
+.nc-rise-4 { animation-delay: 400ms; }
+.nc-rise-5 { animation-delay: 560ms; }
+
+/* Hover motion for interactive cards */
+.nc-card {
+  transition: transform 280ms cubic-bezier(0.2, 0.7, 0.15, 1), background-color 200ms ease;
+}
+.nc-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Focus ring */
+*:focus-visible {
+  outline: 1.5px solid var(--forest);
+  outline-offset: 2px;
 }

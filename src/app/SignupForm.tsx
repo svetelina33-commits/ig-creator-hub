@@ -29,34 +29,37 @@ export default function SignupForm() {
   }
 
   return (
-    <form
-      onSubmit={onSubmit}
-      className="space-y-4 rounded-2xl border border-zinc-200 bg-white/60 p-6 shadow-sm backdrop-blur dark:border-zinc-800 dark:bg-zinc-900/50"
-    >
-      <label className="block">
-        <span className="block text-sm font-medium text-zinc-800 dark:text-zinc-200">
-          Email
+    <form onSubmit={onSubmit} className="space-y-4">
+      <label className="block group">
+        <span className="small-caps text-[10px] tracking-[0.25em] text-ink-muted">
+          Email address
         </span>
-        <input
-          required
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="you@creator.com"
-          className="mt-1 block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 outline-none ring-0 focus:border-fuchsia-500 focus:ring-2 focus:ring-fuchsia-500/30 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-50"
-        />
+        <div className="mt-2 relative">
+          <input
+            required
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@your-domain.com"
+            className="w-full border-0 border-b border-hairline-strong bg-transparent pb-2 text-xl font-serif-display text-ink placeholder:text-ink-faint focus:border-forest focus:outline-none"
+          />
+          <span className="absolute -bottom-px left-0 h-[2px] w-0 bg-forest transition-all duration-300 group-focus-within:w-full" />
+        </div>
       </label>
       {error && (
-        <p className="text-sm text-red-600 dark:text-red-400" role="alert">
+        <p className="text-sm text-vermillion" role="alert">
           {error}
         </p>
       )}
       <button
         type="submit"
         disabled={loading}
-        className="w-full rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-zinc-800 disabled:opacity-60 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
+        className="group relative inline-flex items-center gap-3 bg-ink text-paper px-6 py-3 text-[13px] small-caps tracking-[0.2em] hover:bg-forest disabled:opacity-60 transition-colors"
       >
-        {loading ? "Creating account..." : "Continue"}
+        {loading ? "Reserving your seat…" : "Request membership"}
+        <span aria-hidden className="transition-transform group-hover:translate-x-0.5">
+          →
+        </span>
       </button>
     </form>
   );
