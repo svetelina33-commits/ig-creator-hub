@@ -7,7 +7,11 @@ const schema = z.object({
   SESSION_SECRET: z.string().length(64, "SESSION_SECRET must be 32 bytes hex (64 chars)"),
   TOKEN_ENCRYPTION_KEY: z.string().length(64, "TOKEN_ENCRYPTION_KEY must be 32 bytes hex (64 chars)"),
   IG_SCOPES: z.string().min(1),
-  ADMIN_EMAIL: z.string().email().default("arcrxx@gmail.com"),
+  ADMIN_EMAILS: z.string().default("arcrxx@gmail.com"),
+  RESEND_API_KEY: z.string().default(""),
+  EMAIL_FROM: z.string().default("Nexus Club <onboarding@resend.dev>"),
+  DATABASE_URL: z.string().default(""),
+  CRON_SECRET: z.string().default(""),
 });
 
 type Env = z.infer<typeof schema>;
@@ -37,4 +41,11 @@ export function requireInstagramCredentials(): { appId: string; appSecret: strin
     );
   }
   return { appId: e.IG_APP_ID, appSecret: e.IG_APP_SECRET };
+}
+
+export function adminEmails(): string[] {
+  return env()
+    .ADMIN_EMAILS.split(",")
+    .map((s) => s.trim().toLowerCase())
+    .filter(Boolean);
 }

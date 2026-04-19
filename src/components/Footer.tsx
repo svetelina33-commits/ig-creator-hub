@@ -10,9 +10,9 @@ export function Footer() {
           <span>A private network for creators with a voice.</span>
         </div>
         <div className="flex items-center gap-5 font-mono-numeric">
-          <span>COLOPHON</span>
-          <span>TERMS</span>
-          <span>PRIVACY</span>
+          <a href="/terms" className="hover:text-forest">TERMS</a>
+          <a href="/privacy" className="hover:text-forest">PRIVACY</a>
+          <a href="mailto:arcrxx@gmail.com" className="hover:text-forest">CONTACT</a>
           <span className="text-ink-faint">EST. 2026</span>
         </div>
       </div>

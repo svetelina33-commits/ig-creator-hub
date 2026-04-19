@@ -1,0 +1,310 @@
+import { neon, type NeonQueryFunction } from "@neondatabase/serverless";
+import { randomUUID } from "crypto";
+import { encryptToken } from "../crypto";
+import type {
+  ApplicationRecord,
+  CampaignRecord,
+  CampaignStatus,
+  CreateCampaignInput,
+  CreatorRecord,
+  Deliverable,
+  StoreBackend,
+} from "./types";
+import { slugify } from "./seed";
+
+let sqlFn: NeonQueryFunction<false, false> | null = null;
+
+function sql(): NeonQueryFunction<false, false> {
+  if (!sqlFn) {
+    const url = process.env.DATABASE_URL;
+    if (!url) throw new Error("DATABASE_URL is not set");
+    sqlFn = neon(url);
+  }
+  return sqlFn;
+}
+
+// --- row mappers ---
+
+type CreatorRow = {
+  id: string;
+  email: string;
+  password_hash: string | null;
+  password_reset_token_hash: string | null;
+  password_reset_expires_at: Date | string | null;
+  ig_user_id: string | null;
+  ig_username: string | null;
+  ig_account_type: string | null;
+  ig_encrypted_access_token: string | null;
+  ig_token_expires_at: Date | string | null;
+  ig_connected_at: Date | string | null;
+  created_at: Date | string;
+};
+
+function toIso(v: Date | string | null): string | null {
+  if (!v) return null;
+  return v instanceof Date ? v.toISOString() : new Date(v).toISOString();
+}
+
+function mapCreator(row: CreatorRow): CreatorRecord {
+  const c: CreatorRecord = {
+    id: row.id,
+    email: row.email,
+    passwordHash: row.password_hash,
+    createdAt: toIso(row.created_at)!,
+  };
+  if (row.password_reset_token_hash && row.password_reset_expires_at) {
+    c.passwordReset = {
+      tokenHash: row.password_reset_token_hash,
+      expiresAt: toIso(row.password_reset_expires_at)!,
+    };
+  }
+  if (row.ig_user_id && row.ig_username && row.ig_encrypted_access_token && row.ig_connected_at) {
+    c.instagram = {
+      igUserId: row.ig_user_id,
+      username: row.ig_username,
+      accountType: row.ig_account_type ?? undefined,
+      encryptedAccessToken: row.ig_encrypted_access_token,
+      tokenExpiresAt: toIso(row.ig_token_expires_at),
+      connectedAt: toIso(row.ig_connected_at)!,
+    };
+  }
+  return c;
+}
+
+type CampaignRow = {
+  id: string;
+  slug: string;
+  title: string;
+  brand: string;
+  tagline: string;
+  brief: string;
+  payout_cents: number;
+  currency: "USD" | "EUR" | "GBP";
+  deadline: Date | string | null;
+  deliverables: Deliverable[];
+  status: CampaignStatus;
+  cover_tone: CampaignRecord["coverTone"];
+  created_at: Date | string;
+};
+
+function mapCampaign(row: CampaignRow): CampaignRecord {
+  return {
+    id: row.id,
+    slug: row.slug,
+    title: row.title,
+    brand: row.brand,
+    tagline: row.tagline,
+    brief: row.brief,
+    payoutCents: row.payout_cents,
+    currency: row.currency,
+    deadline: row.deadline ? toIso(row.deadline)!.slice(0, 10) : null,
+    deliverables: row.deliverables,
+    status: row.status,
+    coverTone: row.cover_tone,
+    createdAt: toIso(row.created_at)!,
+  };
+}
+
+type ApplicationRow = {
+  id: string;
+  creator_id: string;
+  campaign_id: string;
+  status: "pending" | "approved" | "rejected";
+  note: string;
+  applied_at: Date | string;
+  decided_at: Date | string | null;
+};
+
+function mapApplication(row: ApplicationRow): ApplicationRecord {
+  return {
+    id: row.id,
+    creatorId: row.creator_id,
+    campaignId: row.campaign_id,
+    status: row.status,
+    note: row.note,
+    appliedAt: toIso(row.applied_at)!,
+    decidedAt: toIso(row.decided_at),
+  };
+}
+
+export const pgStore: StoreBackend = {
+  async findCreatorByEmail(email) {
+    const rows = (await sql()`
+      SELECT * FROM creators WHERE LOWER(email) = LOWER(${email}) LIMIT 1
+    `) as CreatorRow[];
+    return rows[0] ? mapCreator(rows[0]) : null;
+  },
+  async findCreatorById(id) {
+    const rows = (await sql()`SELECT * FROM creators WHERE id = ${id}`) as CreatorRow[];
+    return rows[0] ? mapCreator(rows[0]) : null;
+  },
+  async createCreator(email, passwordHash) {
+    const rows = (await sql()`
+      INSERT INTO creators (email, password_hash)
+      VALUES (${email}, ${passwordHash})
+      ON CONFLICT (email) DO UPDATE SET email = EXCLUDED.email
+      RETURNING *
+    `) as CreatorRow[];
+    return mapCreator(rows[0]);
+  },
+  async setCreatorPasswordHash(creatorId, passwordHash) {
+    await sql()`
+      UPDATE creators
+      SET password_hash = ${passwordHash},
+          password_reset_token_hash = NULL,
+          password_reset_expires_at = NULL
+      WHERE id = ${creatorId}
+    `;
+  },
+  async setPasswordResetToken(creatorId, tokenHash, ttlSeconds) {
+    const expiresAt = new Date(Date.now() + ttlSeconds * 1000).toISOString();
+    await sql()`
+      UPDATE creators
+      SET password_reset_token_hash = ${tokenHash},
+          password_reset_expires_at = ${expiresAt}
+      WHERE id = ${creatorId}
+    `;
+  },
+  async findCreatorByResetToken(tokenHash) {
+    const rows = (await sql()`
+      SELECT * FROM creators
+      WHERE password_reset_token_hash = ${tokenHash}
+        AND password_reset_expires_at > now()
+      LIMIT 1
+    `) as CreatorRow[];
+    return rows[0] ? mapCreator(rows[0]) : null;
+  },
+  async listCreators() {
+    const rows = (await sql()`
+      SELECT * FROM creators ORDER BY created_at DESC
+    `) as CreatorRow[];
+    return rows.map(mapCreator);
+  },
+  async listCreatorsWithExpiringTokens(withinDays) {
+    const rows = (await sql()`
+      SELECT * FROM creators
+      WHERE ig_token_expires_at IS NOT NULL
+        AND ig_token_expires_at <= now() + (${withinDays}::int || ' days')::interval
+    `) as CreatorRow[];
+    return rows.map(mapCreator);
+  },
+  async saveInstagramConnection(creatorId, data) {
+    const encrypted = encryptToken(data.accessToken);
+    const expiresAt = data.expiresInSeconds
+      ? new Date(Date.now() + data.expiresInSeconds * 1000).toISOString()
+      : null;
+    await sql()`
+      UPDATE creators SET
+        ig_user_id = ${data.igUserId},
+        ig_username = ${data.username},
+        ig_account_type = ${data.accountType ?? null},
+        ig_encrypted_access_token = ${encrypted},
+        ig_token_expires_at = ${expiresAt},
+        ig_connected_at = now()
+      WHERE id = ${creatorId}
+    `;
+  },
+  async updateInstagramToken(creatorId, accessToken, expiresInSeconds) {
+    const encrypted = encryptToken(accessToken);
+    const expiresAt = new Date(Date.now() + expiresInSeconds * 1000).toISOString();
+    await sql()`
+      UPDATE creators SET
+        ig_encrypted_access_token = ${encrypted},
+        ig_token_expires_at = ${expiresAt}
+      WHERE id = ${creatorId}
+    `;
+  },
+  async disconnectInstagram(creatorId) {
+    await sql()`
+      UPDATE creators SET
+        ig_user_id = NULL,
+        ig_username = NULL,
+        ig_account_type = NULL,
+        ig_encrypted_access_token = NULL,
+        ig_token_expires_at = NULL,
+        ig_connected_at = NULL
+      WHERE id = ${creatorId}
+    `;
+  },
+  async listCampaigns(filter) {
+    const rows = (filter?.status
+      ? await sql()`SELECT * FROM campaigns WHERE status = ${filter.status} ORDER BY created_at DESC`
+      : await sql()`SELECT * FROM campaigns ORDER BY created_at DESC`) as CampaignRow[];
+    return rows.map(mapCampaign);
+  },
+  async findCampaignById(id) {
+    const rows = (await sql()`SELECT * FROM campaigns WHERE id = ${id}`) as CampaignRow[];
+    return rows[0] ? mapCampaign(rows[0]) : null;
+  },
+  async findCampaignBySlug(slug) {
+    const rows = (await sql()`SELECT * FROM campaigns WHERE slug = ${slug}`) as CampaignRow[];
+    return rows[0] ? mapCampaign(rows[0]) : null;
+  },
+  async createCampaign(input: CreateCampaignInput) {
+    const baseSlug = slugify(`${input.brand}-${input.title}`);
+    let slug = baseSlug;
+    let suffix = 2;
+    // Resolve slug collisions.
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const exists = (await sql()`SELECT 1 FROM campaigns WHERE slug = ${slug} LIMIT 1`) as unknown[];
+      if (exists.length === 0) break;
+      slug = `${baseSlug}-${suffix++}`;
+    }
+    const id = `cmp_${randomUUID().slice(0, 8)}`;
+    const rows = (await sql()`
+      INSERT INTO campaigns (
+        id, slug, title, brand, tagline, brief, payout_cents, currency,
+        deadline, deliverables, status, cover_tone
+      ) VALUES (
+        ${id}, ${slug}, ${input.title}, ${input.brand}, ${input.tagline}, ${input.brief},
+        ${input.payoutCents}, ${input.currency}, ${input.deadline},
+        ${JSON.stringify(input.deliverables)}::jsonb, ${input.status}, ${input.coverTone}
+      )
+      RETURNING *
+    `) as CampaignRow[];
+    return mapCampaign(rows[0]);
+  },
+  async updateCampaignStatus(id, status: CampaignStatus) {
+    await sql()`UPDATE campaigns SET status = ${status} WHERE id = ${id}`;
+  },
+  async listApplicationsForCampaign(campaignId) {
+    const rows = (await sql()`
+      SELECT * FROM applications WHERE campaign_id = ${campaignId} ORDER BY applied_at DESC
+    `) as ApplicationRow[];
+    return rows.map(mapApplication);
+  },
+  async listApplicationsForCreator(creatorId) {
+    const rows = (await sql()`
+      SELECT * FROM applications WHERE creator_id = ${creatorId} ORDER BY applied_at DESC
+    `) as ApplicationRow[];
+    return rows.map(mapApplication);
+  },
+  async findApplication(creatorId, campaignId) {
+    const rows = (await sql()`
+      SELECT * FROM applications WHERE creator_id = ${creatorId} AND campaign_id = ${campaignId} LIMIT 1
+    `) as ApplicationRow[];
+    return rows[0] ? mapApplication(rows[0]) : null;
+  },
+  async findApplicationById(id) {
+    const rows = (await sql()`SELECT * FROM applications WHERE id = ${id}`) as ApplicationRow[];
+    return rows[0] ? mapApplication(rows[0]) : null;
+  },
+  async createApplication(input) {
+    const id = `app_${randomUUID().slice(0, 8)}`;
+    const rows = (await sql()`
+      INSERT INTO applications (id, creator_id, campaign_id, note)
+      VALUES (${id}, ${input.creatorId}, ${input.campaignId}, ${input.note})
+      ON CONFLICT (creator_id, campaign_id) DO UPDATE SET note = applications.note
+      RETURNING *
+    `) as ApplicationRow[];
+    return mapApplication(rows[0]);
+  },
+  async decideApplication(id, decision) {
+    await sql()`
+      UPDATE applications
+      SET status = ${decision}, decided_at = now()
+      WHERE id = ${id}
+    `;
+  },
+};

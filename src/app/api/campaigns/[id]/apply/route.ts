@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { getSession } from "@/lib/session";
-import { createApplication, findCampaignById } from "@/lib/store";
+import {
+  createApplication,
+  findCampaignById,
+  findCreatorById,
+} from "@/lib/store";
+import { sendEmail, applicationReceivedEmail } from "@/lib/email";
 
 const bodySchema = z.object({
   note: z.string().min(20).max(800),
@@ -35,5 +40,10 @@ export async function POST(
     campaignId: campaign.id,
     note: parsed.data.note,
   });
+  const creator = await findCreatorById(session.creatorId);
+  if (creator) {
+    const email_ = applicationReceivedEmail(creator.email, campaign.title);
+    await sendEmail({ to: creator.email, ...email_ });
+  }
   return NextResponse.json({ ok: true, applicationId: application.id });
 }

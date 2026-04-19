@@ -38,13 +38,21 @@ export default async function AdminHome() {
                 The <span className="font-serif-italic">Atelier</span>
               </h1>
             </div>
-            <Link
-              href="/admin/campaigns/new"
-              className="inline-flex items-center gap-3 bg-ink text-paper px-5 py-3 text-[12px] small-caps tracking-[0.2em] hover:bg-forest transition-colors"
-            >
-              New campaign
-              <span aria-hidden>+</span>
-            </Link>
+            <div className="flex items-center gap-3">
+              <Link
+                href="/admin/creators"
+                className="inline-flex items-center gap-2 px-4 py-3 text-[12px] small-caps tracking-[0.2em] border border-hairline-strong text-ink hover:border-ink"
+              >
+                Members
+              </Link>
+              <Link
+                href="/admin/campaigns/new"
+                className="inline-flex items-center gap-3 bg-ink text-paper px-5 py-3 text-[12px] small-caps tracking-[0.2em] hover:bg-forest transition-colors"
+              >
+                New campaign
+                <span aria-hidden>+</span>
+              </Link>
+            </div>
           </div>
 
           <section>

@@ -1,93 +1,88 @@
 "use client";
 
-import Link from "next/link";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-export default function SignupForm() {
+export default function ResetForm({ token }: { token: string }) {
   const router = useRouter();
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [done, setDone] = useState(false);
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setLoading(true);
     setError(null);
-    const res = await fetch("/api/signup", {
+    if (password !== confirm) {
+      setError("The two passwords don't match.");
+      return;
+    }
+    setLoading(true);
+    const res = await fetch("/api/auth/reset-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ token, password }),
     });
     setLoading(false);
     if (!res.ok) {
       const data = (await res.json().catch(() => ({}))) as { error?: string };
-      setError(data.error ?? "Something went wrong.");
+      setError(data.error ?? "Could not reset.");
       return;
     }
-    router.push("/dashboard");
-    router.refresh();
+    setDone(true);
+    setTimeout(() => router.push("/login"), 1200);
+  }
+
+  if (done) {
+    return (
+      <div className="hairline-top hairline-bottom py-8">
+        <p className="font-serif-italic text-2xl text-forest">Done. Sending you to sign in…</p>
+      </div>
+    );
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-6">
+    <form onSubmit={submit} className="space-y-6">
       <Field
-        label="Email address"
-        type="email"
-        value={email}
-        onChange={setEmail}
-        placeholder="you@your-domain.com"
-      />
-      <Field
-        label="Choose a password"
-        type="password"
+        label="New password"
         value={password}
         onChange={setPassword}
         placeholder="Minimum 8 characters"
-        minLength={8}
+      />
+      <Field
+        label="Confirm new password"
+        value={confirm}
+        onChange={setConfirm}
+        placeholder="Type it again"
       />
       {error && (
         <p className="text-sm text-vermillion" role="alert">
           {error}
         </p>
       )}
-      <div className="flex items-center justify-between pt-1">
-        <Link
-          href="/login"
-          className="text-[11px] small-caps tracking-[0.2em] text-ink-muted hover:text-forest"
-        >
-          Already a member? Sign in →
-        </Link>
-        <button
-          type="submit"
-          disabled={loading}
-          className="group relative inline-flex items-center gap-3 bg-ink text-paper px-6 py-3 text-[13px] small-caps tracking-[0.2em] hover:bg-forest disabled:opacity-60 transition-colors"
-        >
-          {loading ? "Reserving your seat…" : "Request membership"}
-          <span aria-hidden className="transition-transform group-hover:translate-x-0.5">
-            →
-          </span>
-        </button>
-      </div>
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full inline-flex items-center justify-center gap-3 bg-ink text-paper px-6 py-3 text-[13px] small-caps tracking-[0.2em] hover:bg-forest disabled:opacity-60"
+      >
+        {loading ? "Saving…" : "Save new password"}
+        <span aria-hidden>→</span>
+      </button>
     </form>
   );
 }
 
 function Field({
   label,
-  type,
   value,
   onChange,
   placeholder,
-  minLength,
 }: {
   label: string;
-  type: "email" | "password";
   value: string;
   onChange: (v: string) => void;
   placeholder?: string;
-  minLength?: number;
 }) {
   return (
     <label className="block group">
@@ -95,9 +90,9 @@ function Field({
       <div className="mt-2 relative">
         <input
           required
-          type={type}
+          type="password"
+          minLength={8}
           value={value}
-          minLength={minLength}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
           className="w-full border-0 border-b border-hairline-strong bg-transparent pb-2 text-xl font-serif-display text-ink placeholder:text-ink-faint focus:border-forest focus:outline-none"

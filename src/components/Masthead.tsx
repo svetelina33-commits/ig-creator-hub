@@ -33,9 +33,15 @@ export function Masthead({ email, isAdmin, issue = "VOL. I · 2026" }: Props) {
             <Link className="hover:text-forest transition-colors" href="/campaigns">
               Campaigns
             </Link>
-            <Link className="hover:text-forest transition-colors" href="/dashboard">
-              Dashboard
-            </Link>
+            {email ? (
+              <Link className="hover:text-forest transition-colors" href="/dashboard">
+                Dashboard
+              </Link>
+            ) : (
+              <Link className="hover:text-forest transition-colors" href="/login">
+                Sign in
+              </Link>
+            )}
             {isAdmin && (
               <Link className="hover:text-forest transition-colors" href="/admin">
                 Atelier

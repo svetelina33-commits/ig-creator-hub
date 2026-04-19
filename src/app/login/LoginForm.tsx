@@ -1,21 +1,20 @@
 "use client";
 
-import Link from "next/link";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-export default function SignupForm() {
+export default function LoginForm() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    const res = await fetch("/api/signup", {
+    const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -23,7 +22,7 @@ export default function SignupForm() {
     setLoading(false);
     if (!res.ok) {
       const data = (await res.json().catch(() => ({}))) as { error?: string };
-      setError(data.error ?? "Something went wrong.");
+      setError(data.error ?? "Could not sign in.");
       return;
     }
     router.push("/dashboard");
@@ -31,45 +30,34 @@ export default function SignupForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-6">
+    <form onSubmit={submit} className="space-y-6">
       <Field
-        label="Email address"
+        label="Email"
         type="email"
         value={email}
         onChange={setEmail}
         placeholder="you@your-domain.com"
       />
       <Field
-        label="Choose a password"
+        label="Password"
         type="password"
         value={password}
         onChange={setPassword}
-        placeholder="Minimum 8 characters"
-        minLength={8}
+        placeholder="••••••••"
       />
       {error && (
         <p className="text-sm text-vermillion" role="alert">
           {error}
         </p>
       )}
-      <div className="flex items-center justify-between pt-1">
-        <Link
-          href="/login"
-          className="text-[11px] small-caps tracking-[0.2em] text-ink-muted hover:text-forest"
-        >
-          Already a member? Sign in →
-        </Link>
-        <button
-          type="submit"
-          disabled={loading}
-          className="group relative inline-flex items-center gap-3 bg-ink text-paper px-6 py-3 text-[13px] small-caps tracking-[0.2em] hover:bg-forest disabled:opacity-60 transition-colors"
-        >
-          {loading ? "Reserving your seat…" : "Request membership"}
-          <span aria-hidden className="transition-transform group-hover:translate-x-0.5">
-            →
-          </span>
-        </button>
-      </div>
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full inline-flex items-center justify-center gap-3 bg-ink text-paper px-6 py-3 text-[13px] small-caps tracking-[0.2em] hover:bg-forest disabled:opacity-60"
+      >
+        {loading ? "Signing in…" : "Enter"}
+        <span aria-hidden>→</span>
+      </button>
     </form>
   );
 }
@@ -80,14 +68,12 @@ function Field({
   value,
   onChange,
   placeholder,
-  minLength,
 }: {
   label: string;
   type: "email" | "password";
   value: string;
   onChange: (v: string) => void;
   placeholder?: string;
-  minLength?: number;
 }) {
   return (
     <label className="block group">
@@ -97,7 +83,6 @@ function Field({
           required
           type={type}
           value={value}
-          minLength={minLength}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
           className="w-full border-0 border-b border-hairline-strong bg-transparent pb-2 text-xl font-serif-display text-ink placeholder:text-ink-faint focus:border-forest focus:outline-none"
