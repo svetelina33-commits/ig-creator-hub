@@ -69,7 +69,7 @@ export default function PrivacyPage() {
             <Section n="V" title="Your rights">
               <p>
                 Write to{" "}
-                <a href="mailto:arcrxx@gmail.com" className="text-forest underline underline-offset-4">
+                <a href="mailto:arcrxx@gmail.com" className="link-ed">
                   arcrxx@gmail.com
                 </a>{" "}
                 to request a copy, correction, or deletion of your data. We respond
@@ -86,7 +86,7 @@ export default function PrivacyPage() {
           </div>
 
           <div className="mt-16 hairline-top pt-6 text-[11px] small-caps tracking-[0.25em] text-ink-muted">
-            <Link href="/terms" className="hover:text-forest">
+            <Link href="/terms" className="hover:text-ink">
               Read the terms →
             </Link>
           </div>

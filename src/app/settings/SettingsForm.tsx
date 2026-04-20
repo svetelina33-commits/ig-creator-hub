@@ -114,7 +114,7 @@ export default function SettingsForm({ existing, defaultDisplayName }: Props) {
               type="button"
               key={`${n}-${i}`}
               onClick={() => removeNiche(i)}
-              className="group px-3 py-1.5 border border-hairline-strong small-caps text-[11px] tracking-[0.2em] text-ink hover:text-vermillion hover:border-vermillion"
+              className="group px-3 py-1.5 rounded-full border border-white/10 bg-white/5 small-caps text-[11px] tracking-[0.2em] text-ink hover:text-vermillion hover:border-vermillion"
             >
               {n} <span className="ml-1 opacity-50 group-hover:opacity-100">×</span>
             </button>
@@ -131,7 +131,7 @@ export default function SettingsForm({ existing, defaultDisplayName }: Props) {
                   }
                 }}
                 placeholder="Add…"
-                className="px-2 py-1.5 border-b border-hairline-strong bg-transparent text-sm focus:outline-none focus:border-forest"
+                className="nc-input text-sm"
               />
               <button
                 type="button"
@@ -176,7 +176,7 @@ export default function SettingsForm({ existing, defaultDisplayName }: Props) {
                 placeholder="https://..."
                 value={l.url}
                 onChange={(e) => updateLink(i, "url", e.target.value)}
-                className="flex-1 px-2 py-1.5 border-b border-hairline-strong bg-transparent text-sm focus:outline-none focus:border-forest"
+                className="nc-input flex-1 text-sm"
               />
               <button
                 type="button"
@@ -190,19 +190,19 @@ export default function SettingsForm({ existing, defaultDisplayName }: Props) {
         </div>
       </div>
 
-      <div className="hairline-top pt-6">
+      <div className="glass rounded-xl p-5">
         <label className="flex items-center justify-between gap-4 cursor-pointer">
           <div>
             <div className="font-serif-display text-2xl text-ink">Publish your profile</div>
-            <p className="text-[14px] text-ink-muted font-serif-book">
-              Make your page discoverable at <code className="font-mono-numeric">/creators/{slug || "your-handle"}</code>.
+            <p className="text-[14px] text-ink-muted">
+              Make your page discoverable at <code className="font-mono-numeric text-forest">/creators/{slug || "your-handle"}</code>.
             </p>
           </div>
           <input
             type="checkbox"
             checked={isPublic}
             onChange={(e) => setIsPublic(e.target.checked)}
-            className="w-5 h-5 accent-forest"
+            className="w-5 h-5 accent-violet"
           />
         </label>
       </div>
@@ -212,11 +212,11 @@ export default function SettingsForm({ existing, defaultDisplayName }: Props) {
         <p className="text-sm text-forest small-caps tracking-[0.2em]">● Saved</p>
       )}
 
-      <div className="flex items-center justify-end gap-4 pt-4 hairline-top">
+      <div className="flex items-center justify-end gap-4 pt-4">
         <button
           type="submit"
           disabled={loading}
-          className="inline-flex items-center gap-3 bg-ink text-paper px-6 py-3 text-[12px] small-caps tracking-[0.2em] hover:bg-forest disabled:opacity-60"
+          className="btn-primary inline-flex items-center gap-3 px-6 py-3 rounded-full text-[12px] tracking-wide disabled:opacity-60"
         >
           {loading ? "Saving…" : "Save profile"}
           <span aria-hidden>→</span>
@@ -248,7 +248,7 @@ function Field({
   return (
     <label className="block">
       <Label>{label}</Label>
-      <div className="mt-2 flex items-center border-b border-hairline-strong focus-within:border-forest">
+      <div className="nc-input mt-2 flex items-center">
         {prefix && (
           <span className="font-mono-numeric text-[11px] text-ink-faint mr-2">{prefix}</span>
         )}
@@ -257,7 +257,7 @@ function Field({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          className="flex-1 bg-transparent pb-2 text-xl font-serif-display text-ink placeholder:text-ink-faint focus:outline-none"
+          className="flex-1 bg-transparent text-lg font-serif-display text-ink placeholder:text-ink-faint focus:outline-none"
         />
       </div>
     </label>
@@ -285,7 +285,7 @@ function TextArea({
         value={value}
         onChange={(e) => onChange(e.target.value.slice(0, max))}
         placeholder={placeholder}
-        className="mt-2 w-full bg-paper-raised/60 border border-hairline p-4 text-[15px] text-ink focus:outline-none focus:border-forest"
+        className="nc-input mt-2 w-full text-[15px]"
       />
       <div className="mt-1 font-mono-numeric text-[10px] text-ink-faint text-right">
         {value.length} / {max}
@@ -304,10 +304,10 @@ function AccentPicker({ value, onChange }: { value: Accent; onChange: (v: Accent
             type="button"
             key={a}
             onClick={() => onChange(a)}
-            className={`px-4 py-2 small-caps text-[11px] tracking-[0.2em] border transition-colors ${
+            className={`px-4 py-2 rounded-full small-caps text-[11px] tracking-[0.2em] border transition-colors ${
               value === a
-                ? "bg-ink text-paper border-ink"
-                : "text-ink border-hairline hover:border-ink"
+                ? "bg-violet text-white border-violet"
+                : "text-ink bg-white/5 border-white/10 hover:border-white/25"
             }`}
           >
             <span className="inline-flex items-center gap-2">

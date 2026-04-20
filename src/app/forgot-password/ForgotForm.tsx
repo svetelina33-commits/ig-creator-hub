@@ -21,7 +21,7 @@ export default function ForgotForm() {
 
   if (sent) {
     return (
-      <div className="hairline-top hairline-bottom py-8">
+      <div className="glass rounded-2xl p-6">
         <p className="font-serif-italic text-2xl text-forest">
           If that address is on file, a reset note is on its way.
         </p>
@@ -33,25 +33,22 @@ export default function ForgotForm() {
   }
 
   return (
-    <form onSubmit={submit} className="space-y-6">
-      <label className="block group">
+    <form onSubmit={submit} className="glass rounded-2xl p-6 space-y-5">
+      <label className="block">
         <span className="small-caps text-[10px] tracking-[0.25em] text-ink-muted">Email</span>
-        <div className="mt-2 relative">
-          <input
-            required
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@your-domain.com"
-            className="w-full border-0 border-b border-hairline-strong bg-transparent pb-2 text-xl font-serif-display text-ink placeholder:text-ink-faint focus:border-forest focus:outline-none"
-          />
-          <span className="absolute -bottom-px left-0 h-[2px] w-0 bg-forest transition-all duration-300 group-focus-within:w-full" />
-        </div>
+        <input
+          required
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="you@your-domain.com"
+          className="nc-input mt-2 w-full text-[15px]"
+        />
       </label>
       <button
         type="submit"
         disabled={loading}
-        className="w-full inline-flex items-center justify-center gap-3 bg-ink text-paper px-6 py-3 text-[13px] small-caps tracking-[0.2em] hover:bg-forest disabled:opacity-60"
+        className="btn-primary w-full inline-flex items-center justify-center gap-3 px-6 py-3 rounded-full text-[12px] tracking-wide disabled:opacity-60"
       >
         {loading ? "Sending…" : "Send reset link"}
         <span aria-hidden>→</span>

@@ -18,8 +18,9 @@ export default async function CreatorsIndexPage() {
   return (
     <>
       <Masthead email={me?.email} isAdmin={admin} />
-      <main className="px-6 sm:px-10">
-        <section className="mx-auto max-w-6xl pt-14 sm:pt-20 pb-12">
+      <main className="px-6 sm:px-10 relative">
+        <span className="ambient-glow" aria-hidden />
+        <section className="mx-auto max-w-6xl pt-14 sm:pt-20 pb-12 relative">
           <Reveal>
             <RunningHead
               left="MEMBERS INDEX"
@@ -36,20 +37,20 @@ export default async function CreatorsIndexPage() {
 
         <section className="mx-auto max-w-6xl pb-24 hairline-top">
           {members.length === 0 ? (
-            <p className="pt-10 text-ink-muted italic font-serif-book">
+            <div className="glass rounded-2xl p-8 text-ink-muted">
               No public members yet. Members can publish their profile from{" "}
-              <Link href="/settings" className="text-forest underline underline-offset-4">
+              <Link href="/settings" className="link-ed">
                 settings
               </Link>
               .
-            </p>
+            </div>
           ) : (
-            <ul className="divide-y divide-hairline">
+            <ul className="glass rounded-2xl divide-y divide-white/10 overflow-hidden">
               {members.map((m, i) => (
                 <Reveal key={m.id} delay={i * 60} as="li">
                   <Link
                     href={`/creators/${m.profile!.slug}`}
-                    className="grid grid-cols-12 gap-6 py-8 group hover:bg-paper-raised/60 transition-colors -mx-4 px-4"
+                    className="grid grid-cols-12 gap-6 px-5 py-6 group hover:bg-white/5 transition-colors"
                   >
                     <div className="col-span-12 md:col-span-1 font-mono-numeric text-[11px] text-ink-faint pt-2">
                       №{String(i + 1).padStart(2, "0")}
@@ -72,7 +73,7 @@ export default async function CreatorsIndexPage() {
                         {m.profile!.niches.slice(0, 3).map((n) => (
                           <span
                             key={n}
-                            className="small-caps text-[10px] tracking-[0.2em] text-ink-muted border border-hairline px-2 py-1"
+                            className="small-caps text-[10px] tracking-[0.2em] text-ink-muted border border-white/10 bg-white/5 rounded-full px-2.5 py-1"
                           >
                             {n}
                           </span>

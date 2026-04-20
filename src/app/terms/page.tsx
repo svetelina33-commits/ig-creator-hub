@@ -31,7 +31,7 @@ export default function TermsPage() {
               <p>
                 Nexus Club is a curated matchmaking layer between brands that commission
                 creator work and creators who accept it. Operated at{" "}
-                <a className="text-forest underline underline-offset-4" href="mailto:arcrxx@gmail.com">
+                <a className="link-ed" href="mailto:arcrxx@gmail.com">
                   arcrxx@gmail.com
                 </a>
                 .
@@ -75,7 +75,7 @@ export default function TermsPage() {
               <p>
                 Either party may end membership at any time. Delete your account from
                 your dashboard or write to{" "}
-                <a className="text-forest underline underline-offset-4" href="mailto:arcrxx@gmail.com">
+                <a className="link-ed" href="mailto:arcrxx@gmail.com">
                   arcrxx@gmail.com
                 </a>
                 . Active campaigns you've committed to should be completed before leaving.
@@ -92,7 +92,7 @@ export default function TermsPage() {
           </div>
 
           <div className="mt-16 hairline-top pt-6 text-[11px] small-caps tracking-[0.25em] text-ink-muted">
-            <Link href="/privacy" className="hover:text-forest">
+            <Link href="/privacy" className="hover:text-ink">
               ← Read the privacy policy
             </Link>
           </div>

@@ -45,8 +45,9 @@ export default async function AdminHome() {
   return (
     <>
       <Masthead email={admin.email} isAdmin />
-      <main className="px-6 sm:px-10">
-        <div className="mx-auto max-w-7xl py-12 sm:py-16">
+      <main className="px-6 sm:px-10 relative">
+        <span className="ambient-glow" aria-hidden />
+        <div className="mx-auto max-w-7xl py-12 sm:py-16 relative">
           <Reveal>
             <RunningHead
               left="PRIVATE · EDITOR-IN-CHIEF"
@@ -67,13 +68,13 @@ export default async function AdminHome() {
             <div className="flex items-center gap-3">
               <Link
                 href="/admin/creators"
-                className="inline-flex items-center gap-2 px-4 py-3 text-[12px] small-caps tracking-[0.2em] border border-hairline-strong text-ink hover:border-ink"
+                className="btn-ghost inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-[12px] small-caps tracking-[0.2em]"
               >
                 Members
               </Link>
               <Link
                 href="/admin/campaigns/new"
-                className="inline-flex items-center gap-3 bg-ink text-paper px-5 py-3 text-[12px] small-caps tracking-[0.2em] hover:bg-forest transition-colors"
+                className="btn-primary inline-flex items-center gap-3 px-5 py-2.5 rounded-full text-[12px] small-caps tracking-[0.2em]"
               >
                 New campaign
                 <span aria-hidden>+</span>
@@ -91,7 +92,7 @@ export default async function AdminHome() {
                 label="Pending review"
                 value={String(pending.length).padStart(2, "0")}
                 sub={pending.length > 0 ? "REQUIRES ATTENTION" : "ALL CAUGHT UP"}
-                accent={pending.length > 0 ? "vermillion" : undefined}
+                accent={pending.length > 0 ? "vermillion" : "violet"}
               />
             </Reveal>
             <Reveal delay={200}>
@@ -124,19 +125,19 @@ export default async function AdminHome() {
             </Reveal>
 
             {campaigns.length === 0 ? (
-              <div className="hairline-top pt-10 text-ink-muted italic font-serif-book">
+              <div className="glass rounded-2xl p-8 text-ink-muted">
                 No campaigns yet. Start with a first brief.
               </div>
             ) : (
-              <div className="hairline-top">
-                <ul className="divide-y divide-hairline">
+              <div className="glass rounded-2xl overflow-hidden">
+                <ul className="divide-y divide-white/10">
                   {campaigns.map((campaign, i) => {
                     const counts = byCampaign.get(campaign.id)!;
                     return (
                       <Reveal key={campaign.id} delay={i * 60} as="li">
                         <Link
                           href={`/admin/campaigns/${campaign.id}`}
-                          className="grid grid-cols-12 gap-4 py-6 group hover:bg-paper-raised/60 transition-colors -mx-4 px-4"
+                          className="grid grid-cols-12 gap-4 px-5 py-5 group hover:bg-white/5 transition-colors"
                         >
                           <div className="col-span-12 sm:col-span-1 font-mono-numeric text-[11px] text-ink-faint pt-2">
                             №{String(i + 1).padStart(2, "0")}

@@ -31,15 +31,16 @@ export default async function AdminCampaignPage({ params }: { params: Params }) 
   return (
     <>
       <Masthead email={admin.email} isAdmin />
-      <main className="px-6 sm:px-10">
-        <div className="mx-auto max-w-5xl py-12 sm:py-16">
+      <main className="px-6 sm:px-10 relative">
+        <span className="ambient-glow" aria-hidden />
+        <div className="mx-auto max-w-5xl py-12 sm:py-16 relative">
           <div className="text-[12px] small-caps tracking-[0.25em] text-ink-muted mb-8">
-            <Link href="/admin" className="hover:text-forest">
+            <Link href="/admin" className="hover:text-ink">
               ← Atelier
             </Link>
           </div>
 
-          <header className="flex items-start justify-between gap-6 mb-10">
+          <header className="glass rounded-2xl p-6 sm:p-8 flex items-start justify-between gap-6 mb-6 flex-wrap">
             <div>
               <div className="flex items-center gap-3">
                 <span className={`inline-block h-[2px] w-10 ${toneBg(campaign.coverTone)}`} />
@@ -80,12 +81,12 @@ export default async function AdminCampaignPage({ params }: { params: Params }) 
             </div>
 
             {applications.length === 0 ? (
-              <div className="hairline-top pt-8 text-ink-muted italic">
+              <div className="glass rounded-2xl p-8 text-ink-muted italic">
                 No applications yet.
               </div>
             ) : (
-              <div className="hairline-top">
-                <ul className="divide-y divide-hairline">
+              <div className="glass rounded-2xl overflow-hidden">
+                <ul className="divide-y divide-white/10">
                   {withCreators.map(({ application, creator }) => (
                     <ApplicationRow
                       key={application.id}

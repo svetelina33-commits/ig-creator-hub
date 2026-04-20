@@ -61,8 +61,9 @@ export default async function HowItWorksPage() {
   return (
     <>
       <Masthead email={creator?.email} isAdmin={admin} />
-      <main className="px-6 sm:px-10">
-        <section className="mx-auto max-w-6xl pt-14 sm:pt-20 pb-16">
+      <main className="px-6 sm:px-10 relative">
+        <span className="ambient-glow" aria-hidden />
+        <section className="mx-auto max-w-6xl pt-14 sm:pt-20 pb-16 relative">
           <Reveal>
             <RunningHead left="HOW IT WORKS" center="· · ·" right="FOR CREATORS" />
           </Reveal>
@@ -93,7 +94,7 @@ export default async function HowItWorksPage() {
                     <div className="small-caps text-[10px] tracking-[0.3em] text-ink-muted">
                       Step {s.n}
                     </div>
-                    <div className="mt-2 font-serif-display text-[5rem] leading-none text-forest">
+                    <div className="mt-2 font-serif-display text-[5rem] leading-none text-violet">
                       {s.n}
                     </div>
                     <div className="mt-2 font-serif-italic text-2xl text-ink">{s.kicker}</div>
@@ -152,7 +153,7 @@ export default async function HowItWorksPage() {
             </h2>
             <Link
               href="/#apply"
-              className="mt-10 inline-flex items-center gap-3 bg-ink text-paper px-7 py-4 text-[13px] small-caps tracking-[0.2em] hover:bg-forest transition-colors"
+              className="mt-10 btn-primary inline-flex items-center gap-3 px-7 py-4 rounded-full text-[13px] tracking-wide"
             >
               Apply for membership
               <span aria-hidden>→</span>

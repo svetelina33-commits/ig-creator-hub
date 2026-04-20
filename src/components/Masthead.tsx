@@ -10,93 +10,93 @@ type Props = {
 };
 
 export function Masthead({ email, isAdmin, issue }: Props) {
-  const [today, setToday] = useState("");
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    setToday(
-      new Date().toLocaleDateString("en-US", {
-        weekday: "long",
-        month: "long",
-        day: "numeric",
-      }),
-    );
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <header className="px-6 sm:px-10 pt-6 pb-5 hairline-bottom relative z-40">
-      <div className="mx-auto max-w-7xl">
-        {/* Top running head */}
-        <div className="running-head flex items-center justify-between gap-6">
-          <span className="font-mono-numeric">{today || "\u00A0"}</span>
-          <span className="hidden sm:block tracking-[0.4em]">Nº 0001 · THE DESK</span>
-          <span className="font-mono-numeric">{issue ?? "VOL. I · 2026"}</span>
-        </div>
-
-        {/* Main masthead row */}
-        <div className="mt-4 flex items-end justify-between gap-6">
-          <Link href="/" className="group flex items-baseline gap-3">
-            <span className="font-serif-italic text-5xl sm:text-6xl leading-none text-ink">
-              Nexus
-            </span>
-            <span className="font-serif-display text-xl sm:text-2xl leading-none small-caps text-ink">
+    <div className="sticky top-0 z-40 px-4 sm:px-6 pt-4">
+      <header
+        className={`mx-auto max-w-7xl ${scrolled ? "glass-strong" : "glass"} rounded-full px-5 sm:px-6 py-2.5 transition-all duration-500`}
+      >
+        <div className="flex items-center justify-between gap-6">
+          <Link href="/" className="flex items-baseline gap-2 group">
+            <span className="font-serif-italic text-2xl leading-none text-ink">Nexus</span>
+            <span className="font-serif-display small-caps text-[11px] leading-none text-ink-muted group-hover:text-ink transition-colors">
               Club
             </span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-7 text-[13px] text-ink">
-            <Link className="hover:text-forest transition-colors" href="/campaigns">
-              Campaigns
-            </Link>
-            <Link className="hover:text-forest transition-colors" href="/how-it-works">
-              How it works
-            </Link>
-            <Link className="hover:text-forest transition-colors" href="/about">
-              About
-            </Link>
-            {email ? (
-              <Link className="hover:text-forest transition-colors" href="/dashboard">
-                Dashboard
-              </Link>
-            ) : (
-              <Link className="hover:text-forest transition-colors" href="/login">
-                Sign in
-              </Link>
-            )}
-            {isAdmin && (
-              <Link className="hover:text-forest transition-colors" href="/admin">
-                Atelier
-              </Link>
-            )}
-            <button
-              type="button"
-              onClick={() => {
-                window.dispatchEvent(new CustomEvent("nc:open-command"));
-              }}
-              className="hidden lg:inline-flex items-center gap-2 px-2 py-1 text-[11px] small-caps tracking-[0.2em] text-ink-faint border border-hairline hover:border-ink-muted hover:text-ink transition-colors"
-              title="Open command palette"
-            >
-              <kbd className="font-mono-numeric text-[10px]">⌘K</kbd>
-              Search
-            </button>
+          <nav className="hidden md:flex items-center gap-1 text-[13px] text-ink-soft">
+            <NavLink href="/campaigns">Campaigns</NavLink>
+            <NavLink href="/creators">Members</NavLink>
+            <NavLink href="/how-it-works">How it works</NavLink>
+            <NavLink href="/about">About</NavLink>
+            <NavLink href="/dispatches">Dispatches</NavLink>
+            {isAdmin && <NavLink href="/admin" accent>Atelier</NavLink>}
           </nav>
 
-          {/* Mobile nav */}
-          <nav className="md:hidden flex items-center gap-4 text-[12px] text-ink">
-            <Link className="hover:text-forest" href="/campaigns">
-              Campaigns
-            </Link>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new CustomEvent("nc:open-command"))}
+              className="hidden lg:inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] text-ink-muted glass glass-hover"
+              title="Open command palette"
+            >
+              <span>Search</span>
+              <kbd className="font-mono-numeric text-[10px] px-1.5 py-0.5 bg-white/5 rounded">
+                ⌘K
+              </kbd>
+            </button>
             {email ? (
-              <Link className="hover:text-forest" href="/dashboard">
+              <Link
+                href="/dashboard"
+                className="text-[12px] px-3.5 py-1.5 rounded-full text-ink btn-ghost"
+              >
                 Dashboard
               </Link>
             ) : (
-              <Link className="hover:text-forest" href="/login">
-                Sign in
-              </Link>
+              <>
+                <Link href="/login" className="hidden sm:inline text-[12px] px-3 py-1.5 text-ink-soft hover:text-ink transition-colors">
+                  Sign in
+                </Link>
+                <Link href="/#apply" className="text-[12px] px-4 py-1.5 rounded-full btn-primary">
+                  Join
+                </Link>
+              </>
             )}
-          </nav>
+          </div>
         </div>
-      </div>
-    </header>
+        {issue && (
+          <div className="text-center running-head mt-1">{issue}</div>
+        )}
+      </header>
+    </div>
+  );
+}
+
+function NavLink({
+  href,
+  children,
+  accent,
+}: {
+  href: string;
+  children: React.ReactNode;
+  accent?: boolean;
+}) {
+  return (
+    <Link
+      href={href}
+      className={`px-3 py-1.5 rounded-full transition-colors ${
+        accent ? "text-forest hover:text-ink" : "text-ink-soft hover:text-ink"
+      } hover:bg-white/5`}
+    >
+      {children}
+    </Link>
   );
 }

@@ -11,15 +11,13 @@ import {
 import { isAdmin } from "@/lib/auth";
 import { Masthead } from "@/components/Masthead";
 import { Footer } from "@/components/Footer";
+import { CampaignCover } from "@/components/CampaignCover";
+import { ToneChip } from "@/components/Ornaments";
 import DashboardInstagramCard from "./DashboardInstagramCard";
 
 type SearchParams = Promise<{ ig?: string; ig_error?: string; nc_error?: string }>;
 
-export default async function DashboardPage({
-  searchParams,
-}: {
-  searchParams: SearchParams;
-}) {
+export default async function DashboardPage({ searchParams }: { searchParams: SearchParams }) {
   const session = await getSession();
   if (!session.creatorId) redirect("/");
   const creator = await findCreatorById(session.creatorId);
@@ -43,31 +41,30 @@ export default async function DashboardPage({
   return (
     <>
       <Masthead email={creator.email} isAdmin={admin} />
-      <main className="px-6 sm:px-10">
-        <div className="mx-auto max-w-6xl py-12 sm:py-16">
+      <main className="px-6 sm:px-10 relative">
+        <span className="ambient-glow" aria-hidden />
+        <div className="mx-auto max-w-7xl py-12 sm:py-16 relative">
           <div className="mb-10 flex items-end justify-between gap-6 flex-wrap">
             <div>
               <p className="small-caps text-[10px] tracking-[0.3em] text-ink-muted">
                 Member · Desk
               </p>
-              <h1 className="mt-3 font-serif-display text-5xl sm:text-6xl leading-none">
-                <span className="font-serif-italic">Good day,</span>{" "}
-                <span className="text-ink">
-                  {creator.profile?.displayName ?? creator.email.split("@")[0]}
-                </span>
-                <span className="text-forest">.</span>
+              <h1 className="mt-3 font-serif-display text-5xl sm:text-6xl leading-none text-ink">
+                <span className="font-serif-italic text-ink-soft">Good day,</span>{" "}
+                {creator.profile?.displayName ?? creator.email.split("@")[0]}
+                <span className="text-violet">.</span>
               </h1>
             </div>
-            <div className="flex items-center gap-4 text-[11px] small-caps tracking-[0.25em] text-ink-muted">
-              <Link href="/settings" className="hover:text-forest">
-                Edit profile →
+            <div className="flex items-center gap-3 text-[11px] small-caps tracking-[0.25em]">
+              <Link href="/settings" className="btn-ghost px-4 py-2 rounded-full">
+                Edit profile
               </Link>
               {creator.profile?.isPublic && (
                 <Link
                   href={`/creators/${creator.profile.slug}`}
-                  className="hover:text-forest"
+                  className="btn-ghost px-4 py-2 rounded-full"
                 >
-                  View public page →
+                  Public page
                 </Link>
               )}
             </div>
@@ -76,39 +73,41 @@ export default async function DashboardPage({
           {(params.ig === "connected" || params.ig_error || params.nc_error) && (
             <div className="mb-8">
               {params.ig === "connected" && (
-                <div className="hairline-top hairline-bottom py-3 small-caps text-[11px] tracking-[0.25em] text-forest">
-                  Instagram connection confirmed
+                <div className="glass rounded-xl px-4 py-2.5 small-caps text-[11px] tracking-[0.25em] text-forest">
+                  ● Instagram connection confirmed
                 </div>
               )}
               {params.ig_error && (
-                <div className="hairline-top hairline-bottom py-3 small-caps text-[11px] tracking-[0.25em] text-vermillion">
+                <div className="glass rounded-xl px-4 py-2.5 small-caps text-[11px] tracking-[0.25em] text-vermillion">
                   Instagram connection failed · {params.ig_error}
                 </div>
               )}
               {params.nc_error === "admin_only" && (
-                <div className="hairline-top hairline-bottom py-3 small-caps text-[11px] tracking-[0.25em] text-vermillion">
+                <div className="glass rounded-xl px-4 py-2.5 small-caps text-[11px] tracking-[0.25em] text-vermillion">
                   Atelier is reserved for the editor-in-chief
                 </div>
               )}
             </div>
           )}
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-            {/* Instagram card */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            {/* Instagram */}
             <section className="lg:col-span-5">
               <SectionHeader number="I" title="Instagram" kicker="Connection" />
-              <DashboardInstagramCard
-                connection={
-                  creator.instagram
-                    ? {
-                        username: creator.instagram.username,
-                        accountType: creator.instagram.accountType,
-                        connectedAt: creator.instagram.connectedAt,
-                        tokenExpiresAt: creator.instagram.tokenExpiresAt,
-                      }
-                    : null
-                }
-              />
+              <div className="glass rounded-2xl p-6">
+                <DashboardInstagramCard
+                  connection={
+                    creator.instagram
+                      ? {
+                          username: creator.instagram.username,
+                          accountType: creator.instagram.accountType,
+                          connectedAt: creator.instagram.connectedAt,
+                          tokenExpiresAt: creator.instagram.tokenExpiresAt,
+                        }
+                      : null
+                  }
+                />
+              </div>
             </section>
 
             {/* Applications */}
@@ -119,23 +118,23 @@ export default async function DashboardPage({
                 kicker={`${applications.length.toString().padStart(2, "0")} on file`}
               />
               {applications.length === 0 ? (
-                <div className="hairline-top py-6 text-ink-muted">
+                <div className="glass rounded-2xl p-6 text-ink-muted">
                   <p className="text-[15px]">
                     Nothing in the outbox yet.{" "}
-                    <Link href="/campaigns" className="text-forest underline underline-offset-4">
+                    <Link href="/campaigns" className="link-ed">
                       Browse open campaigns
                     </Link>{" "}
                     to put your name down.
                   </p>
                 </div>
               ) : (
-                <ul className="hairline-top divide-y divide-hairline">
+                <ul className="glass rounded-2xl divide-y divide-white/10 overflow-hidden">
                   {withCampaigns.map(({ application, campaign }) =>
                     campaign ? (
-                      <li key={application.id} className="py-5">
+                      <li key={application.id}>
                         <Link
                           href={`/applications/${application.id}`}
-                          className="grid grid-cols-12 gap-4 group"
+                          className="grid grid-cols-12 gap-4 px-5 py-4 group hover:bg-white/5 transition-colors"
                         >
                           <div className="col-span-8">
                             <div className="small-caps text-[10px] tracking-[0.25em] text-ink-muted">
@@ -163,46 +162,39 @@ export default async function DashboardPage({
             </section>
           </div>
 
-          {/* Campaigns ribbon */}
+          {/* Open campaigns preview */}
           <section className="mt-16">
             <div className="flex items-end justify-between gap-4 mb-6">
               <div>
                 <span className="small-caps text-[10px] tracking-[0.3em] text-ink-muted">
                   The desk
                 </span>
-                <h2 className="mt-2 font-serif-italic text-4xl text-ink">
-                  Open commissions
-                </h2>
+                <h2 className="mt-2 font-serif-italic text-4xl text-ink">Open commissions</h2>
               </div>
-              <Link
-                href="/campaigns"
-                className="text-[12px] small-caps tracking-[0.2em] text-forest"
-              >
+              <Link href="/campaigns" className="btn-ghost px-4 py-2 rounded-full text-[12px]">
                 View all →
               </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {openCampaigns.slice(0, 3).map((c) => (
-                <Link
-                  key={c.id}
-                  href={`/campaigns/${c.id}`}
-                  className="nc-card block hairline-top pt-5 pr-5 pb-5 pl-5 bg-paper-raised/60 hover:bg-paper-raised"
-                >
-                  <ToneStripe tone={c.coverTone} />
-                  <div className="mt-5 small-caps text-[10px] tracking-[0.25em] text-ink-muted">
-                    {c.brand}
-                  </div>
-                  <div className="mt-1 font-serif-display text-2xl leading-tight text-ink">
-                    {c.title}
-                  </div>
-                  <p className="mt-2 text-[13px] text-ink-muted line-clamp-2">{c.tagline}</p>
-                  <div className="mt-6 flex items-center justify-between text-[11px] text-ink-muted">
-                    <span className="small-caps tracking-[0.2em]">
-                      {c.deliverables.map((d) => `${d.count}×${d.kind}`).join(" · ")}
-                    </span>
-                    <span className="font-mono-numeric text-ink">
-                      {formatMoney(c.payoutCents, c.currency)}
-                    </span>
+                <Link key={c.id} href={`/campaigns/${c.id}`} className="nc-card group block">
+                  <div className="glass glass-hover rounded-2xl overflow-hidden">
+                    <CampaignCover campaign={c} variant="rectangle" className="rounded-none" />
+                    <div className="p-5">
+                      <ToneChip tone={c.coverTone} label={c.brand} />
+                      <div className="mt-2 font-serif-display text-2xl leading-tight text-ink">
+                        {c.title}
+                      </div>
+                      <p className="mt-2 text-[13px] text-ink-muted line-clamp-2">{c.tagline}</p>
+                      <div className="mt-5 flex items-center justify-between text-[11px] text-ink-muted">
+                        <span className="small-caps tracking-[0.2em]">
+                          {c.deliverables.map((d) => `${d.count}×${d.kind}`).join(" · ")}
+                        </span>
+                        <span className="font-mono-numeric text-ink">
+                          {formatMoney(c.payoutCents, c.currency)}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </Link>
               ))}
@@ -225,7 +217,7 @@ function SectionHeader({
   kicker: string;
 }) {
   return (
-    <div className="mb-5 flex items-baseline justify-between gap-4">
+    <div className="mb-4 flex items-baseline justify-between gap-4">
       <div className="flex items-baseline gap-4">
         <span className="font-mono-numeric text-[11px] tracking-widest text-ink-faint">
           §{number}
@@ -244,17 +236,5 @@ function StatusPill({ status }: { status: "pending" | "approved" | "rejected" })
     rejected: { label: "declined", color: "text-vermillion" },
   } as const;
   const { label, color } = map[status];
-  return (
-    <span className={`small-caps text-[10px] tracking-[0.25em] ${color}`}>{label}</span>
-  );
-}
-
-function ToneStripe({ tone }: { tone: "forest" | "vermillion" | "ochre" | "ink" }) {
-  const bg = {
-    forest: "bg-forest",
-    vermillion: "bg-vermillion",
-    ochre: "bg-ochre",
-    ink: "bg-ink",
-  }[tone];
-  return <span className={`block h-[2px] w-10 ${bg}`} />;
+  return <span className={`small-caps text-[10px] tracking-[0.25em] ${color}`}>{label}</span>;
 }

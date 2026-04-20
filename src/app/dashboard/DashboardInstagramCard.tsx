@@ -32,7 +32,7 @@ export default function DashboardInstagramCard({ connection }: Props) {
   }
 
   return (
-    <div className="hairline-top hairline-bottom py-6">
+    <div>
       {connection ? (
         <div className="space-y-5">
           <div className="flex items-start justify-between gap-4">
@@ -69,15 +69,15 @@ export default function DashboardInstagramCard({ connection }: Props) {
             <button
               onClick={disconnect}
               disabled={busy}
-              className="text-[11px] small-caps tracking-[0.2em] text-ink-muted hover:text-vermillion disabled:opacity-60"
+              className="text-[11px] small-caps tracking-[0.2em] text-ink-muted hover:text-vermillion disabled:opacity-60 transition-colors"
             >
               Disconnect
             </button>
-            <span className="text-hairline-strong">·</span>
+            <span className="text-ink-faint">·</span>
             <button
               onClick={signOut}
               disabled={busy}
-              className="text-[11px] small-caps tracking-[0.2em] text-ink-muted hover:text-ink disabled:opacity-60"
+              className="text-[11px] small-caps tracking-[0.2em] text-ink-muted hover:text-ink disabled:opacity-60 transition-colors"
             >
               Sign out
             </button>
@@ -91,7 +91,7 @@ export default function DashboardInstagramCard({ connection }: Props) {
           </p>
           <a
             href="/api/auth/instagram/start"
-            className="inline-flex items-center gap-3 bg-ink text-paper px-5 py-3 text-[12px] small-caps tracking-[0.2em] hover:bg-forest transition-colors"
+            className="btn-primary inline-flex items-center gap-3 px-5 py-3 rounded-full text-[12px] tracking-wide"
           >
             Connect Instagram
             <span aria-hidden>→</span>
@@ -103,11 +103,11 @@ export default function DashboardInstagramCard({ connection }: Props) {
             <span className="text-ink-muted">Creator</span>
             <span>account</span>
           </div>
-          <div className="pt-5 border-t border-hairline">
+          <div className="pt-5 border-t border-white/10">
             <button
               onClick={signOut}
               disabled={busy}
-              className="text-[11px] small-caps tracking-[0.2em] text-ink-muted hover:text-ink disabled:opacity-60"
+              className="text-[11px] small-caps tracking-[0.2em] text-ink-muted hover:text-ink disabled:opacity-60 transition-colors"
             >
               Sign out
             </button>

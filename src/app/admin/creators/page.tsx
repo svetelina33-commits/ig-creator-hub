@@ -20,10 +20,11 @@ export default async function AdminCreatorsPage() {
   return (
     <>
       <Masthead email={admin.email} isAdmin />
-      <main className="px-6 sm:px-10">
-        <div className="mx-auto max-w-6xl py-12 sm:py-16">
+      <main className="px-6 sm:px-10 relative">
+        <span className="ambient-glow" aria-hidden />
+        <div className="mx-auto max-w-6xl py-12 sm:py-16 relative">
           <div className="text-[12px] small-caps tracking-[0.25em] text-ink-muted mb-8">
-            <Link href="/admin" className="hover:text-forest">
+            <Link href="/admin" className="hover:text-ink">
               ← Atelier
             </Link>
           </div>
@@ -33,7 +34,7 @@ export default async function AdminCreatorsPage() {
                 The roster
               </p>
               <h1 className="mt-3 font-serif-display text-5xl sm:text-6xl leading-none text-ink">
-                <span className="font-serif-italic">Members</span> on file
+                <span className="font-serif-italic text-violet">Members</span> on file
               </h1>
             </div>
             <span className="font-mono-numeric text-[11px] text-ink-faint">
@@ -42,20 +43,20 @@ export default async function AdminCreatorsPage() {
           </div>
 
           {creators.length === 0 ? (
-            <div className="hairline-top pt-10 text-ink-muted italic">
+            <div className="glass rounded-2xl p-8 text-ink-muted italic">
               No members yet. The roster will fill.
             </div>
           ) : (
-            <div className="hairline-top">
-              <div className="grid grid-cols-12 gap-4 pt-4 pb-3 border-b border-hairline text-[10px] small-caps tracking-[0.25em] text-ink-faint">
+            <div className="glass rounded-2xl overflow-hidden">
+              <div className="grid grid-cols-12 gap-4 px-5 pt-4 pb-3 border-b border-white/10 text-[10px] small-caps tracking-[0.25em] text-ink-faint">
                 <span className="col-span-5">Member</span>
                 <span className="col-span-3">Instagram</span>
                 <span className="col-span-2">Joined</span>
                 <span className="col-span-2 text-right">Applications</span>
               </div>
-              <ul className="divide-y divide-hairline">
+              <ul className="divide-y divide-white/10">
                 {withCounts.map(({ creator, applicationCount }) => (
-                  <li key={creator.id} className="grid grid-cols-12 gap-4 py-5">
+                  <li key={creator.id} className="grid grid-cols-12 gap-4 px-5 py-5">
                     <div className="col-span-5">
                       <div className="font-serif-display text-xl text-ink">
                         {creator.email}

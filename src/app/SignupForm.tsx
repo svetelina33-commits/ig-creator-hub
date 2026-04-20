@@ -31,7 +31,7 @@ export default function SignupForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-6">
+    <form onSubmit={onSubmit} className="space-y-5">
       <Field
         label="Email address"
         type="email"
@@ -52,22 +52,20 @@ export default function SignupForm() {
           {error}
         </p>
       )}
-      <div className="flex items-center justify-between pt-1">
+      <div className="flex items-center justify-between pt-1 gap-3 flex-wrap">
         <Link
           href="/login"
-          className="text-[11px] small-caps tracking-[0.2em] text-ink-muted hover:text-forest"
+          className="text-[11px] small-caps tracking-[0.2em] text-ink-muted hover:text-ink"
         >
           Already a member? Sign in →
         </Link>
         <button
           type="submit"
           disabled={loading}
-          className="group relative inline-flex items-center gap-3 bg-ink text-paper px-6 py-3 text-[13px] small-caps tracking-[0.2em] hover:bg-forest disabled:opacity-60 transition-colors"
+          className="btn-primary inline-flex items-center gap-3 px-6 py-3 rounded-full text-[12px] tracking-wide disabled:opacity-60"
         >
           {loading ? "Reserving your seat…" : "Request membership"}
-          <span aria-hidden className="transition-transform group-hover:translate-x-0.5">
-            →
-          </span>
+          <span aria-hidden>→</span>
         </button>
       </div>
     </form>
@@ -90,20 +88,17 @@ function Field({
   minLength?: number;
 }) {
   return (
-    <label className="block group">
+    <label className="block">
       <span className="small-caps text-[10px] tracking-[0.25em] text-ink-muted">{label}</span>
-      <div className="mt-2 relative">
-        <input
-          required
-          type={type}
-          value={value}
-          minLength={minLength}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder={placeholder}
-          className="w-full border-0 border-b border-hairline-strong bg-transparent pb-2 text-xl font-serif-display text-ink placeholder:text-ink-faint focus:border-forest focus:outline-none"
-        />
-        <span className="absolute -bottom-px left-0 h-[2px] w-0 bg-forest transition-all duration-300 group-focus-within:w-full" />
-      </div>
+      <input
+        required
+        type={type}
+        value={value}
+        minLength={minLength}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        className="nc-input mt-2 w-full text-[15px]"
+      />
     </label>
   );
 }

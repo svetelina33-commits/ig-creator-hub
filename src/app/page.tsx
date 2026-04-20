@@ -27,46 +27,47 @@ export default async function Home() {
 
       <main>
         {/* ===== HERO ===== */}
-        <section className="relative px-6 sm:px-10 pt-14 sm:pt-20 pb-16 sm:pb-24">
-          <div className="mx-auto max-w-7xl">
+        <section className="relative px-6 sm:px-10 pt-20 sm:pt-28 pb-20 sm:pb-28">
+          <span className="ambient-glow" aria-hidden />
+          <div className="mx-auto max-w-7xl relative">
+            <Reveal className="mb-8">
+              <RunningHead
+                left="AN EDITORIAL — FOR CREATORS"
+                center="· · ·"
+                right={`VOL. I · NO. ${String(openCount || 1).padStart(4, "0")}`}
+              />
+            </Reveal>
+
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
               <div className="lg:col-span-8 relative">
-                <Reveal className="mb-6">
-                  <RunningHead
-                    left="AN EDITORIAL — FOR CREATORS"
-                    center="· · ·"
-                    right={`VOL. I · NO. ${String(openCount || 1).padStart(4, "0")}`}
-                  />
-                </Reveal>
-                <Reveal delay={120}>
-                  <h1 className="font-serif-display text-[clamp(3.5rem,10vw,9rem)] leading-[0.88] text-ink">
+                <Reveal delay={60}>
+                  <h1 className="font-serif-display text-[clamp(3.5rem,10vw,9.5rem)] leading-[0.92] text-ink">
                     The quiet
                     <br />
-                    <span className="font-serif-italic">members'</span> club
+                    <span className="font-serif-italic text-ink-soft">members'</span>
                     <br />
-                    for creators
-                    <span className="text-forest">.</span>
+                    club for creators<span className="text-violet">.</span>
                   </h1>
                 </Reveal>
-                <Reveal delay={300}>
-                  <p className="mt-8 max-w-xl text-[17px] leading-[1.7] text-ink-muted font-serif-book">
+                <Reveal delay={240}>
+                  <p className="mt-10 max-w-xl text-[17px] leading-[1.7] text-ink-muted font-serif-book">
                     A small, curated network where creators with a distinctive voice meet brand
                     campaigns that respect them. No bidding wars. No spam. No quotas. Only work
                     you'd sign your name to.
                   </p>
                 </Reveal>
-                <Reveal delay={440}>
-                  <div className="mt-10 flex items-center gap-5 flex-wrap">
+                <Reveal delay={400}>
+                  <div className="mt-10 flex items-center gap-4 flex-wrap">
                     <Link
                       href="#apply"
-                      className="nc-press inline-flex items-center gap-3 bg-ink text-paper px-7 py-4 text-[13px] small-caps tracking-[0.2em] hover:bg-forest transition-colors"
+                      className="btn-primary inline-flex items-center gap-3 px-7 py-3.5 rounded-full text-[13px] font-medium tracking-wide"
                     >
                       Apply for membership
                       <span aria-hidden>→</span>
                     </Link>
                     <Link
                       href="/how-it-works"
-                      className="text-[13px] small-caps tracking-[0.2em] text-ink hover:text-forest underline underline-offset-[6px] decoration-hairline-strong hover:decoration-forest transition-colors"
+                      className="btn-ghost inline-flex items-center gap-2 px-6 py-3 rounded-full text-[13px]"
                     >
                       How it works
                     </Link>
@@ -74,51 +75,29 @@ export default async function Home() {
                 </Reveal>
               </div>
 
-              {/* Right column — stat tiles + cover preview */}
-              <aside className="lg:col-span-4 lg:pl-8 lg:border-l lg:border-hairline">
-                <Reveal delay={240} className="space-y-8">
-                  <div>
+              <aside className="lg:col-span-4 lg:pl-2">
+                <Reveal delay={200}>
+                  <div className="glass rounded-2xl p-5 space-y-4">
                     <div className="small-caps text-[10px] tracking-[0.3em] text-ink-muted">
-                      This volume
+                      Volume I · stats
                     </div>
-                    <div className="mt-3 space-y-4">
-                      <div className="flex items-baseline justify-between">
-                        <span className="font-serif-book text-[15px] text-ink-muted">
-                          Open commissions
-                        </span>
-                        <span className="font-mono-numeric text-2xl text-ink">
-                          {String(openCount).padStart(2, "0")}
-                        </span>
-                      </div>
-                      <div className="flex items-baseline justify-between">
-                        <span className="font-serif-book text-[15px] text-ink-muted">
-                          Members on file
-                        </span>
-                        <span className="font-mono-numeric text-2xl text-ink">
-                          {String(memberCount).padStart(2, "0")}
-                        </span>
-                      </div>
-                      <div className="flex items-baseline justify-between">
-                        <span className="font-serif-book text-[15px] text-ink-muted">
-                          Commissioned
-                        </span>
-                        <span className="font-mono-numeric text-2xl text-forest">
-                          {formatMoney(totalPayout, "USD")}
-                        </span>
-                      </div>
+                    <div className="space-y-3.5">
+                      <Row label="Open commissions" value={String(openCount).padStart(2, "0")} />
+                      <Row label="Members on file" value={String(memberCount).padStart(2, "0")} />
+                      <Row
+                        label="Commissioned"
+                        value={formatMoney(totalPayout, "USD")}
+                        accent
+                      />
                     </div>
                   </div>
-                  {open[0] && (
-                    <div>
-                      <div className="small-caps text-[10px] tracking-[0.3em] text-ink-muted mb-3">
-                        From the cover
-                      </div>
-                      <Link
-                        href={`/campaigns/${open[0].id}`}
-                        className="block group"
-                      >
-                        <CampaignCover campaign={open[0]} variant="tall" />
-                        <div className="mt-3 flex items-baseline justify-between">
+                </Reveal>
+                {open[0] && (
+                  <Reveal delay={340} className="mt-5">
+                    <Link href={`/campaigns/${open[0].id}`} className="block group">
+                      <div className="rounded-2xl overflow-hidden glass glass-hover">
+                        <CampaignCover campaign={open[0]} variant="tall" className="rounded-none" />
+                        <div className="p-4 flex items-baseline justify-between">
                           <div>
                             <div className="small-caps text-[10px] tracking-[0.25em] text-ink-muted">
                               {open[0].brand}
@@ -131,34 +110,25 @@ export default async function Home() {
                             {formatMoney(open[0].payoutCents, open[0].currency)}
                           </span>
                         </div>
-                      </Link>
-                    </div>
-                  )}
-                </Reveal>
+                      </div>
+                    </Link>
+                  </Reveal>
+                )}
               </aside>
             </div>
-          </div>
-
-          {/* Vertical ink mark on the far right */}
-          <div
-            aria-hidden
-            className="hidden lg:block absolute right-10 top-40 writing-vertical small-caps text-[10px] tracking-[0.5em] text-ink-faint"
-            style={{ writingMode: "vertical-rl" as const, transform: "rotate(180deg)" }}
-          >
-            NEXUS CLUB · EST. 2026 · PRIVATE EDITORIAL
           </div>
         </section>
 
         <CenteredRule className="mx-auto max-w-7xl px-6 sm:px-10" />
 
-        {/* ===== MARQUEE of open brands ===== */}
+        {/* ===== MARQUEE ===== */}
         {open.length > 0 && (
-          <section className="py-8 overflow-hidden hairline-bottom">
+          <section className="py-10 overflow-hidden">
             <div className="nc-marquee whitespace-nowrap">
               {[...open, ...open, ...open].map((c, i) => (
                 <span
                   key={`${c.id}-${i}`}
-                  className="inline-flex items-center gap-6 px-8 font-serif-italic text-2xl text-ink"
+                  className="inline-flex items-center gap-6 px-10 font-serif-italic text-3xl text-ink-soft"
                 >
                   {c.brand}
                   <span className="font-mono-numeric text-[10px] tracking-[0.3em] text-ink-faint">
@@ -170,8 +140,11 @@ export default async function Home() {
           </section>
         )}
 
+        <CenteredRule className="mx-auto max-w-7xl px-6 sm:px-10" />
+
         {/* ===== MANIFESTO ===== */}
-        <section className="px-6 sm:px-10 py-24">
+        <section className="px-6 sm:px-10 py-24 relative">
+          <span className="ambient-glow-2" aria-hidden />
           <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-10">
             <Reveal className="lg:col-span-4">
               <span className="small-caps text-[10px] tracking-[0.3em] text-ink-muted">
@@ -180,10 +153,10 @@ export default async function Home() {
               <h2 className="mt-3 font-serif-display text-5xl text-ink leading-[0.95]">
                 A different
                 <br />
-                <span className="font-serif-italic">arrangement.</span>
+                <span className="font-serif-italic text-forest">arrangement.</span>
               </h2>
             </Reveal>
-            <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-5">
               {[
                 {
                   n: "01",
@@ -202,12 +175,12 @@ export default async function Home() {
                 },
               ].map((item, idx) => (
                 <Reveal key={item.n} delay={idx * 120}>
-                  <div>
+                  <div className="glass rounded-2xl p-6 h-full">
                     <header className="flex items-baseline gap-4">
                       <span className="font-mono-numeric text-[11px] text-ink-faint">{item.n}</span>
                       <h3 className="font-serif-display text-2xl text-ink">{item.t}</h3>
                     </header>
-                    <p className="mt-4 text-[15px] leading-[1.7] text-ink-muted font-serif-book">
+                    <p className="mt-4 text-[14.5px] leading-[1.7] text-ink-muted">
                       {item.b}
                     </p>
                   </div>
@@ -229,39 +202,37 @@ export default async function Home() {
               </div>
               <Link
                 href="/campaigns"
-                className="hidden sm:inline-block text-[13px] small-caps tracking-[0.2em] text-forest hover:text-forest-deep"
+                className="hidden sm:inline-flex items-center gap-2 btn-ghost px-4 py-2 rounded-full text-[12px]"
               >
-                View all →
+                View all
+                <span aria-hidden>→</span>
               </Link>
             </Reveal>
             {open.length === 0 ? (
-              <p className="hairline-top pt-10 text-ink-muted italic">
-                No open commissions this week. Check back soon.
-              </p>
+              <p className="text-ink-muted italic">No open commissions this week.</p>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {open.slice(0, 3).map((c, idx) => (
                   <Reveal key={c.id} delay={idx * 120}>
-                    <Link
-                      href={`/campaigns/${c.id}`}
-                      className="nc-card block group"
-                    >
-                      <CampaignCover campaign={c} variant="rectangle" />
-                      <div className="mt-4">
-                        <ToneChip tone={c.coverTone} label={c.brand} />
-                        <div className="mt-2 font-serif-display text-2xl text-ink group-hover:text-forest transition-colors leading-tight">
-                          {c.title}
-                        </div>
-                        <p className="mt-2 text-[13px] text-ink-muted line-clamp-2 font-serif-book leading-relaxed">
-                          {c.tagline}
-                        </p>
-                        <div className="mt-4 flex items-center justify-between text-[11px] text-ink-muted">
-                          <span className="small-caps tracking-[0.2em]">
-                            {c.deliverables.map((d) => `${d.count}×${d.kind}`).join(" · ")}
-                          </span>
-                          <span className="font-mono-numeric text-sm text-ink">
-                            {formatMoney(c.payoutCents, c.currency)}
-                          </span>
+                    <Link href={`/campaigns/${c.id}`} className="nc-card block group">
+                      <div className="glass glass-hover rounded-2xl overflow-hidden">
+                        <CampaignCover campaign={c} variant="rectangle" className="rounded-none" />
+                        <div className="p-5">
+                          <ToneChip tone={c.coverTone} label={c.brand} />
+                          <div className="mt-2.5 font-serif-display text-2xl text-ink leading-tight">
+                            {c.title}
+                          </div>
+                          <p className="mt-2 text-[13px] text-ink-muted line-clamp-2 leading-relaxed">
+                            {c.tagline}
+                          </p>
+                          <div className="mt-5 flex items-center justify-between text-[11px] text-ink-muted">
+                            <span className="small-caps tracking-[0.2em]">
+                              {c.deliverables.map((d) => `${d.count}×${d.kind}`).join(" · ")}
+                            </span>
+                            <span className="font-mono-numeric text-sm text-ink">
+                              {formatMoney(c.payoutCents, c.currency)}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </Link>
@@ -269,42 +240,52 @@ export default async function Home() {
                 ))}
               </div>
             )}
-            <Link
-              href="/campaigns"
-              className="mt-8 inline-block sm:hidden text-[13px] small-caps tracking-[0.2em] text-forest"
-            >
-              View all →
-            </Link>
           </div>
         </section>
 
         {/* ===== APPLY ===== */}
-        <section id="apply" className="px-6 sm:px-10 py-24 hairline-top">
-          <div className="mx-auto max-w-4xl grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        <section id="apply" className="px-6 sm:px-10 py-24 relative">
+          <span className="ambient-glow" aria-hidden />
+          <div className="mx-auto max-w-5xl grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
             <Reveal className="lg:col-span-5">
               <span className="small-caps text-[10px] tracking-[0.3em] text-ink-muted">
                 Join · membership · free
               </span>
               <h2 className="mt-3 font-serif-display text-5xl text-ink leading-[0.95]">
-                <span className="font-serif-italic">Reserve</span>
+                <span className="font-serif-italic text-violet">Reserve</span>
                 <br /> your seat.
               </h2>
-              <p className="mt-6 text-[15px] text-ink-muted max-w-md font-serif-book leading-relaxed">
+              <p className="mt-6 text-[15px] text-ink-muted max-w-md leading-relaxed">
                 Create your account, then link Instagram when you're ready. The editor reviews
                 applications personally — expect a note back within two business days.
               </p>
             </Reveal>
-            <Reveal delay={160} className="lg:col-span-7 lg:pl-10 lg:border-l lg:border-hairline">
-              <SignupForm />
-              <p className="mt-5 text-[11px] leading-relaxed text-ink-faint">
-                Membership is free. Instagram is connected via Meta's official OAuth — we never see
-                your password. Revoke access anytime from Instagram settings.
-              </p>
+            <Reveal delay={160} className="lg:col-span-7">
+              <div className="glass rounded-2xl p-6 sm:p-8">
+                <SignupForm />
+                <p className="mt-5 text-[11px] leading-relaxed text-ink-faint">
+                  Membership is free. Instagram is connected via Meta's official OAuth — we never
+                  see your password. Revoke access anytime.
+                </p>
+              </div>
             </Reveal>
           </div>
         </section>
       </main>
       <Footer />
     </>
+  );
+}
+
+function Row({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
+  return (
+    <div className="flex items-baseline justify-between gap-4">
+      <span className="text-[14px] text-ink-muted">{label}</span>
+      <span
+        className={`font-mono-numeric text-xl ${accent ? "text-forest" : "text-ink"}`}
+      >
+        {value}
+      </span>
+    </div>
   );
 }

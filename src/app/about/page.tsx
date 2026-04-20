@@ -21,9 +21,10 @@ export default async function AboutPage() {
     <>
       <Masthead email={creator?.email} isAdmin={admin} />
 
-      <main className="px-6 sm:px-10">
+      <main className="px-6 sm:px-10 relative">
+        <span className="ambient-glow" aria-hidden />
         {/* ===== Manifesto hero ===== */}
-        <section className="mx-auto max-w-5xl pt-14 sm:pt-20 pb-20">
+        <section className="mx-auto max-w-5xl pt-14 sm:pt-20 pb-20 relative">
           <Reveal>
             <RunningHead left="MANIFESTO" center="· NEXUS CLUB ·" right="VOL. I · 2026" />
           </Reveal>
@@ -31,8 +32,8 @@ export default async function AboutPage() {
             <h1 className="mt-8 font-serif-display text-[clamp(3rem,8vw,7rem)] leading-[0.9] text-ink">
               A club is not a
               <br />
-              <span className="font-serif-italic">marketplace</span>
-              <span className="text-forest">.</span>
+              <span className="font-serif-italic text-violet">marketplace</span>
+              <span className="text-violet">.</span>
             </h1>
           </Reveal>
           <Reveal delay={280}>
@@ -149,7 +150,7 @@ export default async function AboutPage() {
             </h2>
             <Link
               href="/#apply"
-              className="mt-10 inline-flex items-center gap-3 bg-ink text-paper px-7 py-4 text-[13px] small-caps tracking-[0.2em] hover:bg-forest transition-colors"
+              className="mt-10 btn-primary inline-flex items-center gap-3 px-7 py-4 rounded-full text-[13px] tracking-wide"
             >
               Request membership
               <span aria-hidden>→</span>

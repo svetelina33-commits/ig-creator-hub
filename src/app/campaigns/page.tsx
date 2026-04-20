@@ -5,9 +5,9 @@ import type { CampaignRecord } from "@/lib/store";
 import { isAdmin } from "@/lib/auth";
 import { Masthead } from "@/components/Masthead";
 import { Footer } from "@/components/Footer";
+import { CampaignCover } from "@/components/CampaignCover";
 import { Reveal } from "@/components/Reveal";
 import { RunningHead, ToneChip } from "@/components/Ornaments";
-import { CampaignCover } from "@/components/CampaignCover";
 
 type SearchParams = Promise<{
   q?: string;
@@ -50,8 +50,9 @@ export default async function CampaignsPage({ searchParams }: { searchParams: Se
   return (
     <>
       <Masthead email={creator?.email} isAdmin={admin} />
-      <main className="px-6 sm:px-10">
-        <section className="mx-auto max-w-7xl pt-14 sm:pt-20 pb-10">
+      <main className="px-6 sm:px-10 relative">
+        <span className="ambient-glow" aria-hidden />
+        <section className="mx-auto max-w-7xl pt-14 sm:pt-20 pb-10 relative">
           <Reveal>
             <RunningHead
               left="THE DESK"
@@ -59,14 +60,14 @@ export default async function CampaignsPage({ searchParams }: { searchParams: Se
               right={`${String(all.length).padStart(2, "0")} LIVE`}
             />
           </Reveal>
-          <Reveal delay={120} className="mt-8 flex items-end justify-between gap-4 flex-wrap">
+          <Reveal delay={80} className="mt-8 flex items-end justify-between gap-4 flex-wrap">
             <div>
               <h1 className="font-serif-display text-[clamp(3rem,8vw,7rem)] leading-[0.9] text-ink">
-                <span className="font-serif-italic">Now</span> commissioning.
+                <span className="font-serif-italic text-violet">Now</span> commissioning.
               </h1>
               {campaigns.length !== all.length && (
                 <p className="mt-3 font-mono-numeric text-[11px] tracking-widest text-ink-faint">
-                  {String(campaigns.length).padStart(2, "0")} match current filters
+                  {String(campaigns.length).padStart(2, "0")} MATCH CURRENT FILTERS
                 </p>
               )}
             </div>
@@ -77,8 +78,12 @@ export default async function CampaignsPage({ searchParams }: { searchParams: Se
 
         <section className="mx-auto max-w-7xl pb-24 mt-10">
           {campaigns.length === 0 ? (
-            <div className="hairline-top pt-10 text-ink-muted italic font-serif-book">
-              No campaigns match these filters. <Link href="/campaigns" className="underline underline-offset-4">Clear filters</Link>.
+            <div className="glass rounded-2xl p-8 text-ink-muted">
+              No campaigns match these filters.{" "}
+              <Link href="/campaigns" className="link-ed">
+                Clear filters
+              </Link>
+              .
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -108,39 +113,54 @@ function FilterBar({
   sort: string;
 }) {
   return (
-    <section className="mx-auto max-w-7xl hairline-top pt-6">
-      <form method="get" className="flex flex-wrap items-end gap-4">
+    <section className="mx-auto max-w-7xl">
+      <form method="get" className="glass rounded-2xl p-4 flex flex-wrap items-end gap-4">
         <label className="flex-1 min-w-[200px]">
           <span className="small-caps text-[10px] tracking-[0.25em] text-ink-muted">Search</span>
           <input
             name="q"
             defaultValue={q}
             placeholder="Brand, title, or keyword"
-            className="mt-2 w-full bg-transparent border-b border-hairline-strong pb-1.5 text-[15px] focus:outline-none focus:border-forest"
+            className="nc-input mt-2 w-full"
           />
         </label>
-        <Select name="tone" label="Tone" value={tone} options={[
-          ["", "Any"],
-          ["forest", "Forest"],
-          ["vermillion", "Vermillion"],
-          ["ochre", "Ochre"],
-          ["ink", "Ink"],
-        ]} />
-        <Select name="deliv" label="Deliverable" value={deliv} options={[
-          ["", "Any"],
-          ["post", "Post"],
-          ["reel", "Reel"],
-          ["story", "Story"],
-        ]} />
-        <Select name="sort" label="Sort" value={sort} options={[
-          ["recent", "Most recent"],
-          ["payout-desc", "Payout — high → low"],
-          ["payout-asc", "Payout — low → high"],
-          ["deadline", "Deadline — soonest"],
-        ]} />
+        <Select
+          name="tone"
+          label="Tone"
+          value={tone}
+          options={[
+            ["", "Any"],
+            ["forest", "Forest"],
+            ["vermillion", "Vermillion"],
+            ["ochre", "Ochre"],
+            ["ink", "Ink"],
+          ]}
+        />
+        <Select
+          name="deliv"
+          label="Deliverable"
+          value={deliv}
+          options={[
+            ["", "Any"],
+            ["post", "Post"],
+            ["reel", "Reel"],
+            ["story", "Story"],
+          ]}
+        />
+        <Select
+          name="sort"
+          label="Sort"
+          value={sort}
+          options={[
+            ["recent", "Most recent"],
+            ["payout-desc", "Payout — high → low"],
+            ["payout-asc", "Payout — low → high"],
+            ["deadline", "Deadline — soonest"],
+          ]}
+        />
         <button
           type="submit"
-          className="px-5 py-2 bg-ink text-paper text-[11px] small-caps tracking-[0.2em] hover:bg-forest transition-colors"
+          className="btn-primary px-5 py-2.5 rounded-full text-[11px] small-caps tracking-[0.2em]"
         >
           Apply
         </button>
@@ -169,15 +189,11 @@ function Select({
   options: [string, string][];
 }) {
   return (
-    <label className="min-w-[120px]">
+    <label className="min-w-[140px]">
       <span className="small-caps text-[10px] tracking-[0.25em] text-ink-muted">{label}</span>
-      <select
-        name={name}
-        defaultValue={value}
-        className="mt-2 w-full bg-transparent border-b border-hairline-strong pb-1.5 text-[14px] focus:outline-none focus:border-forest"
-      >
+      <select name={name} defaultValue={value} className="nc-input mt-2 w-full">
         {options.map(([v, l]) => (
-          <option key={v} value={v}>
+          <option key={v} value={v} className="bg-paper-raised text-ink">
             {l}
           </option>
         ))}
@@ -189,28 +205,29 @@ function Select({
 function CampaignGridCard({ c }: { c: CampaignRecord }) {
   return (
     <Link href={`/campaigns/${c.id}`} className="nc-card block group">
-      <CampaignCover campaign={c} variant="rectangle" />
-      <div className="mt-4 space-y-2">
-        <ToneChip tone={c.coverTone} label={c.brand} />
-        <div className="font-serif-display text-2xl text-ink group-hover:text-forest transition-colors leading-tight">
-          {c.title}
-        </div>
-        <p className="text-[13px] text-ink-muted line-clamp-2 font-serif-book leading-relaxed">
-          {c.tagline}
-        </p>
-        <div className="pt-3 flex items-center justify-between text-[11px] text-ink-muted">
-          <span className="small-caps tracking-[0.2em]">
-            {c.deliverables.map((d) => `${d.count}×${d.kind}`).join(" · ")}
-          </span>
-          <span className="font-mono-numeric text-sm text-ink">
-            {formatMoney(c.payoutCents, c.currency)}
-          </span>
-        </div>
-        {c.deadline && (
-          <div className="font-mono-numeric text-[10px] text-ink-faint">
-            DEADLINE · {new Date(c.deadline).toLocaleDateString("en-US", { month: "short", day: "numeric" }).toUpperCase()}
+      <div className="glass glass-hover rounded-2xl overflow-hidden">
+        <CampaignCover campaign={c} variant="rectangle" className="rounded-none" />
+        <div className="p-5 space-y-2">
+          <ToneChip tone={c.coverTone} label={c.brand} />
+          <div className="font-serif-display text-2xl text-ink leading-tight">{c.title}</div>
+          <p className="text-[13px] text-ink-muted line-clamp-2 leading-relaxed">{c.tagline}</p>
+          <div className="pt-3 flex items-center justify-between text-[11px] text-ink-muted">
+            <span className="small-caps tracking-[0.2em]">
+              {c.deliverables.map((d) => `${d.count}×${d.kind}`).join(" · ")}
+            </span>
+            <span className="font-mono-numeric text-sm text-ink">
+              {formatMoney(c.payoutCents, c.currency)}
+            </span>
           </div>
-        )}
+          {c.deadline && (
+            <div className="font-mono-numeric text-[10px] text-ink-faint">
+              DEADLINE ·{" "}
+              {new Date(c.deadline)
+                .toLocaleDateString("en-US", { month: "short", day: "numeric" })
+                .toUpperCase()}
+            </div>
+          )}
+        </div>
       </div>
     </Link>
   );

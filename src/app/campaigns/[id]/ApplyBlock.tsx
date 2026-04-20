@@ -18,9 +18,9 @@ export default function ApplyBlock({ campaignId, signedIn, existingStatus }: Pro
 
   if (!signedIn) {
     return (
-      <div className="hairline-top hairline-bottom py-6">
+      <div>
         <p className="text-[14px] text-ink-muted">
-          <Link href="/" className="text-forest underline underline-offset-4">
+          <Link href="/" className="link-ed">
             Join Nexus Club
           </Link>{" "}
           to put your name down for this campaign.
@@ -34,7 +34,7 @@ export default function ApplyBlock({ campaignId, signedIn, existingStatus }: Pro
       pending: {
         title: "Your application is with the editor.",
         body: "We'll notify you via email. Typical turnaround is 48 hours.",
-        color: "text-ink-muted",
+        color: "text-ink-soft",
       },
       approved: {
         title: "You've been approved.",
@@ -49,7 +49,7 @@ export default function ApplyBlock({ campaignId, signedIn, existingStatus }: Pro
     } as const;
     const content = map[existingStatus];
     return (
-      <div className="hairline-top hairline-bottom py-6">
+      <div>
         <div className="small-caps text-[11px] tracking-[0.25em] text-ink-muted">
           Your application
         </div>
@@ -80,7 +80,7 @@ export default function ApplyBlock({ campaignId, signedIn, existingStatus }: Pro
   }
 
   return (
-    <form onSubmit={submit} className="hairline-top hairline-bottom py-6 space-y-4">
+    <form onSubmit={submit} className="space-y-4">
       <div className="small-caps text-[11px] tracking-[0.25em] text-ink-muted">
         Write the editor
       </div>
@@ -94,10 +94,10 @@ export default function ApplyBlock({ campaignId, signedIn, existingStatus }: Pro
           value={note}
           onChange={(e) => setNote(e.target.value)}
           placeholder="A few sentences on why this brief suits your work. References appreciated."
-          className="w-full bg-paper-raised/60 hairline-top border-hairline-strong text-[15px] text-ink p-4 rounded-none focus:outline-none focus:ring-0 focus:border-forest resize-y"
+          className="nc-input w-full text-[15px] leading-[1.6] resize-y"
         />
       </label>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <span className="font-mono-numeric text-[11px] text-ink-faint">
           {note.length.toString().padStart(3, "0")} / 800
         </span>
@@ -105,7 +105,7 @@ export default function ApplyBlock({ campaignId, signedIn, existingStatus }: Pro
         <button
           type="submit"
           disabled={loading || note.length < 20}
-          className="inline-flex items-center gap-3 bg-ink text-paper px-6 py-3 text-[12px] small-caps tracking-[0.2em] hover:bg-forest disabled:opacity-50 transition-colors"
+          className="btn-primary inline-flex items-center gap-3 px-6 py-3 rounded-full text-[12px] tracking-wide disabled:opacity-50"
         >
           {loading ? "Sending…" : "Submit application"}
           <span aria-hidden>→</span>

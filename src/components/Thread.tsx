@@ -52,20 +52,23 @@ export function Thread({ applicationId, youAre, initialMessages }: Props) {
     <div className="space-y-5">
       {messages.length === 0 ? (
         <p className="text-[14px] text-ink-faint font-serif-italic">
-          No notes yet. {youAre === "editor" ? "Write the creator first." : "The editor will write if there's a question."}
+          No notes yet.{" "}
+          {youAre === "editor"
+            ? "Write the creator first."
+            : "The editor will write if there's a question."}
         </p>
       ) : (
-        <ul className="space-y-5">
+        <ul className="space-y-4">
           {messages.map((m) => (
             <li
               key={m.id}
               className={`flex ${m.role === youAre ? "justify-end" : "justify-start"}`}
             >
               <div
-                className={`max-w-[85%] border border-hairline px-4 py-3 ${
-                  m.role === "editor"
-                    ? "bg-paper-raised"
-                    : "bg-paper-sunken"
+                className={`max-w-[85%] rounded-2xl px-4 py-3 ${
+                  m.role === youAre
+                    ? "bg-violet/15 border border-violet/25"
+                    : "glass"
                 }`}
               >
                 <div className="small-caps text-[10px] tracking-[0.25em] text-ink-muted flex items-baseline justify-between gap-4">
@@ -79,7 +82,7 @@ export function Thread({ applicationId, youAre, initialMessages }: Props) {
                     })}
                   </span>
                 </div>
-                <p className="mt-2 text-[15px] leading-[1.6] text-ink whitespace-pre-wrap font-serif-book">
+                <p className="mt-2 text-[15px] leading-[1.6] text-ink whitespace-pre-wrap">
                   {m.body}
                 </p>
               </div>
@@ -89,7 +92,7 @@ export function Thread({ applicationId, youAre, initialMessages }: Props) {
         </ul>
       )}
 
-      <form onSubmit={send} className="hairline-top pt-4">
+      <form onSubmit={send} className="pt-2">
         <textarea
           rows={3}
           value={body}
@@ -99,9 +102,9 @@ export function Thread({ applicationId, youAre, initialMessages }: Props) {
               ? "Write a note to the creator…"
               : "Reply to the editor…"
           }
-          className="w-full bg-paper-raised/60 border border-hairline p-3 text-[15px] text-ink focus:outline-none focus:border-forest resize-y"
+          className="nc-input w-full text-[15px] leading-[1.6] resize-y"
         />
-        <div className="mt-2 flex items-center justify-between">
+        <div className="mt-3 flex items-center justify-between flex-wrap gap-3">
           <span className="font-mono-numeric text-[10px] text-ink-faint">
             {body.length} / 2000
           </span>
@@ -109,7 +112,7 @@ export function Thread({ applicationId, youAre, initialMessages }: Props) {
           <button
             type="submit"
             disabled={sending || !body.trim()}
-            className="inline-flex items-center gap-2 bg-ink text-paper px-5 py-2 text-[11px] small-caps tracking-[0.2em] hover:bg-forest disabled:opacity-50"
+            className="btn-primary inline-flex items-center gap-2 px-5 py-2 rounded-full text-[11px] tracking-wide disabled:opacity-50"
           >
             {sending ? "Sending…" : "Send"}
             <span aria-hidden>→</span>

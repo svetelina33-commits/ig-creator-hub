@@ -47,80 +47,54 @@ export function CommandPalette({ isAdmin, signedIn, campaigns }: Props) {
       className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh] px-4"
     >
       <div
-        className="fixed inset-0 bg-ink/35 backdrop-blur-sm nc-fade"
+        className="fixed inset-0 bg-black/50 backdrop-blur-md nc-fade"
         onClick={() => setOpen(false)}
       />
-      <div className="relative w-full max-w-xl bg-paper-raised border border-hairline-strong shadow-[0_20px_60px_-20px_rgba(20,19,15,0.4)] nc-scale-in">
-        <div className="px-4 pt-4 pb-2 flex items-center gap-3 border-b border-hairline">
-          <span className="small-caps text-[10px] tracking-[0.3em] text-ink-faint">NEXUS · CMD-K</span>
+      <div className="relative w-full max-w-xl glass-strong rounded-2xl overflow-hidden nc-scale-in">
+        <div className="px-4 pt-3.5 pb-2 flex items-center gap-3 border-b border-white/10">
+          <span className="small-caps text-[10px] tracking-[0.3em] text-ink-faint">⌘K</span>
           <Command.Input
             placeholder="Go anywhere, search campaigns…"
             className="flex-1 bg-transparent outline-none text-lg font-serif-display text-ink placeholder:text-ink-faint py-2"
           />
-          <kbd className="font-mono-numeric text-[10px] text-ink-faint border border-hairline px-1.5 py-0.5">
+          <kbd className="font-mono-numeric text-[10px] text-ink-faint border border-white/10 rounded px-1.5 py-0.5">
             ESC
           </kbd>
         </div>
         <Command.List className="max-h-[50vh] overflow-y-auto py-2">
-          <Command.Empty className="px-4 py-8 text-center text-ink-faint font-serif-italic text-sm">
+          <Command.Empty className="px-4 py-10 text-center text-ink-faint font-serif-italic text-sm">
             No results. Try another word.
           </Command.Empty>
 
-          <Command.Group heading="Go to">
-            <Item onSelect={() => go("/")}>
-              <Mono>↵</Mono> Home
-            </Item>
-            <Item onSelect={() => go("/campaigns")}>
-              <Mono>↵</Mono> Campaigns
-            </Item>
-            <Item onSelect={() => go("/creators")}>
-              <Mono>↵</Mono> Members
-            </Item>
-            <Item onSelect={() => go("/how-it-works")}>
-              <Mono>↵</Mono> How it works
-            </Item>
-            <Item onSelect={() => go("/about")}>
-              <Mono>↵</Mono> About
-            </Item>
-            <Item onSelect={() => go("/dispatches")}>
-              <Mono>↵</Mono> Dispatches
-            </Item>
+          <Command.Group heading="Go to" className="text-ink-muted">
+            <Item onSelect={() => go("/")}>↵ Home</Item>
+            <Item onSelect={() => go("/campaigns")}>↵ Campaigns</Item>
+            <Item onSelect={() => go("/creators")}>↵ Members</Item>
+            <Item onSelect={() => go("/how-it-works")}>↵ How it works</Item>
+            <Item onSelect={() => go("/about")}>↵ About</Item>
+            <Item onSelect={() => go("/dispatches")}>↵ Dispatches</Item>
             {signedIn ? (
               <>
-                <Item onSelect={() => go("/dashboard")}>
-                  <Mono>↵</Mono> Your dashboard
-                </Item>
-                <Item onSelect={() => go("/settings")}>
-                  <Mono>↵</Mono> Settings
-                </Item>
+                <Item onSelect={() => go("/dashboard")}>↵ Your dashboard</Item>
+                <Item onSelect={() => go("/settings")}>↵ Settings</Item>
               </>
             ) : (
               <>
-                <Item onSelect={() => go("/login")}>
-                  <Mono>↵</Mono> Sign in
-                </Item>
-                <Item onSelect={() => go("/#apply")}>
-                  <Mono>↵</Mono> Apply for membership
-                </Item>
+                <Item onSelect={() => go("/login")}>↵ Sign in</Item>
+                <Item onSelect={() => go("/#apply")}>↵ Apply for membership</Item>
               </>
             )}
             {isAdmin && (
               <>
-                <Item onSelect={() => go("/admin")}>
-                  <Mono>↵</Mono> Atelier (admin)
-                </Item>
-                <Item onSelect={() => go("/admin/campaigns/new")}>
-                  <Mono>+</Mono> Draft a new campaign
-                </Item>
-                <Item onSelect={() => go("/admin/creators")}>
-                  <Mono>↵</Mono> Members roster
-                </Item>
+                <Item onSelect={() => go("/admin")}>↵ Atelier (admin)</Item>
+                <Item onSelect={() => go("/admin/campaigns/new")}>+ Draft a new campaign</Item>
+                <Item onSelect={() => go("/admin/creators")}>↵ Members roster</Item>
               </>
             )}
           </Command.Group>
 
           {campaigns.length > 0 && (
-            <Command.Group heading="Campaigns">
+            <Command.Group heading="Campaigns" className="text-ink-muted">
               {campaigns.map((c) => (
                 <Item
                   key={c.id}
@@ -159,17 +133,9 @@ function Item({
     <Command.Item
       value={value}
       onSelect={onSelect}
-      className="flex items-center gap-3 px-4 py-2.5 cursor-pointer text-[14px] data-[selected='true']:bg-paper-sunken"
+      className="flex items-center gap-3 px-4 py-2.5 cursor-pointer text-[14px] text-ink-soft data-[selected='true']:bg-white/[0.06] data-[selected='true']:text-ink"
     >
       {children}
     </Command.Item>
-  );
-}
-
-function Mono({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="font-mono-numeric text-[10px] text-ink-faint border border-hairline px-1.5 py-0.5 mr-2">
-      {children}
-    </span>
   );
 }

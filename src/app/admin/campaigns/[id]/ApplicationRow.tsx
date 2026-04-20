@@ -60,7 +60,7 @@ export default function ApplicationRow({
   }[application.status];
 
   return (
-    <li className="py-5">
+    <li className="px-5 py-5">
       <div className="grid grid-cols-12 gap-4 items-baseline">
         <div className="col-span-12 sm:col-span-5">
           <div className="font-serif-display text-xl text-ink">{creatorEmail}</div>

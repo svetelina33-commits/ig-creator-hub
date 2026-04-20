@@ -25,7 +25,7 @@ export default async function CreatorApplicationDetail({ params }: { params: Par
   const messages = await listMessagesForApplication(application.id);
 
   const statusMap = {
-    pending: { label: "Under review", color: "text-ink-muted" },
+    pending: { label: "Under review", color: "text-ink-soft" },
     approved: { label: "Approved", color: "text-forest" },
     rejected: { label: "Declined", color: "text-vermillion" },
   } as const;
@@ -34,64 +34,73 @@ export default async function CreatorApplicationDetail({ params }: { params: Par
   return (
     <>
       <Masthead email={creator.email} />
-      <main className="px-6 sm:px-10">
-        <div className="mx-auto max-w-4xl py-12">
+      <main className="px-6 sm:px-10 relative">
+        <span className="ambient-glow" aria-hidden />
+        <div className="mx-auto max-w-4xl py-12 relative">
           <div className="text-[12px] small-caps tracking-[0.25em] text-ink-muted mb-8">
-            <Link href="/dashboard" className="hover:text-forest">
+            <Link href="/dashboard" className="hover:text-ink">
               ← Dashboard
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-5 gap-8 items-start">
-            <div className="sm:col-span-3">
-              <div className="small-caps text-[10px] tracking-[0.3em] text-ink-muted">
-                {campaign.brand}
-              </div>
-              <h1 className="mt-2 font-serif-display text-5xl text-ink leading-[0.95]">
-                {campaign.title}
-              </h1>
-              <p className="mt-4 font-serif-italic text-xl text-ink-muted">
-                {campaign.tagline}
-              </p>
-              <div className={`mt-5 small-caps text-[11px] tracking-[0.25em] ${statusUI.color}`}>
-                ● {statusUI.label}
-              </div>
-              <div className="mt-1 font-mono-numeric text-[11px] text-ink-faint">
-                Applied {new Date(application.appliedAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
-              </div>
-              <div className="mt-6">
-                <Link
-                  href={`/campaigns/${campaign.id}`}
-                  className="text-[11px] small-caps tracking-[0.2em] text-forest hover:text-forest-deep"
+          <div className="glass rounded-2xl p-6 sm:p-8">
+            <div className="grid grid-cols-1 sm:grid-cols-5 gap-8 items-start">
+              <div className="sm:col-span-3">
+                <div className="small-caps text-[10px] tracking-[0.3em] text-ink-muted">
+                  {campaign.brand}
+                </div>
+                <h1 className="mt-2 font-serif-display text-5xl text-ink leading-[0.95]">
+                  {campaign.title}
+                </h1>
+                <p className="mt-4 font-serif-italic text-xl text-ink-muted">
+                  {campaign.tagline}
+                </p>
+                <div
+                  className={`mt-5 small-caps text-[11px] tracking-[0.25em] ${statusUI.color}`}
                 >
-                  View full brief →
-                </Link>
+                  ● {statusUI.label}
+                </div>
+                <div className="mt-1 font-mono-numeric text-[11px] text-ink-faint">
+                  Applied{" "}
+                  {new Date(application.appliedAt).toLocaleDateString("en-US", {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </div>
+                <div className="mt-6">
+                  <Link
+                    href={`/campaigns/${campaign.id}`}
+                    className="text-[11px] small-caps tracking-[0.2em] text-forest hover:text-ink"
+                  >
+                    View full brief →
+                  </Link>
+                </div>
               </div>
-            </div>
-            <div className="sm:col-span-2">
-              <CampaignCover campaign={campaign} variant="square" />
-              <div className="mt-3 flex items-center justify-between text-[11px] text-ink-muted">
-                <span className="small-caps tracking-[0.2em]">Payout</span>
-                <span className="font-mono-numeric text-ink">
-                  {formatMoney(campaign.payoutCents, campaign.currency)}
-                </span>
+              <div className="sm:col-span-2">
+                <CampaignCover campaign={campaign} variant="square" />
+                <div className="mt-3 flex items-center justify-between text-[11px] text-ink-muted">
+                  <span className="small-caps tracking-[0.2em]">Payout</span>
+                  <span className="font-mono-numeric text-ink">
+                    {formatMoney(campaign.payoutCents, campaign.currency)}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
 
-          <section className="mt-12 hairline-top pt-10">
-            <div className="flex items-baseline justify-between mb-6">
+          <section className="mt-8 glass rounded-2xl p-6 sm:p-8">
+            <div className="flex items-baseline justify-between mb-5">
               <h2 className="font-serif-display text-2xl text-ink">The thread</h2>
               <span className="small-caps text-[10px] tracking-[0.25em] text-ink-faint">
                 editor ↔ you
               </span>
             </div>
-            {/* Original application note */}
-            <div className="mb-6 border border-hairline bg-paper-sunken/60 p-4">
+            <div className="mb-6 glass-faint rounded-xl p-4">
               <div className="small-caps text-[10px] tracking-[0.25em] text-ink-muted">
                 Your application note
               </div>
-              <p className="mt-2 text-[15px] text-ink whitespace-pre-wrap font-serif-book leading-relaxed">
+              <p className="mt-2 text-[15px] text-ink whitespace-pre-wrap leading-relaxed">
                 {application.note}
               </p>
             </div>

@@ -24,7 +24,7 @@ export default function AdminCampaignActions({ id, status }: Props) {
   }
 
   return (
-    <div className="hairline-top hairline-bottom py-4 flex items-center gap-2 flex-wrap">
+    <div className="glass rounded-xl px-4 py-3 flex items-center gap-2 flex-wrap">
       <span className="small-caps text-[10px] tracking-[0.25em] text-ink-muted mr-2">
         Status
       </span>
@@ -33,10 +33,10 @@ export default function AdminCampaignActions({ id, status }: Props) {
           key={s}
           disabled={busy || s === status}
           onClick={() => setStatus(s)}
-          className={`small-caps text-[11px] tracking-[0.2em] px-3 py-1.5 border transition-colors ${
+          className={`small-caps text-[11px] tracking-[0.2em] px-3 py-1.5 rounded-full transition-colors ${
             s === status
-              ? "bg-ink text-paper border-ink"
-              : "text-ink-muted border-hairline hover:border-ink hover:text-ink"
+              ? "bg-violet text-white border border-violet"
+              : "text-ink-muted bg-white/5 border border-white/10 hover:border-white/25 hover:text-ink"
           } disabled:cursor-default`}
         >
           {s}

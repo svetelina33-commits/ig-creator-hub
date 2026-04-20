@@ -30,21 +30,9 @@ export default function LoginForm() {
   }
 
   return (
-    <form onSubmit={submit} className="space-y-6">
-      <Field
-        label="Email"
-        type="email"
-        value={email}
-        onChange={setEmail}
-        placeholder="you@your-domain.com"
-      />
-      <Field
-        label="Password"
-        type="password"
-        value={password}
-        onChange={setPassword}
-        placeholder="••••••••"
-      />
+    <form onSubmit={submit} className="space-y-5">
+      <Field label="Email" type="email" value={email} onChange={setEmail} placeholder="you@your-domain.com" />
+      <Field label="Password" type="password" value={password} onChange={setPassword} placeholder="••••••••" />
       {error && (
         <p className="text-sm text-vermillion" role="alert">
           {error}
@@ -53,7 +41,7 @@ export default function LoginForm() {
       <button
         type="submit"
         disabled={loading}
-        className="w-full inline-flex items-center justify-center gap-3 bg-ink text-paper px-6 py-3 text-[13px] small-caps tracking-[0.2em] hover:bg-forest disabled:opacity-60"
+        className="btn-primary w-full inline-flex items-center justify-center gap-3 px-6 py-3 rounded-full text-[12px] tracking-wide disabled:opacity-60"
       >
         {loading ? "Signing in…" : "Enter"}
         <span aria-hidden>→</span>
@@ -76,19 +64,16 @@ function Field({
   placeholder?: string;
 }) {
   return (
-    <label className="block group">
+    <label className="block">
       <span className="small-caps text-[10px] tracking-[0.25em] text-ink-muted">{label}</span>
-      <div className="mt-2 relative">
-        <input
-          required
-          type={type}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder={placeholder}
-          className="w-full border-0 border-b border-hairline-strong bg-transparent pb-2 text-xl font-serif-display text-ink placeholder:text-ink-faint focus:border-forest focus:outline-none"
-        />
-        <span className="absolute -bottom-px left-0 h-[2px] w-0 bg-forest transition-all duration-300 group-focus-within:w-full" />
-      </div>
+      <input
+        required
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        className="nc-input mt-2 w-full text-[15px]"
+      />
     </label>
   );
 }

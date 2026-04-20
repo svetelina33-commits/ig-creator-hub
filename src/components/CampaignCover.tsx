@@ -3,20 +3,49 @@ import type { CampaignRecord } from "@/lib/store";
 type Tone = CampaignRecord["coverTone"];
 
 type Palette = {
-  bg: string;
-  ink: string;
-  accent: string;
-  soft: string;
+  primary: string;   // dominant color
+  secondary: string; // blend color
+  glow: string;      // accent highlight
+  textTop: string;
+  textMuted: string;
 };
 
+/**
+ * Dark palettes — luminous gradients with a bright core and deep falloff.
+ * Tokens mirror the "forest"/"vermillion"/"ochre"/"ink" names even though
+ * the hues have shifted to fit the dark, Cursor-ish aesthetic.
+ */
 const palettes: Record<Tone, Palette> = {
-  forest: { bg: "#1F4A3C", ink: "#F0EBE0", accent: "#C9A96A", soft: "#3A6A5B" },
-  vermillion: { bg: "#B3261E", ink: "#F7EEDB", accent: "#F0C470", soft: "#D04A3F" },
-  ochre: { bg: "#C9A96A", ink: "#231B0E", accent: "#3B2710", soft: "#E0C487" },
-  ink: { bg: "#14130F", ink: "#F0EBE0", accent: "#C9A96A", soft: "#36332C" },
+  forest: {
+    primary: "#14343A",
+    secondary: "#062023",
+    glow: "#5FE1D6",
+    textTop: "rgba(240, 238, 246, 0.88)",
+    textMuted: "rgba(95, 225, 214, 0.9)",
+  },
+  vermillion: {
+    primary: "#3A1519",
+    secondary: "#1C060A",
+    glow: "#FF8A93",
+    textTop: "rgba(240, 238, 246, 0.9)",
+    textMuted: "rgba(255, 138, 147, 0.95)",
+  },
+  ochre: {
+    primary: "#352411",
+    secondary: "#160F08",
+    glow: "#F3C179",
+    textTop: "rgba(240, 238, 246, 0.9)",
+    textMuted: "rgba(243, 193, 121, 0.95)",
+  },
+  ink: {
+    primary: "#1B1B24",
+    secondary: "#08080C",
+    glow: "#7D5AFF",
+    textTop: "rgba(240, 238, 246, 0.9)",
+    textMuted: "rgba(125, 90, 255, 0.95)",
+  },
 };
 
-// Simple deterministic hash from string.
 function hash(s: string): number {
   let h = 0;
   for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
@@ -25,7 +54,6 @@ function hash(s: string): number {
 
 type Props = {
   campaign: Pick<CampaignRecord, "id" | "title" | "brand" | "coverTone">;
-  /** rectangle: 16x9-ish list card. square: 1x1. tall: 3x4 hero. */
   variant?: "rectangle" | "square" | "tall";
   className?: string;
 };
@@ -36,17 +64,20 @@ export function CampaignCover({ campaign, variant = "rectangle", className = "" 
   const ratio =
     variant === "square" ? "1 / 1" : variant === "tall" ? "3 / 4" : "5 / 4";
 
-  // Generate composition parameters from the seed
-  const circleX = 30 + (seed % 40);
-  const circleY = 20 + ((seed >> 4) % 50);
-  const rotation = (seed % 40) - 20;
-  const linePos = 40 + ((seed >> 6) % 35);
-  const squareSize = 18 + ((seed >> 8) % 14);
+  const glowX = 25 + (seed % 45);
+  const glowY = 20 + ((seed >> 4) % 40);
+  const ringX = 65 + ((seed >> 2) % 20);
+  const ringY = 60 + ((seed >> 6) % 20);
+  const ringR = 16 + ((seed >> 8) % 10);
+  const tick = (seed >> 10) % 60;
 
   return (
     <div
-      className={`relative overflow-hidden surface-noise ${className}`}
-      style={{ aspectRatio: ratio, background: p.bg }}
+      className={`relative overflow-hidden surface-noise rounded-2xl ${className}`}
+      style={{
+        aspectRatio: ratio,
+        background: `linear-gradient(135deg, ${p.primary} 0%, ${p.secondary} 100%)`,
+      }}
       aria-hidden
     >
       <svg
@@ -57,87 +88,80 @@ export function CampaignCover({ campaign, variant = "rectangle", className = "" 
         style={{ position: "absolute", inset: 0 }}
       >
         <defs>
-          <radialGradient id={`g-${campaign.id}`} cx="30%" cy="25%" r="80%">
-            <stop offset="0%" stopColor={p.soft} stopOpacity="0.9" />
-            <stop offset="100%" stopColor={p.bg} stopOpacity="1" />
+          <radialGradient id={`glow-${campaign.id}`} cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor={p.glow} stopOpacity="0.5" />
+            <stop offset="40%" stopColor={p.glow} stopOpacity="0.12" />
+            <stop offset="100%" stopColor={p.glow} stopOpacity="0" />
           </radialGradient>
+          <linearGradient id={`sheen-${campaign.id}`} x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="rgba(255,255,255,0.08)" />
+            <stop offset="50%" stopColor="rgba(255,255,255,0)" />
+          </linearGradient>
         </defs>
-        <rect width="100" height="100" fill={`url(#g-${campaign.id})`} />
-        {/* Large circle — evokes an ink stamp */}
+
+        {/* Ambient glow */}
         <circle
-          cx={circleX}
-          cy={circleY}
-          r="28"
+          cx={glowX}
+          cy={glowY}
+          r="55"
+          fill={`url(#glow-${campaign.id})`}
+          opacity="1"
+        />
+
+        {/* Thin ring */}
+        <circle
+          cx={ringX}
+          cy={ringY}
+          r={ringR}
           fill="none"
-          stroke={p.accent}
-          strokeWidth="0.35"
-          opacity="0.6"
+          stroke={p.glow}
+          strokeWidth="0.3"
+          opacity="0.7"
         />
         <circle
-          cx={circleX}
-          cy={circleY}
-          r="22"
+          cx={ringX}
+          cy={ringY}
+          r={ringR + 3.5}
           fill="none"
-          stroke={p.ink}
+          stroke="rgba(255,255,255,0.08)"
           strokeWidth="0.18"
-          opacity="0.35"
         />
-        {/* Diagonal line through composition */}
-        <line
-          x1="0"
-          y1={linePos}
-          x2="100"
-          y2={linePos - 20 + ((seed >> 10) % 15)}
-          stroke={p.ink}
-          strokeWidth="0.2"
-          opacity="0.4"
-        />
-        {/* Small square mark */}
-        <g transform={`rotate(${rotation} ${70 + (seed % 15)} ${65 + ((seed >> 2) % 15)})`}>
-          <rect
-            x={70 + (seed % 15)}
-            y={65 + ((seed >> 2) % 15)}
-            width={squareSize}
-            height={squareSize}
-            fill="none"
-            stroke={p.accent}
-            strokeWidth="0.25"
-            opacity="0.5"
-          />
-        </g>
-        {/* Typographic ornament — brand initials */}
-        <text
-          x="50"
-          y="52"
-          textAnchor="middle"
-          fontFamily="ui-serif, Georgia, serif"
-          fontSize="4"
-          fontStyle="italic"
-          fill={p.ink}
-          opacity="0.85"
-          letterSpacing="0.3"
-        >
-          {campaign.brand}
-        </text>
-        <text
-          x="50"
-          y="58"
-          textAnchor="middle"
-          fontFamily="ui-monospace, monospace"
-          fontSize="1.6"
-          fill={p.accent}
-          opacity="0.85"
-          letterSpacing="0.8"
-        >
-          № {String(seed % 1000).padStart(3, "0")} · VOL. I
-        </text>
-        {/* Corner marks */}
-        <g stroke={p.ink} strokeWidth="0.2" opacity="0.7" fill="none">
+
+        {/* Diagonal sheen */}
+        <rect width="100" height="100" fill={`url(#sheen-${campaign.id})`} opacity="0.5" />
+
+        {/* Corner ticks (bigger-feeling) */}
+        <g stroke="rgba(255,255,255,0.22)" strokeWidth="0.25" fill="none">
           <path d="M 3 3 L 3 7 M 3 3 L 7 3" />
           <path d="M 97 3 L 97 7 M 97 3 L 93 3" />
           <path d="M 3 97 L 3 93 M 3 97 L 7 97" />
           <path d="M 97 97 L 97 93 M 97 97 L 93 97" />
         </g>
+
+        {/* Typographic ornament */}
+        <text
+          x="50"
+          y="52"
+          textAnchor="middle"
+          fontFamily="ui-serif, Georgia, serif"
+          fontSize="4.5"
+          fontStyle="italic"
+          fill={p.textTop}
+          letterSpacing="0.2"
+        >
+          {campaign.brand}
+        </text>
+        <text
+          x="50"
+          y="58.5"
+          textAnchor="middle"
+          fontFamily="ui-monospace, monospace"
+          fontSize="1.6"
+          fill={p.textMuted}
+          letterSpacing="0.8"
+        >
+          № {String(tick).padStart(3, "0")} · VOL. I
+        </text>
       </svg>
     </div>
   );

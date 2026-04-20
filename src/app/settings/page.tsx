@@ -13,24 +13,25 @@ export default async function SettingsPage() {
   return (
     <>
       <Masthead email={creator.email} />
-      <main className="px-6 sm:px-10">
-        <div className="mx-auto max-w-3xl py-12 sm:py-16">
+      <main className="px-6 sm:px-10 relative">
+        <span className="ambient-glow" aria-hidden />
+        <div className="mx-auto max-w-3xl py-12 sm:py-16 relative">
           <div className="text-[12px] small-caps tracking-[0.25em] text-ink-muted mb-8">
-            <Link href="/dashboard" className="hover:text-forest">
+            <Link href="/dashboard" className="hover:text-ink">
               ← Dashboard
             </Link>
           </div>
           <p className="small-caps text-[10px] tracking-[0.3em] text-ink-muted">
             Member · Profile
           </p>
-          <h1 className="mt-3 font-serif-display text-5xl leading-none">
-            Your <span className="font-serif-italic">colophon.</span>
+          <h1 className="mt-3 font-serif-display text-5xl leading-none text-ink">
+            Your <span className="font-serif-italic text-violet">colophon.</span>
           </h1>
-          <p className="mt-4 max-w-xl text-[15px] text-ink-muted font-serif-book">
+          <p className="mt-4 max-w-xl text-[15px] text-ink-muted">
             A public page for your work. Keep it concise — editors read these when assigning
             campaigns, and brands browse them when commissioning.
           </p>
-          <div className="mt-10 hairline-top pt-10">
+          <div className="mt-10 glass rounded-2xl p-6 sm:p-8">
             <SettingsForm existing={existing} defaultDisplayName={creator.email.split("@")[0]} />
           </div>
         </div>

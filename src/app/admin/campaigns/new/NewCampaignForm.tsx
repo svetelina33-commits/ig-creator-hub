@@ -90,7 +90,7 @@ export default function NewCampaignForm() {
           value={brief}
           onChange={(e) => setBrief(e.target.value)}
           placeholder="What the creator needs to know: moodboard, do's and don'ts, licensing, etc."
-          className="mt-2 w-full bg-paper-raised/60 border border-hairline p-4 text-[15px] text-ink focus:outline-none focus:border-forest"
+          className="nc-input mt-2 w-full text-[15px]"
         />
       </label>
 
@@ -112,7 +112,7 @@ export default function NewCampaignForm() {
             step="1"
             value={payout}
             onChange={(e) => setPayout(e.target.value)}
-            className="mt-2 w-full bg-transparent border-b border-hairline-strong text-2xl font-serif-display pb-2 text-ink focus:outline-none focus:border-forest"
+            className="nc-input mt-2 w-full text-xl font-serif-display"
           />
         </label>
         <label className="block">
@@ -122,7 +122,7 @@ export default function NewCampaignForm() {
           <select
             value={currency}
             onChange={(e) => setCurrency(e.target.value as typeof currency)}
-            className="mt-2 w-full bg-transparent border-b border-hairline-strong text-2xl font-serif-display pb-2 text-ink focus:outline-none focus:border-forest"
+            className="nc-input mt-2 w-full text-xl font-serif-display"
           >
             <option>USD</option>
             <option>EUR</option>
@@ -136,7 +136,7 @@ export default function NewCampaignForm() {
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value as typeof status)}
-            className="mt-2 w-full bg-transparent border-b border-hairline-strong text-2xl font-serif-display pb-2 text-ink focus:outline-none focus:border-forest"
+            className="nc-input mt-2 w-full text-xl font-serif-display"
           >
             <option value="open">open</option>
             <option value="draft">draft</option>
@@ -154,10 +154,10 @@ export default function NewCampaignForm() {
               type="button"
               key={t}
               onClick={() => setTone(t)}
-              className={`px-4 py-2 small-caps text-[11px] tracking-[0.2em] border transition-colors ${
+              className={`px-4 py-2 rounded-full small-caps text-[11px] tracking-[0.2em] border transition-colors ${
                 tone === t
-                  ? "bg-ink text-paper border-ink"
-                  : "text-ink border-hairline hover:border-ink"
+                  ? "bg-violet text-white border-violet"
+                  : "text-ink bg-white/5 border-white/10 hover:border-white/25"
               }`}
             >
               <span className="inline-flex items-center gap-2">
@@ -171,11 +171,11 @@ export default function NewCampaignForm() {
 
       {error && <p className="text-sm text-vermillion">{error}</p>}
 
-      <div className="flex items-center justify-end gap-4 pt-4 hairline-top">
+      <div className="flex items-center justify-end gap-4 pt-4">
         <button
           type="submit"
           disabled={loading}
-          className="inline-flex items-center gap-3 bg-ink text-paper px-6 py-3 text-[12px] small-caps tracking-[0.2em] hover:bg-forest disabled:opacity-60"
+          className="btn-primary inline-flex items-center gap-3 px-6 py-3 rounded-full text-[12px] tracking-wide disabled:opacity-60"
         >
           {loading ? "Publishing…" : "Publish campaign"}
           <span aria-hidden>→</span>
@@ -204,7 +204,7 @@ function TextField({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="mt-2 w-full bg-transparent border-b border-hairline-strong text-xl font-serif-display pb-2 text-ink focus:outline-none focus:border-forest"
+        className="nc-input mt-2 w-full text-lg font-serif-display"
       />
     </label>
   );
@@ -227,7 +227,7 @@ function NumberField({
         min="0"
         value={value}
         onChange={(e) => onChange(parseInt(e.target.value, 10) || 0)}
-        className="mt-2 w-full bg-transparent border-b border-hairline-strong text-xl font-serif-display pb-2 text-ink focus:outline-none focus:border-forest"
+        className="nc-input mt-2 w-full text-lg font-serif-display"
       />
     </label>
   );
@@ -249,7 +249,7 @@ function DateField({
         type="date"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="mt-2 w-full bg-transparent border-b border-hairline-strong text-base pb-2 text-ink focus:outline-none focus:border-forest"
+        className="nc-input mt-2 w-full text-base"
       />
     </label>
   );

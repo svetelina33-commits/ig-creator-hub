@@ -58,8 +58,9 @@ export default async function DispatchesPage() {
   return (
     <>
       <Masthead email={creator?.email} isAdmin={admin} />
-      <main className="px-6 sm:px-10">
-        <section className="mx-auto max-w-6xl pt-14 sm:pt-20 pb-10">
+      <main className="px-6 sm:px-10 relative">
+        <span className="ambient-glow" aria-hidden />
+        <section className="mx-auto max-w-6xl pt-14 sm:pt-20 pb-10 relative">
           <Reveal>
             <RunningHead left="DISPATCHES" center="· EDITORIAL ·" right="VOL. I" />
           </Reveal>
@@ -115,7 +116,7 @@ export default async function DispatchesPage() {
             </p>
             <Link
               href="/#apply"
-              className="mt-8 inline-flex items-center gap-3 bg-ink text-paper px-7 py-4 text-[13px] small-caps tracking-[0.2em] hover:bg-forest transition-colors"
+              className="mt-8 btn-primary inline-flex items-center gap-3 px-7 py-4 rounded-full text-[13px] tracking-wide"
             >
               Join Nexus Club
               <span aria-hidden>→</span>

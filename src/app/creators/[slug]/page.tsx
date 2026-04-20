@@ -52,9 +52,10 @@ export default async function CreatorProfilePage({ params }: { params: Params })
   return (
     <>
       <Masthead email={me?.email} isAdmin={admin} />
-      <main className="px-6 sm:px-10">
+      <main className="px-6 sm:px-10 relative">
+        <span className="ambient-glow" aria-hidden />
         {/* Hero */}
-        <section className="mx-auto max-w-6xl pt-14 pb-16">
+        <section className="mx-auto max-w-6xl pt-14 pb-16 relative">
           <Reveal>
             <RunningHead left="MEMBER PROFILE" center="· NEXUS CLUB ·" right={`@${p.slug}`} />
           </Reveal>
@@ -128,7 +129,7 @@ export default async function CreatorProfilePage({ params }: { params: Params })
                     {p.niches.map((n) => (
                       <span
                         key={n}
-                        className="px-3 py-1.5 border border-hairline-strong small-caps text-[11px] tracking-[0.2em] text-ink"
+                        className="px-3 py-1.5 rounded-full border border-white/10 bg-white/5 small-caps text-[11px] tracking-[0.2em] text-ink"
                       >
                         {n}
                       </span>
@@ -174,7 +175,7 @@ export default async function CreatorProfilePage({ params }: { params: Params })
             </p>
             <a
               href="mailto:arcrxx@gmail.com?subject=Commission%20inquiry"
-              className="mt-8 inline-flex items-center gap-3 bg-ink text-paper px-7 py-4 text-[13px] small-caps tracking-[0.2em] hover:bg-forest transition-colors"
+              className="mt-8 btn-primary inline-flex items-center gap-3 px-7 py-4 rounded-full text-[13px] tracking-wide"
             >
               Write the editor
               <span aria-hidden>→</span>
