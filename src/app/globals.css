@@ -1,34 +1,49 @@
 @import "tailwindcss";
 
 :root {
-  /* Nexus Club — cream editorial */
+  /* Nexus Club — cream editorial, expanded palette */
   --paper: #F0EBE0;
   --paper-raised: #F7F3E9;
   --paper-sunken: #E6DFD1;
+  --paper-deep: #D9D1BE;
   --ink: #14130F;
+  --ink-soft: #2E2C25;
   --ink-muted: #5A564E;
   --ink-faint: #8A8579;
+  --ink-ghost: #B3AE9F;
   --hairline: rgba(20, 19, 15, 0.12);
   --hairline-strong: rgba(20, 19, 15, 0.35);
+  --hairline-ink: rgba(20, 19, 15, 0.6);
   --forest: #1F4A3C;
   --forest-deep: #153429;
+  --forest-glow: rgba(31, 74, 60, 0.18);
   --vermillion: #B3261E;
+  --vermillion-deep: #8A1C17;
   --ochre: #B08437;
+  --ochre-deep: #8A6428;
+  --gold: #C9A96A;
 }
 
 @theme inline {
   --color-paper: var(--paper);
   --color-paper-raised: var(--paper-raised);
   --color-paper-sunken: var(--paper-sunken);
+  --color-paper-deep: var(--paper-deep);
   --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
   --color-ink-muted: var(--ink-muted);
   --color-ink-faint: var(--ink-faint);
+  --color-ink-ghost: var(--ink-ghost);
   --color-hairline: var(--hairline);
   --color-hairline-strong: var(--hairline-strong);
+  --color-hairline-ink: var(--hairline-ink);
   --color-forest: var(--forest);
   --color-forest-deep: var(--forest-deep);
   --color-vermillion: var(--vermillion);
+  --color-vermillion-deep: var(--vermillion-deep);
   --color-ochre: var(--ochre);
+  --color-ochre-deep: var(--ochre-deep);
+  --color-gold: var(--gold);
 
   --font-serif: var(--font-fraunces);
   --font-sans: var(--font-figtree);
@@ -47,47 +62,46 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 
-  /* Subtle paper grain */
+  /* Paper grain — layered for depth */
   background-image:
-    radial-gradient(circle at 20% 10%, rgba(20, 19, 15, 0.025) 0%, transparent 40%),
-    radial-gradient(circle at 80% 90%, rgba(20, 19, 15, 0.02) 0%, transparent 40%),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.078 0 0 0 0 0.075 0 0 0 0 0.059 0 0 0 0.04 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    radial-gradient(ellipse 60% 40% at 15% 8%, rgba(20, 19, 15, 0.035) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 35% at 85% 92%, rgba(20, 19, 15, 0.028) 0%, transparent 60%),
+    radial-gradient(circle at 50% 50%, rgba(31, 74, 60, 0.015) 0%, transparent 70%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.078 0 0 0 0 0.075 0 0 0 0 0.059 0 0 0 0.035 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
   background-attachment: fixed;
 }
 
-/* Utility classes used throughout the app */
+/* --- Typography utilities --- */
 .font-serif-display {
   font-family: var(--font-fraunces), ui-serif, Georgia, serif;
   font-variation-settings: "opsz" 144, "SOFT" 30, "WONK" 0;
   letter-spacing: -0.02em;
 }
-
 .font-serif-italic {
   font-family: var(--font-fraunces), ui-serif, Georgia, serif;
   font-style: italic;
   font-variation-settings: "opsz" 144, "SOFT" 80, "WONK" 1;
 }
-
+.font-serif-book {
+  font-family: var(--font-fraunces), ui-serif, Georgia, serif;
+  font-variation-settings: "opsz" 14, "SOFT" 0, "WONK" 0;
+}
 .font-mono-numeric {
   font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
   font-feature-settings: "tnum", "ss01", "zero";
 }
-
 .small-caps {
   font-variant-caps: all-small-caps;
   letter-spacing: 0.12em;
 }
 
-.hairline-top {
-  border-top: 1px solid var(--hairline);
-}
-.hairline-bottom {
-  border-bottom: 1px solid var(--hairline);
-}
+/* --- Hairlines --- */
+.hairline-top { border-top: 1px solid var(--hairline); }
+.hairline-bottom { border-bottom: 1px solid var(--hairline); }
+.hairline-strong-top { border-top: 1px solid var(--hairline-strong); }
 
-.dot-leader {
-  overflow: hidden;
-}
+/* --- Editorial ornaments --- */
+.dot-leader { overflow: hidden; }
 .dot-leader::after {
   content: " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .";
   letter-spacing: 0.2em;
@@ -95,56 +109,168 @@ body {
   padding-left: 0.5rem;
 }
 
-/* Minimal selection style */
+/* Column rule (editorial gutter) */
+.column-rule {
+  position: relative;
+}
+.column-rule::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--hairline-strong) 10%, var(--hairline-strong) 90%, transparent);
+}
+
+/* --- Selection --- */
 ::selection {
   background: var(--forest);
   color: var(--paper);
 }
 
-/* Buttons + inputs base */
-button,
-input,
-select,
-textarea {
-  font: inherit;
+/* --- Focus --- */
+*:focus-visible {
+  outline: 1.5px solid var(--forest);
+  outline-offset: 2px;
 }
 
-/* Link underline reset for framed editorial look */
-a {
-  color: inherit;
-  text-decoration: none;
-}
+/* --- Links --- */
+a { color: inherit; text-decoration: none; }
 
-/* Page entrance — understated */
+/* --- Base inputs inherit font --- */
+button, input, select, textarea { font: inherit; }
+
+/* --- Entrance animations (stagger friendly) --- */
 @keyframes nc-rise {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-.nc-rise {
-  animation: nc-rise 600ms cubic-bezier(0.2, 0.7, 0.15, 1) both;
+@keyframes nc-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
+@keyframes nc-scale-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes nc-wipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes nc-pulse-ring {
+  0% { box-shadow: 0 0 0 0 var(--forest-glow); }
+  70% { box-shadow: 0 0 0 12px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+.nc-rise { animation: nc-rise 700ms cubic-bezier(0.2, 0.7, 0.15, 1) both; }
+.nc-fade { animation: nc-fade 700ms ease both; }
+.nc-wipe { animation: nc-wipe 900ms cubic-bezier(0.7, 0.1, 0.2, 0.9) both; }
+.nc-scale-in { animation: nc-scale-in 600ms cubic-bezier(0.2, 0.7, 0.15, 1) both; }
 .nc-rise-1 { animation-delay: 40ms; }
 .nc-rise-2 { animation-delay: 140ms; }
 .nc-rise-3 { animation-delay: 260ms; }
 .nc-rise-4 { animation-delay: 400ms; }
 .nc-rise-5 { animation-delay: 560ms; }
+.nc-rise-6 { animation-delay: 720ms; }
+.nc-rise-7 { animation-delay: 900ms; }
 
-/* Hover motion for interactive cards */
+/* --- Hover motion --- */
 .nc-card {
-  transition: transform 280ms cubic-bezier(0.2, 0.7, 0.15, 1), background-color 200ms ease;
+  transition: transform 350ms cubic-bezier(0.2, 0.7, 0.15, 1),
+              background-color 220ms ease,
+              border-color 220ms ease;
 }
-.nc-card:hover {
-  transform: translateY(-2px);
+.nc-card:hover { transform: translateY(-3px); }
+
+/* --- Marquee --- */
+@keyframes nc-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.nc-marquee {
+  display: flex;
+  width: max-content;
+  animation: nc-marquee 50s linear infinite;
+}
+.nc-marquee:hover { animation-play-state: paused; }
+
+/* --- Scroll reveal (used with IntersectionObserver via Motion) --- */
+.nc-reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 900ms cubic-bezier(0.2, 0.7, 0.15, 1),
+              transform 900ms cubic-bezier(0.2, 0.7, 0.15, 1);
+}
+.nc-reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+/* --- Press state --- */
+.nc-press { transition: transform 120ms ease; }
+.nc-press:active { transform: scale(0.98); }
+
+/* --- Drop cap (editorial) --- */
+.drop-cap::first-letter {
+  font-family: var(--font-fraunces);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 4.2em;
+  line-height: 0.9;
+  float: left;
+  padding-right: 0.08em;
+  padding-top: 0.08em;
+  color: var(--forest);
 }
 
-/* Focus ring */
-*:focus-visible {
-  outline: 1.5px solid var(--forest);
-  outline-offset: 2px;
+/* --- Decorative marks --- */
+.mark-dot::before {
+  content: "●";
+  font-size: 0.55em;
+  margin-right: 0.4em;
+  vertical-align: middle;
 }
+
+/* --- Shimmer for skeletons --- */
+@keyframes nc-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.nc-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--paper-sunken) 0%,
+    var(--paper-raised) 50%,
+    var(--paper-sunken) 100%
+  );
+  background-size: 200% 100%;
+  animation: nc-shimmer 1.4s ease-in-out infinite;
+}
+
+/* --- Scroll behavior --- */
+html { scroll-behavior: smooth; }
+
+/* --- Selection of a running figure --- */
+.running-head {
+  font-family: var(--font-jetbrains-mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* --- Noisy gradient surface (used on hero / cover art) --- */
+.surface-noise {
+  position: relative;
+  isolation: isolate;
+}
+.surface-noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.078 0 0 0 0 0.075 0 0 0 0 0.059 0 0 0 0.1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+/* --- Scroll-snap for marquee + carousels --- */
+.nc-snap-x { scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+.nc-snap-x > * { scroll-snap-align: start; }

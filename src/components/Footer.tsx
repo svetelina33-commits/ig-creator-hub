@@ -9,7 +9,10 @@ export function Footer() {
           <span className="mx-3 text-ink-faint">·</span>
           <span>A private network for creators with a voice.</span>
         </div>
-        <div className="flex items-center gap-5 font-mono-numeric">
+        <div className="flex items-center gap-5 font-mono-numeric flex-wrap">
+          <a href="/about" className="hover:text-forest">ABOUT</a>
+          <a href="/how-it-works" className="hover:text-forest">HOW IT WORKS</a>
+          <a href="/dispatches" className="hover:text-forest">DISPATCHES</a>
           <a href="/terms" className="hover:text-forest">TERMS</a>
           <a href="/privacy" className="hover:text-forest">PRIVACY</a>
           <a href="mailto:arcrxx@gmail.com" className="hover:text-forest">CONTACT</a>
