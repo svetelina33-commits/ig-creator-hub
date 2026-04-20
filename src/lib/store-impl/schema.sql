@@ -13,8 +13,28 @@ CREATE TABLE IF NOT EXISTS creators (
   ig_encrypted_access_token TEXT,
   ig_token_expires_at TIMESTAMPTZ,
   ig_connected_at TIMESTAMPTZ,
+  profile_slug TEXT UNIQUE,
+  profile_display_name TEXT,
+  profile_bio TEXT,
+  profile_city TEXT,
+  profile_niches JSONB,
+  profile_portfolio_links JSONB,
+  profile_accent TEXT,
+  profile_is_public BOOLEAN DEFAULT FALSE,
+  profile_updated_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+-- Add profile columns to existing creators table if upgrading from an older schema.
+ALTER TABLE creators ADD COLUMN IF NOT EXISTS profile_slug TEXT UNIQUE;
+ALTER TABLE creators ADD COLUMN IF NOT EXISTS profile_display_name TEXT;
+ALTER TABLE creators ADD COLUMN IF NOT EXISTS profile_bio TEXT;
+ALTER TABLE creators ADD COLUMN IF NOT EXISTS profile_city TEXT;
+ALTER TABLE creators ADD COLUMN IF NOT EXISTS profile_niches JSONB;
+ALTER TABLE creators ADD COLUMN IF NOT EXISTS profile_portfolio_links JSONB;
+ALTER TABLE creators ADD COLUMN IF NOT EXISTS profile_accent TEXT;
+ALTER TABLE creators ADD COLUMN IF NOT EXISTS profile_is_public BOOLEAN DEFAULT FALSE;
+ALTER TABLE creators ADD COLUMN IF NOT EXISTS profile_updated_at TIMESTAMPTZ;
 
 CREATE INDEX IF NOT EXISTS creators_email_lower_idx ON creators (LOWER(email));
 CREATE INDEX IF NOT EXISTS creators_reset_token_idx
@@ -54,6 +74,17 @@ CREATE TABLE IF NOT EXISTS applications (
 
 CREATE INDEX IF NOT EXISTS applications_campaign_idx ON applications (campaign_id, applied_at DESC);
 CREATE INDEX IF NOT EXISTS applications_creator_idx ON applications (creator_id, applied_at DESC);
+
+CREATE TABLE IF NOT EXISTS messages (
+  id TEXT PRIMARY KEY,
+  application_id TEXT NOT NULL REFERENCES applications(id) ON DELETE CASCADE,
+  role TEXT NOT NULL,
+  author_email TEXT NOT NULL,
+  body TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS messages_application_idx ON messages (application_id, created_at ASC);
 
 -- Seed campaigns (ignored if they already exist).
 INSERT INTO campaigns (id, slug, title, brand, tagline, brief, payout_cents, currency, deadline, deliverables, status, cover_tone, created_at)

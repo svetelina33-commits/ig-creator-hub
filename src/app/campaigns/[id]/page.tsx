@@ -10,6 +10,9 @@ import { getSession } from "@/lib/session";
 import { isAdmin } from "@/lib/auth";
 import { Masthead } from "@/components/Masthead";
 import { Footer } from "@/components/Footer";
+import { CampaignCover } from "@/components/CampaignCover";
+import { Reveal } from "@/components/Reveal";
+import { RunningHead, ToneChip } from "@/components/Ornaments";
 import ApplyBlock from "./ApplyBlock";
 
 type Params = Promise<{ id: string }>;
@@ -29,49 +32,68 @@ export default async function CampaignDetailPage({ params }: { params: Params })
     <>
       <Masthead email={creator?.email} isAdmin={admin} />
       <main className="px-6 sm:px-10">
-        <div className="mx-auto max-w-5xl py-10 sm:py-14">
-          <div className="text-[12px] small-caps tracking-[0.25em] text-ink-muted mb-8">
-            <Link href="/campaigns" className="hover:text-forest">
-              ← Back to the desk
-            </Link>
-          </div>
+        <div className="mx-auto max-w-6xl py-10 sm:py-14">
+          <Reveal>
+            <RunningHead
+              left="CAMPAIGN BRIEF"
+              center={campaign.brand.toUpperCase()}
+              right={`№ ${campaign.id.replace("cmp_", "").toUpperCase()}`}
+            />
+          </Reveal>
 
-          <article className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-            <header className="lg:col-span-8">
-              <div className="flex items-center gap-3">
-                <span
-                  className={`inline-block h-[2px] w-12 ${toneBg(campaign.coverTone)}`}
-                />
-                <span className="small-caps text-[11px] tracking-[0.3em] text-ink-muted">
-                  {campaign.brand}
-                </span>
-              </div>
-              <h1 className="mt-6 font-serif-display text-5xl sm:text-7xl leading-[0.95] text-ink">
-                {campaign.title}
-              </h1>
-              <p className="mt-6 font-serif-italic text-2xl sm:text-3xl text-ink-muted leading-snug max-w-2xl">
-                {campaign.tagline}
-              </p>
+          <Reveal delay={80}>
+            <div className="mt-4 text-[12px] small-caps tracking-[0.25em] text-ink-muted">
+              <Link href="/campaigns" className="hover:text-forest">
+                ← Back to the desk
+              </Link>
+            </div>
+          </Reveal>
 
-              <div className="mt-10 hairline-top hairline-bottom py-6">
-                <p className="text-[16px] leading-[1.8] text-ink whitespace-pre-line">
-                  {campaign.brief}
+          <Reveal delay={160}>
+            <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+              <header className="lg:col-span-7">
+                <ToneChip tone={campaign.coverTone} label={campaign.brand} />
+                <h1 className="mt-6 font-serif-display text-[clamp(3rem,8vw,7rem)] leading-[0.9] text-ink">
+                  {campaign.title}
+                  <span className="text-forest">.</span>
+                </h1>
+                <p className="mt-6 font-serif-italic text-2xl sm:text-3xl text-ink-muted leading-snug max-w-2xl">
+                  {campaign.tagline}
                 </p>
-              </div>
+              </header>
 
-              <div className="mt-8">
-                <ApplyBlock
-                  campaignId={campaign.id}
-                  signedIn={creator != null}
-                  existingStatus={existing?.status ?? null}
-                />
+              <div className="lg:col-span-5 lg:pl-4">
+                <CampaignCover campaign={campaign} variant="square" />
               </div>
-            </header>
+            </div>
+          </Reveal>
 
-            {/* Sidebar */}
+          <div className="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-10">
+            <article className="lg:col-span-8">
+              <Reveal>
+                <div className="hairline-top pt-8">
+                  <div className="small-caps text-[10px] tracking-[0.3em] text-ink-muted mb-4">
+                    The brief
+                  </div>
+                  <div className="text-[17px] leading-[1.85] text-ink whitespace-pre-line font-serif-book max-w-2xl">
+                    {campaign.brief}
+                  </div>
+                </div>
+              </Reveal>
+              <Reveal delay={120}>
+                <div className="mt-10">
+                  <ApplyBlock
+                    campaignId={campaign.id}
+                    signedIn={creator != null}
+                    existingStatus={existing?.status ?? null}
+                  />
+                </div>
+              </Reveal>
+            </article>
+
             <aside className="lg:col-span-4 lg:pl-8 lg:border-l lg:border-hairline">
-              <div className="space-y-8">
-                <Stat label="Payout" value={formatMoney(campaign.payoutCents, campaign.currency)} />
+              <Reveal delay={140} className="space-y-8">
+                <Stat label="Payout" value={formatMoney(campaign.payoutCents, campaign.currency)} accent="forest" />
                 <Stat
                   label="Deadline"
                   value={
@@ -102,17 +124,20 @@ export default async function CampaignDetailPage({ params }: { params: Params })
                     ))}
                   </ul>
                 </div>
-                <div className="pt-6 border-t border-hairline text-[11px] small-caps tracking-[0.25em] text-ink-faint">
-                  Issued{" "}
-                  {new Date(campaign.createdAt).toLocaleDateString("en-US", {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
+                <div className="pt-6 border-t border-hairline text-[11px] small-caps tracking-[0.25em] text-ink-faint space-y-1">
+                  <div>
+                    Issued{" "}
+                    {new Date(campaign.createdAt).toLocaleDateString("en-US", {
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </div>
+                  <div>Under the editor's care.</div>
                 </div>
-              </div>
+              </Reveal>
             </aside>
-          </article>
+          </div>
         </div>
       </main>
       <Footer />
@@ -120,20 +145,20 @@ export default async function CampaignDetailPage({ params }: { params: Params })
   );
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
+function Stat({
+  label,
+  value,
+  accent,
+}: {
+  label: string;
+  value: string;
+  accent?: "forest" | "vermillion" | "ochre" | "ink";
+}) {
+  const color = accent ? `text-${accent}` : "text-ink";
   return (
     <div>
       <span className="small-caps text-[10px] tracking-[0.3em] text-ink-muted">{label}</span>
-      <div className="mt-2 font-serif-display text-3xl text-ink">{value}</div>
+      <div className={`mt-2 font-serif-display text-3xl ${color}`}>{value}</div>
     </div>
   );
-}
-
-function toneBg(tone: "forest" | "vermillion" | "ochre" | "ink"): string {
-  return {
-    forest: "bg-forest",
-    vermillion: "bg-vermillion",
-    ochre: "bg-ochre",
-    ink: "bg-ink",
-  }[tone];
 }

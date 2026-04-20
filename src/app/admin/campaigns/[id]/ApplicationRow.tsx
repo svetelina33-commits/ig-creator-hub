@@ -1,8 +1,17 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ApplicationRecord } from "@/lib/store";
+import { Thread } from "@/components/Thread";
+
+type Message = {
+  id: string;
+  role: "editor" | "creator";
+  authorEmail: string;
+  body: string;
+  createdAt: string;
+};
 
 type Props = {
   application: ApplicationRecord;
@@ -18,6 +27,20 @@ export default function ApplicationRow({
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [loadedMessages, setLoadedMessages] = useState(false);
+
+  useEffect(() => {
+    if (!expanded || loadedMessages) return;
+    (async () => {
+      const res = await fetch(`/api/applications/${application.id}/messages`);
+      if (res.ok) {
+        const data = (await res.json()) as { messages: Message[] };
+        setMessages(data.messages);
+      }
+      setLoadedMessages(true);
+    })();
+  }, [expanded, loadedMessages, application.id]);
 
   async function decide(decision: "approved" | "rejected") {
     setBusy(true);
@@ -63,7 +86,7 @@ export default function ApplicationRow({
             onClick={() => setExpanded((v) => !v)}
             className="text-[11px] small-caps tracking-[0.2em] text-ink-muted hover:text-ink"
           >
-            {expanded ? "Hide" : "Read note"}
+            {expanded ? "Hide" : "Open"}
           </button>
           {application.status === "pending" && (
             <>
@@ -88,9 +111,30 @@ export default function ApplicationRow({
         </div>
       </div>
       {expanded && (
-        <blockquote className="mt-4 pl-6 border-l-2 border-hairline-strong font-serif-italic text-[15px] text-ink leading-[1.7]">
-          {application.note}
-        </blockquote>
+        <div className="mt-5 pl-0 sm:pl-6 sm:border-l-2 border-hairline-strong space-y-6">
+          <div>
+            <div className="small-caps text-[10px] tracking-[0.25em] text-ink-muted mb-2">
+              Original application note
+            </div>
+            <blockquote className="font-serif-italic text-[15px] text-ink leading-[1.7]">
+              {application.note}
+            </blockquote>
+          </div>
+          <div>
+            <div className="small-caps text-[10px] tracking-[0.25em] text-ink-muted mb-3">
+              Conversation
+            </div>
+            {loadedMessages ? (
+              <Thread
+                applicationId={application.id}
+                youAre="editor"
+                initialMessages={messages}
+              />
+            ) : (
+              <p className="text-[12px] text-ink-faint font-serif-italic">Loading…</p>
+            )}
+          </div>
+        </div>
       )}
     </li>
   );

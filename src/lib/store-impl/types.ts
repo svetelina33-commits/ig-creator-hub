@@ -1,8 +1,21 @@
+export type CreatorProfile = {
+  slug: string;
+  displayName: string;
+  bio: string;
+  city: string;
+  niches: string[];
+  portfolioLinks: { label: string; url: string }[];
+  accent: "forest" | "vermillion" | "ochre" | "ink";
+  isPublic: boolean;
+  updatedAt: string;
+};
+
 export type CreatorRecord = {
   id: string;
   email: string;
   passwordHash: string | null;
   createdAt: string;
+  profile?: CreatorProfile;
   passwordReset?: {
     tokenHash: string;
     expiresAt: string;
@@ -48,6 +61,16 @@ export type ApplicationRecord = {
   decidedAt: string | null;
 };
 
+export type MessageRole = "editor" | "creator";
+export type MessageRecord = {
+  id: string;
+  applicationId: string;
+  role: MessageRole;
+  authorEmail: string;
+  body: string;
+  createdAt: string;
+};
+
 export type CreateCampaignInput = {
   title: string;
   brand: string;
@@ -64,6 +87,9 @@ export type CreateCampaignInput = {
 export interface StoreBackend {
   findCreatorByEmail(email: string): Promise<CreatorRecord | null>;
   findCreatorById(id: string): Promise<CreatorRecord | null>;
+  findCreatorByProfileSlug(slug: string): Promise<CreatorRecord | null>;
+  listPublicCreators(): Promise<CreatorRecord[]>;
+  updateCreatorProfile(creatorId: string, profile: CreatorProfile): Promise<void>;
   createCreator(email: string, passwordHash: string | null): Promise<CreatorRecord>;
   setCreatorPasswordHash(creatorId: string, passwordHash: string): Promise<void>;
   setPasswordResetToken(
@@ -110,4 +136,12 @@ export interface StoreBackend {
     id: string,
     decision: Exclude<ApplicationStatus, "pending">,
   ): Promise<void>;
+
+  listMessagesForApplication(applicationId: string): Promise<MessageRecord[]>;
+  createMessage(input: {
+    applicationId: string;
+    role: MessageRole;
+    authorEmail: string;
+    body: string;
+  }): Promise<MessageRecord>;
 }

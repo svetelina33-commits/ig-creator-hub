@@ -6,8 +6,10 @@ import type {
   CampaignRecord,
   CampaignStatus,
   CreateCampaignInput,
+  CreatorProfile,
   CreatorRecord,
   Deliverable,
+  MessageRecord,
   StoreBackend,
 } from "./types";
 import { slugify } from "./seed";
@@ -37,6 +39,15 @@ type CreatorRow = {
   ig_encrypted_access_token: string | null;
   ig_token_expires_at: Date | string | null;
   ig_connected_at: Date | string | null;
+  profile_slug: string | null;
+  profile_display_name: string | null;
+  profile_bio: string | null;
+  profile_city: string | null;
+  profile_niches: string[] | null;
+  profile_portfolio_links: { label: string; url: string }[] | null;
+  profile_accent: CreatorProfile["accent"] | null;
+  profile_is_public: boolean | null;
+  profile_updated_at: Date | string | null;
   created_at: Date | string;
 };
 
@@ -66,6 +77,19 @@ function mapCreator(row: CreatorRow): CreatorRecord {
       encryptedAccessToken: row.ig_encrypted_access_token,
       tokenExpiresAt: toIso(row.ig_token_expires_at),
       connectedAt: toIso(row.ig_connected_at)!,
+    };
+  }
+  if (row.profile_slug && row.profile_display_name && row.profile_updated_at) {
+    c.profile = {
+      slug: row.profile_slug,
+      displayName: row.profile_display_name,
+      bio: row.profile_bio ?? "",
+      city: row.profile_city ?? "",
+      niches: row.profile_niches ?? [],
+      portfolioLinks: row.profile_portfolio_links ?? [],
+      accent: row.profile_accent ?? "forest",
+      isPublic: Boolean(row.profile_is_public),
+      updatedAt: toIso(row.profile_updated_at)!,
     };
   }
   return c;
@@ -137,6 +161,35 @@ export const pgStore: StoreBackend = {
   async findCreatorById(id) {
     const rows = (await sql()`SELECT * FROM creators WHERE id = ${id}`) as CreatorRow[];
     return rows[0] ? mapCreator(rows[0]) : null;
+  },
+  async findCreatorByProfileSlug(slug) {
+    const rows = (await sql()`
+      SELECT * FROM creators WHERE profile_slug = ${slug} AND profile_is_public = TRUE LIMIT 1
+    `) as CreatorRow[];
+    return rows[0] ? mapCreator(rows[0]) : null;
+  },
+  async listPublicCreators() {
+    const rows = (await sql()`
+      SELECT * FROM creators
+      WHERE profile_is_public = TRUE
+      ORDER BY profile_updated_at DESC NULLS LAST
+    `) as CreatorRow[];
+    return rows.map(mapCreator);
+  },
+  async updateCreatorProfile(creatorId, profile: CreatorProfile) {
+    await sql()`
+      UPDATE creators SET
+        profile_slug = ${profile.slug},
+        profile_display_name = ${profile.displayName},
+        profile_bio = ${profile.bio},
+        profile_city = ${profile.city},
+        profile_niches = ${JSON.stringify(profile.niches)}::jsonb,
+        profile_portfolio_links = ${JSON.stringify(profile.portfolioLinks)}::jsonb,
+        profile_accent = ${profile.accent},
+        profile_is_public = ${profile.isPublic},
+        profile_updated_at = now()
+      WHERE id = ${creatorId}
+    `;
   },
   async createCreator(email, passwordHash) {
     const rows = (await sql()`
@@ -306,5 +359,52 @@ export const pgStore: StoreBackend = {
       SET status = ${decision}, decided_at = now()
       WHERE id = ${id}
     `;
+  },
+  async listMessagesForApplication(applicationId) {
+    const rows = (await sql()`
+      SELECT id, application_id, role, author_email, body, created_at
+      FROM messages
+      WHERE application_id = ${applicationId}
+      ORDER BY created_at ASC
+    `) as {
+      id: string;
+      application_id: string;
+      role: "editor" | "creator";
+      author_email: string;
+      body: string;
+      created_at: Date | string;
+    }[];
+    return rows.map((r) => ({
+      id: r.id,
+      applicationId: r.application_id,
+      role: r.role,
+      authorEmail: r.author_email,
+      body: r.body,
+      createdAt: toIso(r.created_at)!,
+    }));
+  },
+  async createMessage(input) {
+    const id = `msg_${randomUUID().slice(0, 8)}`;
+    const rows = (await sql()`
+      INSERT INTO messages (id, application_id, role, author_email, body)
+      VALUES (${id}, ${input.applicationId}, ${input.role}, ${input.authorEmail}, ${input.body})
+      RETURNING id, application_id, role, author_email, body, created_at
+    `) as {
+      id: string;
+      application_id: string;
+      role: "editor" | "creator";
+      author_email: string;
+      body: string;
+      created_at: Date | string;
+    }[];
+    const r = rows[0];
+    return {
+      id: r.id,
+      applicationId: r.application_id,
+      role: r.role,
+      authorEmail: r.author_email,
+      body: r.body,
+      createdAt: toIso(r.created_at)!,
+    } as MessageRecord;
   },
 };

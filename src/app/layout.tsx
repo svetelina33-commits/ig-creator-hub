@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Figtree, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { GlobalChrome } from "@/components/GlobalChrome";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -37,7 +38,10 @@ export default function RootLayout({
       lang="en"
       className={`${fraunces.variable} ${figtree.variable} ${jetbrainsMono.variable} antialiased`}
     >
-      <body className="min-h-screen">{children}</body>
+      <body className="min-h-screen">
+        {children}
+        <GlobalChrome />
+      </body>
     </html>
   );
 }

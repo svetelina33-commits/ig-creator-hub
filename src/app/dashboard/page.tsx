@@ -45,15 +45,32 @@ export default async function DashboardPage({
       <Masthead email={creator.email} isAdmin={admin} />
       <main className="px-6 sm:px-10">
         <div className="mx-auto max-w-6xl py-12 sm:py-16">
-          <div className="mb-10">
-            <p className="small-caps text-[10px] tracking-[0.3em] text-ink-muted">
-              Member · Desk
-            </p>
-            <h1 className="mt-3 font-serif-display text-5xl sm:text-6xl leading-none">
-              <span className="font-serif-italic">Good day,</span>{" "}
-              <span className="text-ink">{creator.email.split("@")[0]}</span>
-              <span className="text-forest">.</span>
-            </h1>
+          <div className="mb-10 flex items-end justify-between gap-6 flex-wrap">
+            <div>
+              <p className="small-caps text-[10px] tracking-[0.3em] text-ink-muted">
+                Member · Desk
+              </p>
+              <h1 className="mt-3 font-serif-display text-5xl sm:text-6xl leading-none">
+                <span className="font-serif-italic">Good day,</span>{" "}
+                <span className="text-ink">
+                  {creator.profile?.displayName ?? creator.email.split("@")[0]}
+                </span>
+                <span className="text-forest">.</span>
+              </h1>
+            </div>
+            <div className="flex items-center gap-4 text-[11px] small-caps tracking-[0.25em] text-ink-muted">
+              <Link href="/settings" className="hover:text-forest">
+                Edit profile →
+              </Link>
+              {creator.profile?.isPublic && (
+                <Link
+                  href={`/creators/${creator.profile.slug}`}
+                  className="hover:text-forest"
+                >
+                  View public page →
+                </Link>
+              )}
+            </div>
           </div>
 
           {(params.ig === "connected" || params.ig_error || params.nc_error) && (
@@ -117,7 +134,7 @@ export default async function DashboardPage({
                     campaign ? (
                       <li key={application.id} className="py-5">
                         <Link
-                          href={`/campaigns/${campaign.id}`}
+                          href={`/applications/${application.id}`}
                           className="grid grid-cols-12 gap-4 group"
                         >
                           <div className="col-span-8">

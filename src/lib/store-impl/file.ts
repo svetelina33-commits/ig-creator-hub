@@ -7,7 +7,9 @@ import type {
   CampaignRecord,
   CampaignStatus,
   CreateCampaignInput,
+  CreatorProfile,
   CreatorRecord,
+  MessageRecord,
   StoreBackend,
 } from "./types";
 import { SEED_CAMPAIGNS, slugify } from "./seed";
@@ -19,6 +21,7 @@ type DB = {
   creators: CreatorRecord[];
   campaigns: CampaignRecord[];
   applications: ApplicationRecord[];
+  messages: MessageRecord[];
 };
 
 async function readDb(): Promise<DB> {
@@ -29,10 +32,11 @@ async function readDb(): Promise<DB> {
       creators: parsed.creators ?? [],
       campaigns: parsed.campaigns ?? SEED_CAMPAIGNS,
       applications: parsed.applications ?? [],
+      messages: parsed.messages ?? [],
     };
   } catch (err) {
     if ((err as NodeJS.ErrnoException).code === "ENOENT") {
-      return { creators: [], campaigns: SEED_CAMPAIGNS, applications: [] };
+      return { creators: [], campaigns: SEED_CAMPAIGNS, applications: [], messages: [] };
     }
     throw err;
   }
@@ -51,6 +55,29 @@ export const fileStore: StoreBackend = {
   async findCreatorById(id) {
     const db = await readDb();
     return db.creators.find((c) => c.id === id) ?? null;
+  },
+  async findCreatorByProfileSlug(slug) {
+    const db = await readDb();
+    return (
+      db.creators.find((c) => c.profile?.slug === slug && c.profile?.isPublic) ?? null
+    );
+  },
+  async listPublicCreators() {
+    const db = await readDb();
+    return db.creators
+      .filter((c) => c.profile?.isPublic)
+      .sort(
+        (a, b) =>
+          new Date(b.profile!.updatedAt).getTime() -
+          new Date(a.profile!.updatedAt).getTime(),
+      );
+  },
+  async updateCreatorProfile(creatorId, profile: CreatorProfile) {
+    const db = await readDb();
+    const idx = db.creators.findIndex((c) => c.id === creatorId);
+    if (idx === -1) throw new Error("Creator not found");
+    db.creators[idx].profile = profile;
+    await writeDb(db);
   },
   async createCreator(email, passwordHash) {
     const db = await readDb();
@@ -240,5 +267,25 @@ export const fileStore: StoreBackend = {
     db.applications[idx].status = decision;
     db.applications[idx].decidedAt = new Date().toISOString();
     await writeDb(db);
+  },
+  async listMessagesForApplication(applicationId) {
+    const db = await readDb();
+    return db.messages
+      .filter((m) => m.applicationId === applicationId)
+      .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+  },
+  async createMessage(input) {
+    const db = await readDb();
+    const record: MessageRecord = {
+      id: `msg_${randomUUID().slice(0, 8)}`,
+      applicationId: input.applicationId,
+      role: input.role,
+      authorEmail: input.authorEmail,
+      body: input.body,
+      createdAt: new Date().toISOString(),
+    };
+    db.messages.push(record);
+    await writeDb(db);
+    return record;
   },
 };

@@ -1,10 +1,15 @@
 import { decryptToken } from "./crypto";
 import { fileStore } from "./store-impl/file";
-import type { CreatorRecord, StoreBackend } from "./store-impl/types";
+import type {
+  CreatorProfile,
+  CreatorRecord,
+  StoreBackend,
+} from "./store-impl/types";
 
 // Re-export all public types so existing imports keep working.
 export type {
   CreatorRecord,
+  CreatorProfile,
   CampaignStatus,
   Deliverable,
   CampaignRecord,
@@ -35,6 +40,15 @@ export async function findCreatorByEmail(email: string) {
 }
 export async function findCreatorById(id: string) {
   return (await getBackend()).findCreatorById(id);
+}
+export async function findCreatorByProfileSlug(slug: string) {
+  return (await getBackend()).findCreatorByProfileSlug(slug);
+}
+export async function listPublicCreators() {
+  return (await getBackend()).listPublicCreators();
+}
+export async function updateCreatorProfile(creatorId: string, profile: CreatorProfile) {
+  return (await getBackend()).updateCreatorProfile(creatorId, profile);
 }
 export async function createCreator(email: string, passwordHash: string | null = null) {
   return (await getBackend()).createCreator(email, passwordHash);
@@ -123,6 +137,18 @@ export async function decideApplication(
   decision: "approved" | "rejected",
 ) {
   return (await getBackend()).decideApplication(id, decision);
+}
+
+export async function listMessagesForApplication(applicationId: string) {
+  return (await getBackend()).listMessagesForApplication(applicationId);
+}
+export async function createMessage(input: {
+  applicationId: string;
+  role: "editor" | "creator";
+  authorEmail: string;
+  body: string;
+}) {
+  return (await getBackend()).createMessage(input);
 }
 
 // ---------- Helpers ----------

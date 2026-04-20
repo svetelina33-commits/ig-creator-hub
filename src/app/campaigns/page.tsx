@@ -1,113 +1,217 @@
 import Link from "next/link";
 import { getSession } from "@/lib/session";
 import { findCreatorById, listCampaigns, formatMoney } from "@/lib/store";
+import type { CampaignRecord } from "@/lib/store";
 import { isAdmin } from "@/lib/auth";
 import { Masthead } from "@/components/Masthead";
 import { Footer } from "@/components/Footer";
+import { Reveal } from "@/components/Reveal";
+import { RunningHead, ToneChip } from "@/components/Ornaments";
+import { CampaignCover } from "@/components/CampaignCover";
 
-export default async function CampaignsPage() {
+type SearchParams = Promise<{
+  q?: string;
+  tone?: string;
+  deliv?: string;
+  sort?: string;
+}>;
+
+export default async function CampaignsPage({ searchParams }: { searchParams: SearchParams }) {
   const session = await getSession();
   const creator = session.creatorId ? await findCreatorById(session.creatorId) : null;
   const admin = await isAdmin();
-  const campaigns = await listCampaigns({ status: "open" });
+
+  const params = await searchParams;
+  const q = params.q?.toLowerCase() ?? "";
+  const tone = params.tone ?? "";
+  const deliv = params.deliv ?? "";
+  const sort = params.sort ?? "recent";
+
+  const all = await listCampaigns({ status: "open" });
+  let campaigns = all.filter((c) => {
+    if (tone && c.coverTone !== tone) return false;
+    if (deliv && !c.deliverables.some((d) => d.kind === deliv)) return false;
+    if (q && ![c.title, c.brand, c.tagline, c.brief].some((s) => s.toLowerCase().includes(q)))
+      return false;
+    return true;
+  });
+  if (sort === "payout-desc") {
+    campaigns = [...campaigns].sort((a, b) => b.payoutCents - a.payoutCents);
+  } else if (sort === "payout-asc") {
+    campaigns = [...campaigns].sort((a, b) => a.payoutCents - b.payoutCents);
+  } else if (sort === "deadline") {
+    campaigns = [...campaigns].sort((a, b) => {
+      const ax = a.deadline ? new Date(a.deadline).getTime() : Infinity;
+      const bx = b.deadline ? new Date(b.deadline).getTime() : Infinity;
+      return ax - bx;
+    });
+  }
 
   return (
     <>
       <Masthead email={creator?.email} isAdmin={admin} />
       <main className="px-6 sm:px-10">
-        <div className="mx-auto max-w-6xl py-12 sm:py-16">
-          <div className="flex items-end justify-between gap-4 mb-12">
+        <section className="mx-auto max-w-7xl pt-14 sm:pt-20 pb-10">
+          <Reveal>
+            <RunningHead
+              left="THE DESK"
+              center="· OPEN COMMISSIONS ·"
+              right={`${String(all.length).padStart(2, "0")} LIVE`}
+            />
+          </Reveal>
+          <Reveal delay={120} className="mt-8 flex items-end justify-between gap-4 flex-wrap">
             <div>
-              <p className="small-caps text-[10px] tracking-[0.3em] text-ink-muted">
-                Volume I · The Desk
-              </p>
-              <h1 className="mt-3 font-serif-display text-5xl sm:text-7xl leading-none text-ink">
-                <span className="font-serif-italic">Open</span> commissions
+              <h1 className="font-serif-display text-[clamp(3rem,8vw,7rem)] leading-[0.9] text-ink">
+                <span className="font-serif-italic">Now</span> commissioning.
               </h1>
+              {campaigns.length !== all.length && (
+                <p className="mt-3 font-mono-numeric text-[11px] tracking-widest text-ink-faint">
+                  {String(campaigns.length).padStart(2, "0")} match current filters
+                </p>
+              )}
             </div>
-            <span className="hidden sm:block font-mono-numeric text-[11px] tracking-widest text-ink-faint">
-              {String(campaigns.length).padStart(2, "0")} · current
-            </span>
-          </div>
+          </Reveal>
+        </section>
 
+        <FilterBar q={params.q ?? ""} tone={tone} deliv={deliv} sort={sort} />
+
+        <section className="mx-auto max-w-7xl pb-24 mt-10">
           {campaigns.length === 0 ? (
-            <div className="hairline-top pt-10 text-ink-muted italic">
-              Nothing on the docket this week. We'll have new briefs shortly.
+            <div className="hairline-top pt-10 text-ink-muted italic font-serif-book">
+              No campaigns match these filters. <Link href="/campaigns" className="underline underline-offset-4">Clear filters</Link>.
             </div>
           ) : (
-            <div className="hairline-top">
-              <ul className="divide-y divide-hairline">
-                {campaigns.map((c, i) => (
-                  <li key={c.id}>
-                    <Link
-                      href={`/campaigns/${c.id}`}
-                      className="group grid grid-cols-12 gap-5 py-8 hover:bg-paper-raised/60 transition-colors -mx-4 px-4 rounded"
-                    >
-                      <div className="col-span-12 sm:col-span-1 font-mono-numeric text-[11px] text-ink-faint pt-1">
-                        №{String(i + 1).padStart(2, "0")}
-                      </div>
-                      <div className="col-span-12 sm:col-span-6">
-                        <div className="flex items-center gap-3">
-                          <span
-                            className={`inline-block h-[2px] w-8 ${toneBg(c.coverTone)}`}
-                            aria-hidden
-                          />
-                          <span className="small-caps text-[10px] tracking-[0.25em] text-ink-muted">
-                            {c.brand}
-                          </span>
-                        </div>
-                        <div className="mt-2 font-serif-display text-3xl sm:text-4xl text-ink group-hover:text-forest transition-colors leading-tight">
-                          {c.title}
-                        </div>
-                        <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-ink-muted">
-                          {c.tagline}
-                        </p>
-                      </div>
-                      <div className="col-span-6 sm:col-span-3 text-[12px] text-ink-muted pt-2 space-y-1">
-                        <div className="small-caps tracking-[0.2em]">Deliverables</div>
-                        <div>
-                          {c.deliverables.map((d, k) => (
-                            <div key={k}>
-                              <span className="font-mono-numeric">
-                                {String(d.count).padStart(2, "0")}
-                              </span>{" "}
-                              × {d.kind}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                      <div className="col-span-6 sm:col-span-2 text-right pt-2">
-                        <div className="font-mono-numeric text-xl text-ink">
-                          {formatMoney(c.payoutCents, c.currency)}
-                        </div>
-                        {c.deadline && (
-                          <div className="mt-1 small-caps text-[10px] tracking-[0.2em] text-ink-muted">
-                            by{" "}
-                            {new Date(c.deadline).toLocaleDateString("en-US", {
-                              month: "short",
-                              day: "numeric",
-                            })}
-                          </div>
-                        )}
-                      </div>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {campaigns.map((c, idx) => (
+                <Reveal key={c.id} delay={idx * 70}>
+                  <CampaignGridCard c={c} />
+                </Reveal>
+              ))}
             </div>
           )}
-        </div>
+        </section>
       </main>
       <Footer />
     </>
   );
 }
 
-function toneBg(tone: "forest" | "vermillion" | "ochre" | "ink"): string {
-  return {
-    forest: "bg-forest",
-    vermillion: "bg-vermillion",
-    ochre: "bg-ochre",
-    ink: "bg-ink",
-  }[tone];
+function FilterBar({
+  q,
+  tone,
+  deliv,
+  sort,
+}: {
+  q: string;
+  tone: string;
+  deliv: string;
+  sort: string;
+}) {
+  return (
+    <section className="mx-auto max-w-7xl hairline-top pt-6">
+      <form method="get" className="flex flex-wrap items-end gap-4">
+        <label className="flex-1 min-w-[200px]">
+          <span className="small-caps text-[10px] tracking-[0.25em] text-ink-muted">Search</span>
+          <input
+            name="q"
+            defaultValue={q}
+            placeholder="Brand, title, or keyword"
+            className="mt-2 w-full bg-transparent border-b border-hairline-strong pb-1.5 text-[15px] focus:outline-none focus:border-forest"
+          />
+        </label>
+        <Select name="tone" label="Tone" value={tone} options={[
+          ["", "Any"],
+          ["forest", "Forest"],
+          ["vermillion", "Vermillion"],
+          ["ochre", "Ochre"],
+          ["ink", "Ink"],
+        ]} />
+        <Select name="deliv" label="Deliverable" value={deliv} options={[
+          ["", "Any"],
+          ["post", "Post"],
+          ["reel", "Reel"],
+          ["story", "Story"],
+        ]} />
+        <Select name="sort" label="Sort" value={sort} options={[
+          ["recent", "Most recent"],
+          ["payout-desc", "Payout — high → low"],
+          ["payout-asc", "Payout — low → high"],
+          ["deadline", "Deadline — soonest"],
+        ]} />
+        <button
+          type="submit"
+          className="px-5 py-2 bg-ink text-paper text-[11px] small-caps tracking-[0.2em] hover:bg-forest transition-colors"
+        >
+          Apply
+        </button>
+        {(q || tone || deliv || sort !== "recent") && (
+          <Link
+            href="/campaigns"
+            className="text-[11px] small-caps tracking-[0.2em] text-ink-muted hover:text-vermillion"
+          >
+            Clear
+          </Link>
+        )}
+      </form>
+    </section>
+  );
+}
+
+function Select({
+  name,
+  label,
+  value,
+  options,
+}: {
+  name: string;
+  label: string;
+  value: string;
+  options: [string, string][];
+}) {
+  return (
+    <label className="min-w-[120px]">
+      <span className="small-caps text-[10px] tracking-[0.25em] text-ink-muted">{label}</span>
+      <select
+        name={name}
+        defaultValue={value}
+        className="mt-2 w-full bg-transparent border-b border-hairline-strong pb-1.5 text-[14px] focus:outline-none focus:border-forest"
+      >
+        {options.map(([v, l]) => (
+          <option key={v} value={v}>
+            {l}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
+function CampaignGridCard({ c }: { c: CampaignRecord }) {
+  return (
+    <Link href={`/campaigns/${c.id}`} className="nc-card block group">
+      <CampaignCover campaign={c} variant="rectangle" />
+      <div className="mt-4 space-y-2">
+        <ToneChip tone={c.coverTone} label={c.brand} />
+        <div className="font-serif-display text-2xl text-ink group-hover:text-forest transition-colors leading-tight">
+          {c.title}
+        </div>
+        <p className="text-[13px] text-ink-muted line-clamp-2 font-serif-book leading-relaxed">
+          {c.tagline}
+        </p>
+        <div className="pt-3 flex items-center justify-between text-[11px] text-ink-muted">
+          <span className="small-caps tracking-[0.2em]">
+            {c.deliverables.map((d) => `${d.count}×${d.kind}`).join(" · ")}
+          </span>
+          <span className="font-mono-numeric text-sm text-ink">
+            {formatMoney(c.payoutCents, c.currency)}
+          </span>
+        </div>
+        {c.deadline && (
+          <div className="font-mono-numeric text-[10px] text-ink-faint">
+            DEADLINE · {new Date(c.deadline).toLocaleDateString("en-US", { month: "short", day: "numeric" }).toUpperCase()}
+          </div>
+        )}
+      </div>
+    </Link>
+  );
 }
