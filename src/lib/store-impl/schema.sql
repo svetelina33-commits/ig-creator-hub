@@ -36,6 +36,15 @@ ALTER TABLE creators ADD COLUMN IF NOT EXISTS profile_accent TEXT;
 ALTER TABLE creators ADD COLUMN IF NOT EXISTS profile_is_public BOOLEAN DEFAULT FALSE;
 ALTER TABLE creators ADD COLUMN IF NOT EXISTS profile_updated_at TIMESTAMPTZ;
 
+-- Gmail/Google connection.
+ALTER TABLE creators ADD COLUMN IF NOT EXISTS google_email TEXT;
+ALTER TABLE creators ADD COLUMN IF NOT EXISTS google_name TEXT;
+ALTER TABLE creators ADD COLUMN IF NOT EXISTS google_scopes JSONB;
+ALTER TABLE creators ADD COLUMN IF NOT EXISTS google_encrypted_refresh_token TEXT;
+ALTER TABLE creators ADD COLUMN IF NOT EXISTS google_encrypted_access_token TEXT;
+ALTER TABLE creators ADD COLUMN IF NOT EXISTS google_token_expires_at TIMESTAMPTZ;
+ALTER TABLE creators ADD COLUMN IF NOT EXISTS google_connected_at TIMESTAMPTZ;
+
 CREATE INDEX IF NOT EXISTS creators_email_lower_idx ON creators (LOWER(email));
 CREATE INDEX IF NOT EXISTS creators_reset_token_idx
   ON creators (password_reset_token_hash) WHERE password_reset_token_hash IS NOT NULL;

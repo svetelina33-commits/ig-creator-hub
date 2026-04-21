@@ -7,6 +7,7 @@ export type SessionData = {
   email?: string;
   oauthState?: string;
   oauthVerifier?: string;
+  googleOauthState?: string;
 };
 
 function sessionOptions(): SessionOptions {

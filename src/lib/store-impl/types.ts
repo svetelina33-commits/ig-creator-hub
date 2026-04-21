@@ -28,6 +28,15 @@ export type CreatorRecord = {
     tokenExpiresAt: string | null;
     connectedAt: string;
   };
+  google?: {
+    email: string;
+    name?: string;
+    scopes: string[];
+    encryptedRefreshToken: string;
+    encryptedAccessToken: string;
+    tokenExpiresAt: string;
+    connectedAt: string;
+  };
 };
 
 export type CampaignStatus = "draft" | "open" | "closed";
@@ -110,6 +119,23 @@ export interface StoreBackend {
       expiresInSeconds: number | null;
     },
   ): Promise<void>;
+  saveGoogleConnection(
+    creatorId: string,
+    data: {
+      email: string;
+      name?: string;
+      scopes: string[];
+      accessToken: string;
+      refreshToken: string;
+      expiresInSeconds: number;
+    },
+  ): Promise<void>;
+  updateGoogleAccessToken(
+    creatorId: string,
+    accessToken: string,
+    expiresInSeconds: number,
+  ): Promise<void>;
+  disconnectGoogle(creatorId: string): Promise<void>;
   updateInstagramToken(
     creatorId: string,
     accessToken: string,

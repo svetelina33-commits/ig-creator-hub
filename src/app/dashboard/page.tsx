@@ -14,8 +14,15 @@ import { Footer } from "@/components/Footer";
 import { CampaignCover } from "@/components/CampaignCover";
 import { ToneChip } from "@/components/Ornaments";
 import DashboardInstagramCard from "./DashboardInstagramCard";
+import DashboardGmailCard from "./DashboardGmailCard";
 
-type SearchParams = Promise<{ ig?: string; ig_error?: string; nc_error?: string }>;
+type SearchParams = Promise<{
+  ig?: string;
+  ig_error?: string;
+  gmail?: string;
+  gmail_error?: string;
+  nc_error?: string;
+}>;
 
 export default async function DashboardPage({ searchParams }: { searchParams: SearchParams }) {
   const session = await getSession();
@@ -70,8 +77,12 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
             </div>
           </div>
 
-          {(params.ig === "connected" || params.ig_error || params.nc_error) && (
-            <div className="mb-8">
+          {(params.ig === "connected" ||
+            params.ig_error ||
+            params.gmail === "connected" ||
+            params.gmail_error ||
+            params.nc_error) && (
+            <div className="mb-8 space-y-2">
               {params.ig === "connected" && (
                 <div className="glass rounded-xl px-4 py-2.5 small-caps text-[11px] tracking-[0.25em] text-forest">
                   ● Instagram connection confirmed
@@ -80,6 +91,16 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
               {params.ig_error && (
                 <div className="glass rounded-xl px-4 py-2.5 small-caps text-[11px] tracking-[0.25em] text-vermillion">
                   Instagram connection failed · {params.ig_error}
+                </div>
+              )}
+              {params.gmail === "connected" && (
+                <div className="glass rounded-xl px-4 py-2.5 small-caps text-[11px] tracking-[0.25em] text-forest">
+                  ● Gmail connection confirmed
+                </div>
+              )}
+              {params.gmail_error && (
+                <div className="glass rounded-xl px-4 py-2.5 small-caps text-[11px] tracking-[0.25em] text-vermillion">
+                  Gmail connection failed · {params.gmail_error}
                 </div>
               )}
               {params.nc_error === "admin_only" && (
@@ -92,7 +113,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* Instagram */}
-            <section className="lg:col-span-5">
+            <section className="lg:col-span-6">
               <SectionHeader number="I" title="Instagram" kicker="Connection" />
               <div className="glass rounded-2xl p-6">
                 <DashboardInstagramCard
@@ -110,10 +131,29 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
               </div>
             </section>
 
+            {/* Gmail */}
+            <section className="lg:col-span-6">
+              <SectionHeader number="II" title="Gmail" kicker="Connection" />
+              <div className="glass rounded-2xl p-6">
+                <DashboardGmailCard
+                  connection={
+                    creator.google
+                      ? {
+                          email: creator.google.email,
+                          name: creator.google.name,
+                          scopes: creator.google.scopes,
+                          connectedAt: creator.google.connectedAt,
+                        }
+                      : null
+                  }
+                />
+              </div>
+            </section>
+
             {/* Applications */}
-            <section className="lg:col-span-7">
+            <section className="lg:col-span-12 mt-4">
               <SectionHeader
-                number="II"
+                number="III"
                 title="Your applications"
                 kicker={`${applications.length.toString().padStart(2, "0")} on file`}
               />

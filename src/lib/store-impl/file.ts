@@ -172,6 +172,38 @@ export const fileStore: StoreBackend = {
     delete db.creators[idx].instagram;
     await writeDb(db);
   },
+  async saveGoogleConnection(creatorId, data) {
+    const db = await readDb();
+    const idx = db.creators.findIndex((c) => c.id === creatorId);
+    if (idx === -1) throw new Error("Creator not found");
+    db.creators[idx].google = {
+      email: data.email,
+      name: data.name,
+      scopes: data.scopes,
+      encryptedRefreshToken: encryptToken(data.refreshToken),
+      encryptedAccessToken: encryptToken(data.accessToken),
+      tokenExpiresAt: new Date(Date.now() + data.expiresInSeconds * 1000).toISOString(),
+      connectedAt: new Date().toISOString(),
+    };
+    await writeDb(db);
+  },
+  async updateGoogleAccessToken(creatorId, accessToken, expiresInSeconds) {
+    const db = await readDb();
+    const idx = db.creators.findIndex((c) => c.id === creatorId);
+    if (idx === -1 || !db.creators[idx].google) return;
+    db.creators[idx].google!.encryptedAccessToken = encryptToken(accessToken);
+    db.creators[idx].google!.tokenExpiresAt = new Date(
+      Date.now() + expiresInSeconds * 1000,
+    ).toISOString();
+    await writeDb(db);
+  },
+  async disconnectGoogle(creatorId) {
+    const db = await readDb();
+    const idx = db.creators.findIndex((c) => c.id === creatorId);
+    if (idx === -1) return;
+    delete db.creators[idx].google;
+    await writeDb(db);
+  },
   async listCampaigns(filter) {
     const db = await readDb();
     const all = [...db.campaigns].sort(

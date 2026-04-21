@@ -12,6 +12,13 @@ const schema = z.object({
   EMAIL_FROM: z.string().default("Nexus Club <onboarding@resend.dev>"),
   DATABASE_URL: z.string().default(""),
   CRON_SECRET: z.string().default(""),
+  GOOGLE_CLIENT_ID: z.string().default(""),
+  GOOGLE_CLIENT_SECRET: z.string().default(""),
+  GOOGLE_SCOPES: z
+    .string()
+    .default(
+      "openid email profile https://www.googleapis.com/auth/gmail.send",
+    ),
 });
 
 type Env = z.infer<typeof schema>;
@@ -48,4 +55,18 @@ export function adminEmails(): string[] {
     .ADMIN_EMAILS.split(",")
     .map((s) => s.trim().toLowerCase())
     .filter(Boolean);
+}
+
+export function googleRedirectUri(): string {
+  return `${env().APP_BASE_URL}/api/auth/google/callback`;
+}
+
+export function requireGoogleCredentials(): { clientId: string; clientSecret: string } {
+  const e = env();
+  if (!e.GOOGLE_CLIENT_ID || !e.GOOGLE_CLIENT_SECRET) {
+    throw new Error(
+      "GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET are not set. Add them from your Google Cloud OAuth client (console.cloud.google.com → APIs & Services → Credentials) and restart the dev server.",
+    );
+  }
+  return { clientId: e.GOOGLE_CLIENT_ID, clientSecret: e.GOOGLE_CLIENT_SECRET };
 }

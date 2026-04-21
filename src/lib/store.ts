@@ -95,6 +95,30 @@ export async function disconnectInstagram(creatorId: string) {
   return (await getBackend()).disconnectInstagram(creatorId);
 }
 
+export async function saveGoogleConnection(
+  creatorId: string,
+  data: {
+    email: string;
+    name?: string;
+    scopes: string[];
+    accessToken: string;
+    refreshToken: string;
+    expiresInSeconds: number;
+  },
+) {
+  return (await getBackend()).saveGoogleConnection(creatorId, data);
+}
+export async function updateGoogleAccessToken(
+  creatorId: string,
+  accessToken: string,
+  expiresInSeconds: number,
+) {
+  return (await getBackend()).updateGoogleAccessToken(creatorId, accessToken, expiresInSeconds);
+}
+export async function disconnectGoogle(creatorId: string) {
+  return (await getBackend()).disconnectGoogle(creatorId);
+}
+
 export async function listCampaigns(filter?: { status?: "draft" | "open" | "closed" }) {
   return (await getBackend()).listCampaigns(filter);
 }

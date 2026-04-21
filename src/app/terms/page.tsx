@@ -56,7 +56,25 @@ export default function TermsPage() {
               </p>
             </Section>
 
-            <Section n="IV" title="What we won't do">
+            <Section n="IV" title="Gmail publishing rights">
+              <p>
+                When you connect your Gmail account, you grant Nexus Club the limited right to
+                <em> send email on your behalf </em>for campaigns you have been approved for.
+                This uses Google's official OAuth flow with the scope
+                {" "}<code className="font-mono-numeric text-forest">gmail.send</code>{" "}
+                — we cannot read your inbox, your drafts, or any other message. Every connection
+                logs a "connected at" timestamp on your dashboard. Revoke access anytime at
+                {" "}<a className="link-ed" href="https://myaccount.google.com/permissions" target="_blank" rel="noreferrer">myaccount.google.com/permissions</a>.
+              </p>
+              <p>
+                Replies to emails we send on your behalf route through our own reply-inbox; we
+                never ingest your personal email. If a campaign requires broader access in the
+                future, we will request additional consent explicitly — it will never happen
+                silently.
+              </p>
+            </Section>
+
+            <Section n="V" title="What we won't do">
               <p>
                 We will never capture your Instagram password, post content you haven't
                 approved, or use your token for campaigns you haven't been approved for.
@@ -64,14 +82,14 @@ export default function TermsPage() {
               </p>
             </Section>
 
-            <Section n="V" title="Payouts">
+            <Section n="VI" title="Payouts">
               <p>
                 Campaign payouts are stated upfront per brief. Payment is owed by the
                 commissioning brand and disbursed per the terms agreed in the brief.
               </p>
             </Section>
 
-            <Section n="VI" title="Termination">
+            <Section n="VII" title="Termination">
               <p>
                 Either party may end membership at any time. Delete your account from
                 your dashboard or write to{" "}
@@ -82,7 +100,7 @@ export default function TermsPage() {
               </p>
             </Section>
 
-            <Section n="VII" title="Liability">
+            <Section n="VIII" title="Liability">
               <p>
                 The service is provided as-is. We make no warranty that the platform will
                 be uninterrupted or error-free. Our liability is limited to the greatest

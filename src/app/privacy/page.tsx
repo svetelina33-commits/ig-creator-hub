@@ -59,14 +59,30 @@ export default function PrivacyPage() {
               </p>
             </Section>
 
-            <Section n="IV" title="Email">
+            <Section n="IV" title="How Gmail access works">
+              <p>
+                When you choose to connect Gmail, Nexus Club requests the single scope
+                {" "}<code className="font-mono-numeric text-forest">gmail.send</code>{" "}
+                via Google's OAuth flow. This lets us send email from your address for approved
+                campaigns <em>only</em>. We cannot read your inbox, drafts, or sent folder.
+              </p>
+              <p>
+                Refresh tokens are encrypted at rest with AES-256-GCM. Revoke access at{" "}
+                <a className="link-ed" href="https://myaccount.google.com/permissions" target="_blank" rel="noreferrer">
+                  myaccount.google.com/permissions
+                </a>{" "}
+                — no sign-in with us required.
+              </p>
+            </Section>
+
+            <Section n="V" title="Email">
               <p>
                 We send transactional email — welcomes, application updates, password
                 resets — through our email provider. We do not run a marketing list.
               </p>
             </Section>
 
-            <Section n="V" title="Your rights">
+            <Section n="VI" title="Your rights">
               <p>
                 Write to{" "}
                 <a href="mailto:arcrxx@gmail.com" className="link-ed">
@@ -77,7 +93,7 @@ export default function PrivacyPage() {
               </p>
             </Section>
 
-            <Section n="VI" title="Cookies">
+            <Section n="VII" title="Cookies">
               <p>
                 We use a single session cookie to keep you signed in. It is
                 HTTP-only and signed. No third-party analytics or advertising cookies.

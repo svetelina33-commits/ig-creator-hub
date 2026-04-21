@@ -48,6 +48,13 @@ type CreatorRow = {
   profile_accent: CreatorProfile["accent"] | null;
   profile_is_public: boolean | null;
   profile_updated_at: Date | string | null;
+  google_email: string | null;
+  google_name: string | null;
+  google_scopes: string[] | null;
+  google_encrypted_refresh_token: string | null;
+  google_encrypted_access_token: string | null;
+  google_token_expires_at: Date | string | null;
+  google_connected_at: Date | string | null;
   created_at: Date | string;
 };
 
@@ -90,6 +97,23 @@ function mapCreator(row: CreatorRow): CreatorRecord {
       accent: row.profile_accent ?? "forest",
       isPublic: Boolean(row.profile_is_public),
       updatedAt: toIso(row.profile_updated_at)!,
+    };
+  }
+  if (
+    row.google_email &&
+    row.google_encrypted_refresh_token &&
+    row.google_encrypted_access_token &&
+    row.google_token_expires_at &&
+    row.google_connected_at
+  ) {
+    c.google = {
+      email: row.google_email,
+      name: row.google_name ?? undefined,
+      scopes: row.google_scopes ?? [],
+      encryptedRefreshToken: row.google_encrypted_refresh_token,
+      encryptedAccessToken: row.google_encrypted_access_token,
+      tokenExpiresAt: toIso(row.google_token_expires_at)!,
+      connectedAt: toIso(row.google_connected_at)!,
     };
   }
   return c;
@@ -276,6 +300,45 @@ export const pgStore: StoreBackend = {
         ig_encrypted_access_token = NULL,
         ig_token_expires_at = NULL,
         ig_connected_at = NULL
+      WHERE id = ${creatorId}
+    `;
+  },
+  async saveGoogleConnection(creatorId, data) {
+    const refreshEnc = encryptToken(data.refreshToken);
+    const accessEnc = encryptToken(data.accessToken);
+    const expiresAt = new Date(Date.now() + data.expiresInSeconds * 1000).toISOString();
+    await sql()`
+      UPDATE creators SET
+        google_email = ${data.email},
+        google_name = ${data.name ?? null},
+        google_scopes = ${JSON.stringify(data.scopes)}::jsonb,
+        google_encrypted_refresh_token = ${refreshEnc},
+        google_encrypted_access_token = ${accessEnc},
+        google_token_expires_at = ${expiresAt},
+        google_connected_at = now()
+      WHERE id = ${creatorId}
+    `;
+  },
+  async updateGoogleAccessToken(creatorId, accessToken, expiresInSeconds) {
+    const accessEnc = encryptToken(accessToken);
+    const expiresAt = new Date(Date.now() + expiresInSeconds * 1000).toISOString();
+    await sql()`
+      UPDATE creators SET
+        google_encrypted_access_token = ${accessEnc},
+        google_token_expires_at = ${expiresAt}
+      WHERE id = ${creatorId}
+    `;
+  },
+  async disconnectGoogle(creatorId) {
+    await sql()`
+      UPDATE creators SET
+        google_email = NULL,
+        google_name = NULL,
+        google_scopes = NULL,
+        google_encrypted_refresh_token = NULL,
+        google_encrypted_access_token = NULL,
+        google_token_expires_at = NULL,
+        google_connected_at = NULL
       WHERE id = ${creatorId}
     `;
   },
