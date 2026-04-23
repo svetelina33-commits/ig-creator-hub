@@ -103,31 +103,29 @@ body::before {
 body > * { position: relative; z-index: 1; }
 
 /* ───── Typography ───── */
-/* Display serif: Fraunces — variable with optical sizing + SOFT axis.
-   Higher opsz pulls distinctive ball terminals; SOFT softens corners. */
+/* Display: Cormorant Garamond — classical Garalde serif with striking
+   italics. Needs a little weight at display sizes to carry the page. */
 .font-serif-display {
-  font-family: var(--font-display), ui-serif, Georgia, serif;
-  font-weight: 400;
-  letter-spacing: -0.022em;
-  font-optical-sizing: auto;
-  font-variation-settings: "opsz" 144, "SOFT" 30;
+  font-family: var(--font-display), ui-serif, "Iowan Old Style", Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.018em;
+  font-feature-settings: "dlig", "liga", "kern";
 }
 .font-serif-italic {
-  font-family: var(--font-display), ui-serif, Georgia, serif;
+  font-family: var(--font-display), ui-serif, "Iowan Old Style", Georgia, serif;
   font-style: italic;
-  font-weight: 400;
-  letter-spacing: -0.012em;
-  font-optical-sizing: auto;
-  font-variation-settings: "opsz" 144, "SOFT" 100;
+  font-weight: 500;
+  letter-spacing: -0.008em;
+  font-feature-settings: "dlig", "liga", "kern";
 }
 .font-serif-book {
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-weight: 400;
-  letter-spacing: -0.005em;
+  letter-spacing: -0.003em;
 }
 body {
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
-  font-feature-settings: "ss01", "cv11";
+  font-weight: 400;
 }
 .font-mono-numeric {
   font-family: var(--font-mono), ui-monospace, monospace;

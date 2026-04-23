@@ -1,22 +1,21 @@
 import type { Metadata } from "next";
-import { Fraunces, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import { Cormorant_Garamond, Onest, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { GlobalChrome } from "@/components/GlobalChrome";
 import { MagneticAttach } from "@/components/MagneticAttach";
 import { CardInteractive } from "@/components/CardInteractive";
 
-const fraunces = Fraunces({
+const cormorant = Cormorant_Garamond({
   variable: "--font-display",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
   style: ["normal", "italic"],
   display: "swap",
-  axes: ["SOFT", "opsz"],
 });
 
-const jakarta = Plus_Jakarta_Sans({
+const onest = Onest({
   variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -47,7 +46,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${jakarta.variable} ${jetbrainsMono.variable} antialiased`}
+      className={`${cormorant.variable} ${onest.variable} ${jetbrainsMono.variable} antialiased`}
     >
       <body className="min-h-screen">
         <MagneticAttach />

@@ -7,12 +7,13 @@ type Props = {
   className?: string;
 };
 
-/* 5:4 nameplate dimensions. Width / height pairs. */
+/* 5:4 nameplate dimensions. Width / height pairs.
+   sm is tuned to fit inside the masthead glass pill (~40px content area). */
 const pixel: Record<Size, { w: number; h: number }> = {
-  xs: { w: 36, h: 28 },
-  sm: { w: 54, h: 42 },
-  md: { w: 120, h: 92 },
-  lg: { w: 200, h: 152 },
+  xs: { w: 30, h: 24 },
+  sm: { w: 46, h: 36 },
+  md: { w: 108, h: 84 },
+  lg: { w: 196, h: 152 },
 };
 
 export function NexusSeal({
