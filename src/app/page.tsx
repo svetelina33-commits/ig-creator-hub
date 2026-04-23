@@ -42,17 +42,15 @@ export default async function Home() {
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
               <div className="lg:col-span-8 relative">
-                <h1 className="font-serif-display text-[clamp(3.5rem,10vw,9.5rem)] leading-[0.92] text-ink">
+                <h1 className="font-serif-display text-[clamp(3.5rem,10vw,9.5rem)] leading-[0.88] text-ink">
                   <span className="nc-word-in" style={{ animationDelay: "60ms" }}>The</span>{" "}
-                  <span className="nc-word-in" style={{ animationDelay: "160ms" }}>quiet</span>
-                  <br />
+                  <span className="nc-word-in" style={{ animationDelay: "160ms" }}>quiet</span>{" "}
                   <span
-                    className="nc-word-in font-serif-italic text-ink-soft nc-shimmer-italic"
+                    className="nc-word-in font-serif-italic text-ink-soft"
                     style={{ animationDelay: "260ms" }}
                   >
                     members&apos;
-                  </span>
-                  <br />
+                  </span>{" "}
                   <span className="nc-word-in" style={{ animationDelay: "360ms" }}>club</span>{" "}
                   <span className="nc-word-in" style={{ animationDelay: "440ms" }}>for</span>{" "}
                   <span className="nc-word-in" style={{ animationDelay: "520ms" }}>
