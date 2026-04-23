@@ -211,8 +211,8 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
                             <p className="mt-2 text-[13px] text-ink-muted line-clamp-2">
                               {c.tagline}
                             </p>
-                            <div className="mt-auto pt-5 flex items-center justify-between text-[11px] text-ink-muted">
-                              <span className="small-caps tracking-[0.2em]">
+                            <div className="mt-auto pt-5 flex items-center justify-between text-[12px] text-ink-muted">
+                              <span className="font-mono-numeric tracking-[0.05em] uppercase">
                                 {c.deliverables.map((d) => `${d.count}×${d.kind}`).join(" · ")}
                               </span>
                               <span className="font-mono-numeric text-ink">

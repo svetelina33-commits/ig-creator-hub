@@ -19,11 +19,11 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="glass rounded-3xl px-6 sm:px-10 py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-[11px] small-caps text-ink-muted">
-          <span className="font-mono-numeric text-[10px] tracking-[0.25em] text-ink-faint">
+        <div className="glass rounded-3xl px-6 sm:px-10 py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 text-ink-muted">
+          <span className="font-mono-numeric text-[12px] tracking-[0.18em] text-ink-faint">
             EST. MMXXVI · VOL. I
           </span>
-          <div className="flex items-center gap-4 sm:gap-5 font-mono-numeric flex-wrap text-[10px]">
+          <div className="flex items-center gap-5 sm:gap-7 font-mono-numeric flex-wrap text-[12px] tracking-[0.14em]">
             <a href="/about" className="hover:text-ink transition-colors">ABOUT</a>
             <a href="/how-it-works" className="hover:text-ink transition-colors">HOW IT WORKS</a>
             <a href="/dispatches" className="hover:text-ink transition-colors">DISPATCHES</a>

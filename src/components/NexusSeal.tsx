@@ -7,8 +7,7 @@ type Props = {
   className?: string;
 };
 
-/* 5:4 nameplate dimensions. Width / height pairs.
-   sm is tuned to fit inside the masthead glass pill (~40px content area). */
+/* 5:4 nameplate. sm is tuned for the masthead pill. */
 const pixel: Record<Size, { w: number; h: number }> = {
   xs: { w: 30, h: 24 },
   sm: { w: 46, h: 36 },
@@ -26,11 +25,6 @@ export function NexusSeal({
   const compact = size === "xs" || size === "sm";
   const uid = `nc-seal-${size}`;
 
-  // viewBox 100 x 80. Rounded rectangle path for the orbital text.
-  // Traces the perimeter clockwise from top-left, with corner radius 5.
-  const perimeterPath =
-    "M 8 4 H 92 Q 96 4 96 8 V 72 Q 96 76 92 76 H 8 Q 4 76 4 72 V 8 Q 4 4 8 4 Z";
-
   return (
     <span
       aria-hidden
@@ -44,7 +38,6 @@ export function NexusSeal({
         style={{ position: "absolute", inset: 0, overflow: "visible" }}
       >
         <defs>
-          <path id={`${uid}-perim`} d={perimeterPath} fill="none" />
           <radialGradient id={`${uid}-glow`} cx="50%" cy="50%" r="60%">
             <stop offset="0%" stopColor="rgba(125, 90, 255, 0.45)" />
             <stop offset="55%" stopColor="rgba(125, 90, 255, 0.06)" />
@@ -75,8 +68,8 @@ export function NexusSeal({
           rx="4"
           ry="4"
           fill={`url(#${uid}-core)`}
-          stroke="rgba(240, 238, 246, 0.28)"
-          strokeWidth="0.35"
+          stroke="rgba(240, 238, 246, 0.32)"
+          strokeWidth="0.4"
         />
         <rect
           x="6.5"
@@ -86,12 +79,17 @@ export function NexusSeal({
           rx="2.5"
           ry="2.5"
           fill="none"
-          stroke="rgba(240, 238, 246, 0.1)"
-          strokeWidth="0.22"
+          stroke="rgba(240, 238, 246, 0.12)"
+          strokeWidth="0.25"
         />
 
         {/* Corner L-brackets */}
-        <g stroke="rgba(240, 238, 246, 0.6)" strokeWidth="0.45" strokeLinecap="round" fill="none">
+        <g
+          stroke="rgba(240, 238, 246, 0.65)"
+          strokeWidth="0.5"
+          strokeLinecap="round"
+          fill="none"
+        >
           <path d="M 8 11 V 8 H 11" />
           <path d="M 89 8 H 92 V 11" />
           <path d="M 8 69 V 72 H 11" />
@@ -99,40 +97,47 @@ export function NexusSeal({
         </g>
 
         {/* Edge midpoint ticks */}
-        <g stroke="rgba(240, 238, 246, 0.4)" strokeWidth="0.35" strokeLinecap="round">
-          <line x1="50" y1="2" x2="50" y2="5" />
-          <line x1="50" y1="75" x2="50" y2="78" />
-          <line x1="2" y1="40" x2="5" y2="40" />
-          <line x1="95" y1="40" x2="98" y2="40" />
+        <g stroke="rgba(240, 238, 246, 0.45)" strokeWidth="0.4" strokeLinecap="round">
+          <line x1="50" y1="1.5" x2="50" y2="5" />
+          <line x1="50" y1="75" x2="50" y2="78.5" />
+          <line x1="1.5" y1="40" x2="5" y2="40" />
+          <line x1="95" y1="40" x2="98.5" y2="40" />
         </g>
 
-        {/* Orbital text — scrolls along perimeter via startOffset animation */}
+        {/* Static readable nameplate text — top + bottom edges */}
         {showText && !compact && (
-          <text
-            fill="rgba(215, 212, 226, 0.78)"
-            fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace"
-            fontSize="3.4"
-            letterSpacing="2.4"
-            style={{ textTransform: "uppercase" }}
-          >
-            <textPath href={`#${uid}-perim`} startOffset="0%">
-              Nexus Club · Est. MMXXVI · A Private Network · Nexus Club · Est. MMXXVI · A Private Network ·
-              {spin && (
-                <animate
-                  attributeName="startOffset"
-                  from="0%"
-                  to="-50%"
-                  dur="36s"
-                  repeatCount="indefinite"
-                />
-              )}
-            </textPath>
-          </text>
+          <>
+            <text
+              x="50"
+              y="15.5"
+              textAnchor="middle"
+              fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace"
+              fontSize="3.3"
+              fontWeight="500"
+              letterSpacing="2.2"
+              fill="rgba(215, 212, 226, 0.85)"
+              style={{ textTransform: "uppercase" }}
+            >
+              Nexus · Club
+            </text>
+            <text
+              x="50"
+              y="69"
+              textAnchor="middle"
+              fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace"
+              fontSize="2.6"
+              letterSpacing="1.6"
+              fill="rgba(147, 144, 159, 0.7)"
+              style={{ textTransform: "uppercase" }}
+            >
+              Est. MMXXVI
+            </text>
+          </>
         )}
 
-        {/* Corner shimmer dots */}
-        <g fill="rgba(125, 90, 255, 0.7)">
-          <circle cx="8" cy="8" r="0.55">
+        {/* Corner shimmer dots — sequenced pulse */}
+        <g fill="rgba(125, 90, 255, 0.75)">
+          <circle cx="8" cy="8" r="0.6">
             {spin && (
               <animate
                 attributeName="opacity"
@@ -142,7 +147,7 @@ export function NexusSeal({
               />
             )}
           </circle>
-          <circle cx="92" cy="8" r="0.55">
+          <circle cx="92" cy="8" r="0.6">
             {spin && (
               <animate
                 attributeName="opacity"
@@ -153,7 +158,7 @@ export function NexusSeal({
               />
             )}
           </circle>
-          <circle cx="92" cy="72" r="0.55">
+          <circle cx="92" cy="72" r="0.6">
             {spin && (
               <animate
                 attributeName="opacity"
@@ -164,7 +169,7 @@ export function NexusSeal({
               />
             )}
           </circle>
-          <circle cx="8" cy="72" r="0.55">
+          <circle cx="8" cy="72" r="0.6">
             {spin && (
               <animate
                 attributeName="opacity"
@@ -177,18 +182,17 @@ export function NexusSeal({
           </circle>
         </g>
 
-        {/* Center N — Fraunces italic */}
+        {/* Center N — Cormorant italic for editorial contrast */}
         <text
           x="50"
-          y={compact ? "52" : "50"}
+          y={compact ? "54" : "48"}
           textAnchor="middle"
-          fontFamily='var(--font-display), ui-serif, "Iowan Old Style", Georgia, serif'
+          fontFamily='var(--font-italic), ui-serif, "Iowan Old Style", Georgia, serif'
           fontStyle="italic"
           fontWeight="500"
-          fontSize={compact ? "34" : "30"}
+          fontSize={compact ? "36" : "32"}
           fill="rgba(240, 238, 246, 0.96)"
           style={{
-            fontVariationSettings: '"opsz" 144, "SOFT" 100',
             transformOrigin: "50px 40px",
             animation: spin ? "nc-seal-breathe 6.5s ease-in-out infinite" : undefined,
           }}
@@ -196,34 +200,18 @@ export function NexusSeal({
           N
         </text>
 
-        {/* Violet punctum next to the N */}
+        {/* Violet punctum */}
         <circle
           className="nc-seal-punctum"
-          cx={compact ? "62" : "61"}
-          cy={compact ? "52" : "50"}
+          cx={compact ? "63" : "61.5"}
+          cy={compact ? "54" : "48"}
           r="1.1"
           fill="#9b7bff"
           style={{
-            transformOrigin: compact ? "62px 52px" : "61px 50px",
+            transformOrigin: compact ? "63px 54px" : "61.5px 48px",
             animation: spin ? "nc-seal-punctum 2.4s ease-in-out infinite" : undefined,
           }}
         />
-
-        {/* Bottom tag — only on large */}
-        {showText && size === "lg" && (
-          <text
-            x="50"
-            y="68"
-            textAnchor="middle"
-            fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace"
-            fontSize="2.4"
-            letterSpacing="1.8"
-            fill="rgba(147, 144, 159, 0.75)"
-            style={{ textTransform: "uppercase" }}
-          >
-            Nexus Club
-          </text>
-        )}
       </svg>
     </span>
   );

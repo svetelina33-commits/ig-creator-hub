@@ -223,8 +223,8 @@ function CampaignGridCard({ c }: { c: CampaignRecord }) {
           <ToneChip tone={c.coverTone} label={c.brand} />
           <div className="font-serif-display text-2xl text-ink leading-tight">{c.title}</div>
           <p className="text-[13px] text-ink-muted line-clamp-2 leading-relaxed">{c.tagline}</p>
-          <div className="pt-3 flex items-center justify-between text-[11px] text-ink-muted">
-            <span className="small-caps tracking-[0.2em]">
+          <div className="pt-3 flex items-center justify-between text-[12px] text-ink-muted">
+            <span className="font-mono-numeric tracking-[0.05em] uppercase">
               {c.deliverables.map((d) => `${d.count}×${d.kind}`).join(" · ")}
             </span>
             <span className="font-mono-numeric text-sm text-ink">

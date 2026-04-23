@@ -103,19 +103,21 @@ body::before {
 body > * { position: relative; z-index: 1; }
 
 /* ───── Typography ───── */
-/* Display: Cormorant Garamond — classical Garalde serif with striking
-   italics. Needs a little weight at display sizes to carry the page. */
+/* Display: Bricolage Grotesque — geometric grotesque, variable (width +
+   optical sizing). Completely different category from classical serifs. */
 .font-serif-display {
-  font-family: var(--font-display), ui-serif, "Iowan Old Style", Georgia, serif;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   font-weight: 500;
-  letter-spacing: -0.018em;
-  font-feature-settings: "dlig", "liga", "kern";
+  letter-spacing: -0.028em;
+  font-optical-sizing: auto;
 }
+/* Italic: Cormorant Garamond — classical italic against the grotesque
+   for editorial contrast. Only used for the italic-styled words. */
 .font-serif-italic {
-  font-family: var(--font-display), ui-serif, "Iowan Old Style", Georgia, serif;
+  font-family: var(--font-italic), ui-serif, "Iowan Old Style", Georgia, serif;
   font-style: italic;
   font-weight: 500;
-  letter-spacing: -0.008em;
+  letter-spacing: -0.004em;
   font-feature-settings: "dlig", "liga", "kern";
 }
 .font-serif-book {
@@ -131,9 +133,12 @@ body {
   font-family: var(--font-mono), ui-monospace, monospace;
   font-feature-settings: "tnum", "ss01", "zero";
 }
+/* Small caps used as editorial labels throughout.
+   Tightened for readability — less extreme tracking, a touch bolder. */
 .small-caps {
   font-variant-caps: all-small-caps;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.11em;
+  font-weight: 500;
 }
 
 /* ───── Hairlines ───── */

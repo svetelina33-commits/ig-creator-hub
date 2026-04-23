@@ -1,15 +1,31 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Onest, JetBrains_Mono } from "next/font/google";
+import {
+  Bricolage_Grotesque,
+  Cormorant_Garamond,
+  Onest,
+  JetBrains_Mono,
+} from "next/font/google";
 import "./globals.css";
 import { GlobalChrome } from "@/components/GlobalChrome";
 import { MagneticAttach } from "@/components/MagneticAttach";
 import { CardInteractive } from "@/components/CardInteractive";
 
-const cormorant = Cormorant_Garamond({
+/* Display: Bricolage Grotesque — geometric grotesque with width + optical
+   sizing axes. Architectural, characterful, a different category from
+   the classical serifs we were using. */
+const bricolage = Bricolage_Grotesque({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  style: ["normal", "italic"],
+  display: "swap",
+});
+
+/* Italic accent: Cormorant Garamond (italic only) — classical italic
+   against geometric grotesque is a premium editorial contrast. */
+const cormorant = Cormorant_Garamond({
+  variable: "--font-italic",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  style: ["italic"],
   display: "swap",
 });
 
@@ -46,7 +62,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${cormorant.variable} ${onest.variable} ${jetbrainsMono.variable} antialiased`}
+      className={`${bricolage.variable} ${cormorant.variable} ${onest.variable} ${jetbrainsMono.variable} antialiased`}
     >
       <body className="min-h-screen">
         <MagneticAttach />
