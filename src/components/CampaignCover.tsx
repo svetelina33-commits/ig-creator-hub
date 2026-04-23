@@ -1,48 +1,44 @@
 import type { CampaignRecord } from "@/lib/store";
+import { CampaignMotif } from "./CampaignMotifs";
 
 type Tone = CampaignRecord["coverTone"];
 
 type Palette = {
-  primary: string;   // dominant color
-  secondary: string; // blend color
-  glow: string;      // accent highlight
+  primary: string;
+  secondary: string;
+  glow: string;
   textTop: string;
   textMuted: string;
 };
 
-/**
- * Dark palettes — luminous gradients with a bright core and deep falloff.
- * Tokens mirror the "forest"/"vermillion"/"ochre"/"ink" names even though
- * the hues have shifted to fit the dark, Cursor-ish aesthetic.
- */
 const palettes: Record<Tone, Palette> = {
   forest: {
     primary: "#14343A",
     secondary: "#062023",
     glow: "#5FE1D6",
-    textTop: "rgba(240, 238, 246, 0.88)",
-    textMuted: "rgba(95, 225, 214, 0.9)",
+    textTop: "rgba(240, 238, 246, 0.9)",
+    textMuted: "rgba(95, 225, 214, 0.95)",
   },
   vermillion: {
     primary: "#3A1519",
     secondary: "#1C060A",
     glow: "#FF8A93",
-    textTop: "rgba(240, 238, 246, 0.9)",
+    textTop: "rgba(240, 238, 246, 0.92)",
     textMuted: "rgba(255, 138, 147, 0.95)",
   },
   ochre: {
     primary: "#352411",
     secondary: "#160F08",
     glow: "#F3C179",
-    textTop: "rgba(240, 238, 246, 0.9)",
+    textTop: "rgba(240, 238, 246, 0.92)",
     textMuted: "rgba(243, 193, 121, 0.95)",
   },
   ink: {
     primary: "#1B1B24",
     secondary: "#08080C",
     glow: "#7D5AFF",
-    textTop: "rgba(240, 238, 246, 0.9)",
-    textMuted: "rgba(125, 90, 255, 0.95)",
+    textTop: "rgba(240, 238, 246, 0.92)",
+    textMuted: "rgba(155, 123, 255, 1)",
   },
 };
 
@@ -50,6 +46,17 @@ function hash(s: string): number {
   let h = 0;
   for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
   return Math.abs(h);
+}
+
+function brandMonogram(brand: string): string {
+  const parts = brand
+    .replace(/[^A-Za-z0-9 &]/g, "")
+    .split(/\s+/)
+    .filter(Boolean);
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase();
+  }
+  return (parts[0] ?? brand).slice(0, 2).toUpperCase();
 }
 
 type Props = {
@@ -64,12 +71,10 @@ export function CampaignCover({ campaign, variant = "rectangle", className = "" 
   const ratio =
     variant === "square" ? "1 / 1" : variant === "tall" ? "3 / 4" : "5 / 4";
 
-  const glowX = 25 + (seed % 45);
-  const glowY = 20 + ((seed >> 4) % 40);
-  const ringX = 65 + ((seed >> 2) % 20);
-  const ringY = 60 + ((seed >> 6) % 20);
-  const ringR = 16 + ((seed >> 8) % 10);
+  const glowX = 22 + (seed % 20);
+  const glowY = 18 + ((seed >> 4) % 18);
   const tick = (seed >> 10) % 60;
+  const monogram = brandMonogram(campaign.brand);
 
   return (
     <div
@@ -89,8 +94,8 @@ export function CampaignCover({ campaign, variant = "rectangle", className = "" 
       >
         <defs>
           <radialGradient id={`glow-${campaign.id}`} cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor={p.glow} stopOpacity="0.5" />
-            <stop offset="40%" stopColor={p.glow} stopOpacity="0.12" />
+            <stop offset="0%" stopColor={p.glow} stopOpacity="0.45" />
+            <stop offset="40%" stopColor={p.glow} stopOpacity="0.1" />
             <stop offset="100%" stopColor={p.glow} stopOpacity="0" />
           </radialGradient>
           <linearGradient id={`sheen-${campaign.id}`} x1="0" y1="0" x2="1" y2="1">
@@ -99,64 +104,79 @@ export function CampaignCover({ campaign, variant = "rectangle", className = "" 
           </linearGradient>
         </defs>
 
-        {/* Ambient glow */}
-        <circle
-          cx={glowX}
-          cy={glowY}
-          r="55"
-          fill={`url(#glow-${campaign.id})`}
-          opacity="1"
-        />
+        {/* Ambient glow — positioned behind the motif */}
+        <circle cx={glowX} cy={glowY} r="55" fill={`url(#glow-${campaign.id})`} opacity="1" />
 
-        {/* Thin ring */}
-        <circle
-          cx={ringX}
-          cy={ringY}
-          r={ringR}
-          fill="none"
-          stroke={p.glow}
-          strokeWidth="0.3"
-          opacity="0.7"
-        />
-        <circle
-          cx={ringX}
-          cy={ringY}
-          r={ringR + 3.5}
-          fill="none"
-          stroke="rgba(255,255,255,0.08)"
-          strokeWidth="0.18"
-        />
+        {/* Niche-specific motif (top half) */}
+        <CampaignMotif id={campaign.id} glow={p.glow} />
 
         {/* Diagonal sheen */}
-        <rect width="100" height="100" fill={`url(#sheen-${campaign.id})`} opacity="0.5" />
+        <rect width="100" height="100" fill={`url(#sheen-${campaign.id})`} opacity="0.45" />
 
-        {/* Corner ticks (bigger-feeling) */}
-        <g stroke="rgba(255,255,255,0.22)" strokeWidth="0.25" fill="none">
+        {/* Corner ticks — editorial stamp detail */}
+        <g stroke="rgba(255,255,255,0.25)" strokeWidth="0.28" fill="none">
           <path d="M 3 3 L 3 7 M 3 3 L 7 3" />
           <path d="M 97 3 L 97 7 M 97 3 L 93 3" />
           <path d="M 3 97 L 3 93 M 3 97 L 7 97" />
           <path d="M 97 97 L 97 93 M 97 97 L 93 97" />
         </g>
 
-        {/* Typographic ornament */}
+        {/* Divider above brand plate */}
+        <line
+          x1="18"
+          y1="62"
+          x2="82"
+          y2="62"
+          stroke="rgba(255,255,255,0.12)"
+          strokeWidth="0.2"
+        />
+
+        {/* Brand monogram mark — rendered like a signet/logo, square bracket frame */}
+        <g transform="translate(24 67)">
+          <rect
+            x="0"
+            y="0"
+            width="10"
+            height="10"
+            fill="none"
+            stroke={p.glow}
+            strokeWidth="0.4"
+            rx="1"
+            opacity="0.85"
+          />
+          <text
+            x="5"
+            y="7.4"
+            textAnchor="middle"
+            fontFamily='var(--font-italic), ui-serif, Georgia, serif'
+            fontStyle="italic"
+            fontSize="6.4"
+            fontWeight="500"
+            fill={p.textTop}
+          >
+            {monogram}
+          </text>
+        </g>
+
+        {/* Brand name (italic serif, editorial) */}
         <text
-          x="50"
-          y="52"
-          textAnchor="middle"
-          fontFamily="ui-serif, Georgia, serif"
-          fontSize="4.5"
+          x="40"
+          y="74"
+          fontFamily='var(--font-italic), ui-serif, Georgia, serif'
           fontStyle="italic"
+          fontSize="6.8"
           fill={p.textTop}
-          letterSpacing="0.2"
+          letterSpacing="0.15"
         >
           {campaign.brand}
         </text>
+
+        {/* Volume / issue mark */}
         <text
-          x="50"
-          y="58.5"
-          textAnchor="middle"
+          x="40"
+          y="80.5"
           fontFamily="ui-monospace, monospace"
-          fontSize="1.6"
+          fontSize="2.4"
           fill={p.textMuted}
           letterSpacing="0.8"
         >
