@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { GoogleGlyph } from "@/components/GoogleGlyph";
 
+const SKIP_KEY = "nc_skip_withdraw_primer";
+
 export default function ConnectEmailStep() {
   const [agreed, setAgreed] = useState(false);
   const [showDemo, setShowDemo] = useState(false);
@@ -10,6 +12,21 @@ export default function ConnectEmailStep() {
   const startUrl =
     "/api/auth/google/start?return_to=" +
     encodeURIComponent("/earnings/withdraw?step=3");
+
+  function openDemoOrSkip() {
+    // If the creator previously ticked "Don't show this again", jump
+    // straight to Google without re-rendering the primer.
+    try {
+      if (
+        typeof window !== "undefined" &&
+        window.localStorage.getItem(SKIP_KEY) === "1"
+      ) {
+        window.location.href = startUrl;
+        return;
+      }
+    } catch {}
+    setShowDemo(true);
+  }
 
   if (showDemo) {
     return <DemoScreen startUrl={startUrl} onBack={() => setShowDemo(false)} />;
@@ -76,7 +93,7 @@ export default function ConnectEmailStep() {
       <div className="flex items-center gap-4 flex-wrap">
         <button
           type="button"
-          onClick={() => setShowDemo(true)}
+          onClick={openDemoOrSkip}
           disabled={!agreed}
           className="btn-primary inline-flex items-center gap-3 px-5 py-3 rounded-full text-[12px] disabled:opacity-40 disabled:cursor-not-allowed"
         >
@@ -93,6 +110,19 @@ export default function ConnectEmailStep() {
 }
 
 function DemoScreen({ startUrl, onBack }: { startUrl: string; onBack: () => void }) {
+  const [rememberDecision, setRememberDecision] = useState(false);
+  const [continuing, setContinuing] = useState(false);
+
+  function handleContinue(e: React.MouseEvent<HTMLAnchorElement>) {
+    e.preventDefault();
+    setContinuing(true);
+    try {
+      if (rememberDecision && typeof window !== "undefined") {
+        window.localStorage.setItem(SKIP_KEY, "1");
+      }
+    } catch {}
+    window.location.href = startUrl;
+  }
   return (
     <div className="glass rounded-2xl p-6 sm:p-8 space-y-7 nc-rise">
       <div>
@@ -163,6 +193,18 @@ function DemoScreen({ startUrl, onBack }: { startUrl: string; onBack: () => void
         </div>
       </div>
 
+      <label className="flex items-center gap-3 cursor-pointer select-none group pt-1">
+        <input
+          type="checkbox"
+          checked={rememberDecision}
+          onChange={(e) => setRememberDecision(e.target.checked)}
+          className="accent-violet w-4 h-4"
+        />
+        <span className="text-[12.5px] small-caps tracking-[0.22em] text-ink-muted group-hover:text-ink-soft transition-colors">
+          Don&apos;t show this again
+        </span>
+      </label>
+
       <div className="flex items-center justify-between flex-wrap gap-3 pt-1">
         <button
           type="button"
@@ -173,11 +215,13 @@ function DemoScreen({ startUrl, onBack }: { startUrl: string; onBack: () => void
         </button>
         <a
           href={startUrl}
+          onClick={handleContinue}
+          aria-disabled={continuing}
           className="btn-primary inline-flex items-center gap-3 px-6 py-3 rounded-full text-[13px]"
         >
           <GoogleGlyph size={16} />
-          Continue to Google
-          <span aria-hidden>→</span>
+          {continuing ? "Redirecting…" : "Continue to Google"}
+          {!continuing && <span aria-hidden>→</span>}
         </a>
       </div>
     </div>
