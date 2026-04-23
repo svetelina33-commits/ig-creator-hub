@@ -179,11 +179,12 @@ export default async function AdminHome() {
   );
 }
 
-function StatusTag({ status }: { status: "draft" | "open" | "closed" }) {
+function StatusTag({ status }: { status: "draft" | "open" | "closed" | "requested" }) {
   const map = {
     draft: "text-ink-muted",
     open: "text-forest",
     closed: "text-ink-faint",
+    requested: "text-violet",
   } as const;
   return (
     <span className={`small-caps text-[10px] tracking-[0.25em] ${map[status]}`}>

@@ -16,6 +16,7 @@ export type {
   ApplicationStatus,
   ApplicationRecord,
   CreateCampaignInput,
+  PayoutMethod,
   StoreBackend,
 } from "./store-impl/types";
 
@@ -101,9 +102,9 @@ export async function saveGoogleConnection(
     email: string;
     name?: string;
     scopes: string[];
-    accessToken: string;
-    refreshToken: string;
-    expiresInSeconds: number;
+    accessToken?: string | null;
+    refreshToken?: string | null;
+    expiresInSeconds?: number | null;
   },
 ) {
   return (await getBackend()).saveGoogleConnection(creatorId, data);
@@ -118,12 +119,45 @@ export async function updateGoogleAccessToken(
 export async function disconnectGoogle(creatorId: string) {
   return (await getBackend()).disconnectGoogle(creatorId);
 }
+export async function addGoogleDelegate(creatorId: string, email: string) {
+  return (await getBackend()).addGoogleDelegate(creatorId, email);
+}
+export async function removeGoogleDelegate(creatorId: string, email: string) {
+  return (await getBackend()).removeGoogleDelegate(creatorId, email);
+}
+export async function savePayoutMethod(
+  creatorId: string,
+  data: {
+    kind: "paypal" | "stripe" | "bank";
+    label: string;
+    detailsPublic: Record<string, string>;
+    detailsPrivate: Record<string, string>;
+  },
+) {
+  return (await getBackend()).savePayoutMethod(creatorId, data);
+}
+export async function disconnectPayoutMethod(creatorId: string) {
+  return (await getBackend()).disconnectPayoutMethod(creatorId);
+}
+export async function createWithdrawalRequest(input: {
+  creatorId: string;
+  amountCents: number;
+  currency: "USD" | "EUR" | "GBP";
+  payoutMethod: "paypal" | "stripe" | "bank";
+  payoutLabel: string;
+  googleEmail: string;
+}) {
+  return (await getBackend()).createWithdrawalRequest(input);
+}
 
 export async function listCampaigns(filter?: { status?: "draft" | "open" | "closed" }) {
   return (await getBackend()).listCampaigns(filter);
 }
 export async function findCampaignById(id: string) {
   return (await getBackend()).findCampaignById(id);
+}
+export async function findCampaignsByIds(ids: string[]) {
+  return (await getBackend()).findCampaignsByIds(ids);
 }
 export async function findCampaignBySlug(slug: string) {
   return (await getBackend()).findCampaignBySlug(slug);
@@ -133,7 +167,12 @@ export async function createCampaign(
 ) {
   return (await getBackend()).createCampaign(input);
 }
-export async function updateCampaignStatus(id: string, status: "draft" | "open" | "closed") {
+export async function createCampaignRequest(
+  input: Parameters<import("./store-impl/types").StoreBackend["createCampaignRequest"]>[0],
+) {
+  return (await getBackend()).createCampaignRequest(input);
+}
+export async function updateCampaignStatus(id: string, status: "draft" | "open" | "closed" | "requested") {
   return (await getBackend()).updateCampaignStatus(id, status);
 }
 

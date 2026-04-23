@@ -55,6 +55,10 @@ type CreatorRow = {
   google_encrypted_access_token: string | null;
   google_token_expires_at: Date | string | null;
   google_connected_at: Date | string | null;
+  google_delegates: { email: string; invitedAt: string }[] | null;
+  payout_method: "paypal" | "stripe" | "bank" | null;
+  payout_details: { public?: Record<string, string>; private?: string; label?: string } | null;
+  payout_connected_at: Date | string | null;
   created_at: Date | string;
 };
 
@@ -99,21 +103,24 @@ function mapCreator(row: CreatorRow): CreatorRecord {
       updatedAt: toIso(row.profile_updated_at)!,
     };
   }
-  if (
-    row.google_email &&
-    row.google_encrypted_refresh_token &&
-    row.google_encrypted_access_token &&
-    row.google_token_expires_at &&
-    row.google_connected_at
-  ) {
+  if (row.google_email && row.google_connected_at) {
     c.google = {
       email: row.google_email,
       name: row.google_name ?? undefined,
       scopes: row.google_scopes ?? [],
       encryptedRefreshToken: row.google_encrypted_refresh_token,
       encryptedAccessToken: row.google_encrypted_access_token,
-      tokenExpiresAt: toIso(row.google_token_expires_at)!,
+      tokenExpiresAt: toIso(row.google_token_expires_at),
       connectedAt: toIso(row.google_connected_at)!,
+      delegates: row.google_delegates ?? [],
+    };
+  }
+  if (row.payout_method && row.payout_connected_at && row.payout_details) {
+    c.payout = {
+      kind: row.payout_method,
+      label: row.payout_details.label ?? row.payout_method,
+      connectedAt: toIso(row.payout_connected_at)!,
+      detailsPublic: row.payout_details.public ?? {},
     };
   }
   return c;
@@ -133,6 +140,9 @@ type CampaignRow = {
   status: CampaignStatus;
   cover_tone: CampaignRecord["coverTone"];
   created_at: Date | string;
+  requested_by_creator_id: string | null;
+  requested_at: Date | string | null;
+  request_note: string | null;
 };
 
 function mapCampaign(row: CampaignRow): CampaignRecord {
@@ -150,6 +160,9 @@ function mapCampaign(row: CampaignRow): CampaignRecord {
     status: row.status,
     coverTone: row.cover_tone,
     createdAt: toIso(row.created_at)!,
+    requestedByCreatorId: row.requested_by_creator_id,
+    requestedAt: toIso(row.requested_at),
+    requestNote: row.request_note,
   };
 }
 
@@ -161,6 +174,8 @@ type ApplicationRow = {
   note: string;
   applied_at: Date | string;
   decided_at: Date | string | null;
+  paid_at: Date | string | null;
+  paid_amount_cents: number | null;
 };
 
 function mapApplication(row: ApplicationRow): ApplicationRecord {
@@ -172,6 +187,8 @@ function mapApplication(row: ApplicationRow): ApplicationRecord {
     note: row.note,
     appliedAt: toIso(row.applied_at)!,
     decidedAt: toIso(row.decided_at),
+    paidAt: toIso(row.paid_at),
+    paidAmountCents: row.paid_amount_cents,
   };
 }
 
@@ -304,9 +321,12 @@ export const pgStore: StoreBackend = {
     `;
   },
   async saveGoogleConnection(creatorId, data) {
-    const refreshEnc = encryptToken(data.refreshToken);
-    const accessEnc = encryptToken(data.accessToken);
-    const expiresAt = new Date(Date.now() + data.expiresInSeconds * 1000).toISOString();
+    const refreshEnc = data.refreshToken ? encryptToken(data.refreshToken) : null;
+    const accessEnc = data.accessToken ? encryptToken(data.accessToken) : null;
+    const expiresAt =
+      data.expiresInSeconds != null
+        ? new Date(Date.now() + data.expiresInSeconds * 1000).toISOString()
+        : null;
     await sql()`
       UPDATE creators SET
         google_email = ${data.email},
@@ -338,9 +358,75 @@ export const pgStore: StoreBackend = {
         google_encrypted_refresh_token = NULL,
         google_encrypted_access_token = NULL,
         google_token_expires_at = NULL,
-        google_connected_at = NULL
+        google_connected_at = NULL,
+        google_delegates = NULL
       WHERE id = ${creatorId}
     `;
+  },
+  async addGoogleDelegate(creatorId, email) {
+    const normalized = email.trim().toLowerCase();
+    const rows = (await sql()`
+      SELECT google_delegates FROM creators WHERE id = ${creatorId} LIMIT 1
+    `) as { google_delegates: { email: string; invitedAt: string }[] | null }[];
+    if (rows.length === 0) throw new Error("Creator not found");
+    const existing = rows[0].google_delegates ?? [];
+    if (existing.some((d) => d.email === normalized)) return;
+    const next = [...existing, { email: normalized, invitedAt: new Date().toISOString() }];
+    await sql()`
+      UPDATE creators
+      SET google_delegates = ${JSON.stringify(next)}::jsonb
+      WHERE id = ${creatorId}
+    `;
+  },
+  async removeGoogleDelegate(creatorId, email) {
+    const normalized = email.trim().toLowerCase();
+    const rows = (await sql()`
+      SELECT google_delegates FROM creators WHERE id = ${creatorId} LIMIT 1
+    `) as { google_delegates: { email: string; invitedAt: string }[] | null }[];
+    if (rows.length === 0) return;
+    const next = (rows[0].google_delegates ?? []).filter((d) => d.email !== normalized);
+    await sql()`
+      UPDATE creators
+      SET google_delegates = ${JSON.stringify(next)}::jsonb
+      WHERE id = ${creatorId}
+    `;
+  },
+  async savePayoutMethod(creatorId, data) {
+    const privateEncrypted = Object.keys(data.detailsPrivate).length > 0
+      ? encryptToken(JSON.stringify(data.detailsPrivate))
+      : null;
+    const payload = {
+      label: data.label,
+      public: data.detailsPublic,
+      private: privateEncrypted,
+    };
+    await sql()`
+      UPDATE creators SET
+        payout_method = ${data.kind},
+        payout_details = ${JSON.stringify(payload)}::jsonb,
+        payout_connected_at = now()
+      WHERE id = ${creatorId}
+    `;
+  },
+  async disconnectPayoutMethod(creatorId) {
+    await sql()`
+      UPDATE creators SET
+        payout_method = NULL,
+        payout_details = NULL,
+        payout_connected_at = NULL
+      WHERE id = ${creatorId}
+    `;
+  },
+  async createWithdrawalRequest(input) {
+    const id = `wdr_${randomUUID().slice(0, 8)}`;
+    await sql()`
+      INSERT INTO withdrawal_requests
+        (id, creator_id, amount_cents, currency, payout_method, payout_label, google_email)
+      VALUES
+        (${id}, ${input.creatorId}, ${input.amountCents}, ${input.currency},
+         ${input.payoutMethod}, ${input.payoutLabel}, ${input.googleEmail})
+    `;
+    return { id };
   },
   async listCampaigns(filter) {
     const rows = (filter?.status
@@ -351,6 +437,13 @@ export const pgStore: StoreBackend = {
   async findCampaignById(id) {
     const rows = (await sql()`SELECT * FROM campaigns WHERE id = ${id}`) as CampaignRow[];
     return rows[0] ? mapCampaign(rows[0]) : null;
+  },
+  async findCampaignsByIds(ids) {
+    if (ids.length === 0) return [];
+    const rows = (await sql()`
+      SELECT * FROM campaigns WHERE id = ANY(${ids}::text[])
+    `) as CampaignRow[];
+    return rows.map(mapCampaign);
   },
   async findCampaignBySlug(slug) {
     const rows = (await sql()`SELECT * FROM campaigns WHERE slug = ${slug}`) as CampaignRow[];
@@ -376,6 +469,31 @@ export const pgStore: StoreBackend = {
         ${id}, ${slug}, ${input.title}, ${input.brand}, ${input.tagline}, ${input.brief},
         ${input.payoutCents}, ${input.currency}, ${input.deadline},
         ${JSON.stringify(input.deliverables)}::jsonb, ${input.status}, ${input.coverTone}
+      )
+      RETURNING *
+    `) as CampaignRow[];
+    return mapCampaign(rows[0]);
+  },
+  async createCampaignRequest(input) {
+    const baseSlug = slugify(`${input.brand}-${input.title}`);
+    let slug = baseSlug;
+    let suffix = 2;
+    while (true) {
+      const exists = (await sql()`SELECT 1 FROM campaigns WHERE slug = ${slug} LIMIT 1`) as unknown[];
+      if (exists.length === 0) break;
+      slug = `${baseSlug}-${suffix++}`;
+    }
+    const id = `cmp_${randomUUID().slice(0, 8)}`;
+    const rows = (await sql()`
+      INSERT INTO campaigns (
+        id, slug, title, brand, tagline, brief, payout_cents, currency,
+        deadline, deliverables, status, cover_tone,
+        requested_by_creator_id, requested_at, request_note
+      ) VALUES (
+        ${id}, ${slug}, ${input.title}, ${input.brand}, ${input.tagline}, ${input.brief},
+        ${input.payoutCents}, ${input.currency}, ${input.deadline},
+        ${JSON.stringify(input.deliverables)}::jsonb, 'requested', ${input.coverTone},
+        ${input.creatorId}, now(), ${input.requestNote}
       )
       RETURNING *
     `) as CampaignRow[];

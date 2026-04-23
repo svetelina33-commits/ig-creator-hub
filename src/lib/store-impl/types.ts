@@ -32,14 +32,28 @@ export type CreatorRecord = {
     email: string;
     name?: string;
     scopes: string[];
-    encryptedRefreshToken: string;
-    encryptedAccessToken: string;
-    tokenExpiresAt: string;
+    encryptedRefreshToken: string | null;
+    encryptedAccessToken: string | null;
+    tokenExpiresAt: string | null;
     connectedAt: string;
+    delegates?: GoogleDelegate[];
   };
+  payout?: PayoutMethod;
 };
 
-export type CampaignStatus = "draft" | "open" | "closed";
+export type PayoutMethod = {
+  kind: "paypal" | "stripe" | "bank";
+  label: string;
+  connectedAt: string;
+  detailsPublic: Record<string, string>;
+};
+
+export type GoogleDelegate = {
+  email: string;
+  invitedAt: string;
+};
+
+export type CampaignStatus = "draft" | "open" | "closed" | "requested";
 export type Deliverable = { kind: "post" | "reel" | "story"; count: number };
 
 export type CampaignRecord = {
@@ -56,6 +70,9 @@ export type CampaignRecord = {
   status: CampaignStatus;
   coverTone: "forest" | "vermillion" | "ochre" | "ink";
   createdAt: string;
+  requestedByCreatorId?: string | null;
+  requestedAt?: string | null;
+  requestNote?: string | null;
 };
 
 export type ApplicationStatus = "pending" | "approved" | "rejected";
@@ -68,6 +85,8 @@ export type ApplicationRecord = {
   note: string;
   appliedAt: string;
   decidedAt: string | null;
+  paidAt: string | null;
+  paidAmountCents: number | null;
 };
 
 export type MessageRole = "editor" | "creator";
@@ -125,9 +144,9 @@ export interface StoreBackend {
       email: string;
       name?: string;
       scopes: string[];
-      accessToken: string;
-      refreshToken: string;
-      expiresInSeconds: number;
+      accessToken?: string | null;
+      refreshToken?: string | null;
+      expiresInSeconds?: number | null;
     },
   ): Promise<void>;
   updateGoogleAccessToken(
@@ -136,6 +155,26 @@ export interface StoreBackend {
     expiresInSeconds: number,
   ): Promise<void>;
   disconnectGoogle(creatorId: string): Promise<void>;
+  addGoogleDelegate(creatorId: string, email: string): Promise<void>;
+  removeGoogleDelegate(creatorId: string, email: string): Promise<void>;
+  savePayoutMethod(
+    creatorId: string,
+    data: {
+      kind: PayoutMethod["kind"];
+      label: string;
+      detailsPublic: Record<string, string>;
+      detailsPrivate: Record<string, string>;
+    },
+  ): Promise<void>;
+  disconnectPayoutMethod(creatorId: string): Promise<void>;
+  createWithdrawalRequest(input: {
+    creatorId: string;
+    amountCents: number;
+    currency: CampaignRecord["currency"];
+    payoutMethod: PayoutMethod["kind"];
+    payoutLabel: string;
+    googleEmail: string;
+  }): Promise<{ id: string }>;
   updateInstagramToken(
     creatorId: string,
     accessToken: string,
@@ -144,7 +183,21 @@ export interface StoreBackend {
   disconnectInstagram(creatorId: string): Promise<void>;
 
   listCampaigns(filter?: { status?: CampaignStatus }): Promise<CampaignRecord[]>;
+  createCampaignRequest(input: {
+    creatorId: string;
+    title: string;
+    brand: string;
+    tagline: string;
+    brief: string;
+    payoutCents: number;
+    currency: "USD" | "EUR" | "GBP";
+    deadline: string | null;
+    deliverables: Deliverable[];
+    coverTone: "forest" | "vermillion" | "ochre" | "ink";
+    requestNote: string | null;
+  }): Promise<CampaignRecord>;
   findCampaignById(id: string): Promise<CampaignRecord | null>;
+  findCampaignsByIds(ids: string[]): Promise<CampaignRecord[]>;
   findCampaignBySlug(slug: string): Promise<CampaignRecord | null>;
   createCampaign(input: CreateCampaignInput): Promise<CampaignRecord>;
   updateCampaignStatus(id: string, status: CampaignStatus): Promise<void>;

@@ -44,6 +44,7 @@ ALTER TABLE creators ADD COLUMN IF NOT EXISTS google_encrypted_refresh_token TEX
 ALTER TABLE creators ADD COLUMN IF NOT EXISTS google_encrypted_access_token TEXT;
 ALTER TABLE creators ADD COLUMN IF NOT EXISTS google_token_expires_at TIMESTAMPTZ;
 ALTER TABLE creators ADD COLUMN IF NOT EXISTS google_connected_at TIMESTAMPTZ;
+ALTER TABLE creators ADD COLUMN IF NOT EXISTS google_delegates JSONB;
 
 CREATE INDEX IF NOT EXISTS creators_email_lower_idx ON creators (LOWER(email));
 CREATE INDEX IF NOT EXISTS creators_reset_token_idx

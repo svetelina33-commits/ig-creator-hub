@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/session";
-import { handleGoogleCallback } from "@/lib/google";
+import { handleGoogleCallback, handleGoogleSignInOrSignup } from "@/lib/google";
 import { env } from "@/lib/env";
 
 export async function GET(req: NextRequest) {
@@ -13,31 +13,54 @@ export async function GET(req: NextRequest) {
     url.searchParams.get("error_description") ?? url.searchParams.get("error_reason");
 
   const session = await getSession();
+  const kind = session.googleFlowKind ?? (session.creatorId ? "connect" : "auth");
+  const returnTo = session.googleReturnTo ?? null;
+
+  const errorTarget = returnTo ?? (kind === "auth" ? "/" : "/dashboard");
+  const successTarget = returnTo ?? (kind === "auth" ? "/dashboard" : "/dashboard");
 
   if (error) {
-    return NextResponse.redirect(
-      new URL(`/dashboard?gmail_error=${encodeURIComponent(errorDescription ?? error)}`, base),
-    );
+    return redirect(errorTarget, base, { gmail_error: errorDescription ?? error });
   }
   if (!code || !state) {
-    return NextResponse.redirect(new URL(`/dashboard?gmail_error=missing_code`, base));
-  }
-  if (!session.creatorId) {
-    return NextResponse.redirect(new URL(`/?gmail_error=not_signed_in`, base));
+    return redirect(errorTarget, base, { gmail_error: "missing_code" });
   }
   if (!session.googleOauthState || session.googleOauthState !== state) {
-    return NextResponse.redirect(new URL(`/dashboard?gmail_error=state_mismatch`, base));
+    return redirect(errorTarget, base, { gmail_error: "state_mismatch" });
   }
 
   try {
+    if (kind === "auth") {
+      const { creatorId, email, created } = await handleGoogleSignInOrSignup(code);
+      session.creatorId = creatorId;
+      session.email = email;
+      session.googleOauthState = undefined;
+      session.googleFlowKind = undefined;
+      session.googleReturnTo = undefined;
+      await session.save();
+      return redirect(successTarget, base, {
+        gmail: "connected",
+        ...(created ? { welcome: "1" } : {}),
+      });
+    }
+
+    if (!session.creatorId) {
+      return redirect("/", base, { gmail_error: "not_signed_in" });
+    }
     await handleGoogleCallback(session.creatorId, code);
     session.googleOauthState = undefined;
+    session.googleFlowKind = undefined;
+    session.googleReturnTo = undefined;
     await session.save();
-    return NextResponse.redirect(new URL(`/dashboard?gmail=connected`, base));
+    return redirect(successTarget, base, { gmail: "connected" });
   } catch (err) {
     const message = err instanceof Error ? err.message : "unknown_error";
-    return NextResponse.redirect(
-      new URL(`/dashboard?gmail_error=${encodeURIComponent(message)}`, base),
-    );
+    return redirect(errorTarget, base, { gmail_error: message });
   }
+}
+
+function redirect(target: string, base: string, query: Record<string, string>) {
+  const url = new URL(target, base);
+  for (const [k, v] of Object.entries(query)) url.searchParams.set(k, v);
+  return NextResponse.redirect(url);
 }

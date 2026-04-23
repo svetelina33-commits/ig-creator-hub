@@ -7,7 +7,7 @@ const schema = z.object({
   SESSION_SECRET: z.string().length(64, "SESSION_SECRET must be 32 bytes hex (64 chars)"),
   TOKEN_ENCRYPTION_KEY: z.string().length(64, "TOKEN_ENCRYPTION_KEY must be 32 bytes hex (64 chars)"),
   IG_SCOPES: z.string().min(1),
-  ADMIN_EMAILS: z.string().default("arcrxx@gmail.com"),
+  ADMIN_EMAILS: z.string().default("yashpanchalsx@gmail.com"),
   RESEND_API_KEY: z.string().default(""),
   EMAIL_FROM: z.string().default("Nexus Club <onboarding@resend.dev>"),
   DATABASE_URL: z.string().default(""),

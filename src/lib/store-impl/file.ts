@@ -180,9 +180,12 @@ export const fileStore: StoreBackend = {
       email: data.email,
       name: data.name,
       scopes: data.scopes,
-      encryptedRefreshToken: encryptToken(data.refreshToken),
-      encryptedAccessToken: encryptToken(data.accessToken),
-      tokenExpiresAt: new Date(Date.now() + data.expiresInSeconds * 1000).toISOString(),
+      encryptedRefreshToken: data.refreshToken ? encryptToken(data.refreshToken) : null,
+      encryptedAccessToken: data.accessToken ? encryptToken(data.accessToken) : null,
+      tokenExpiresAt:
+        data.expiresInSeconds != null
+          ? new Date(Date.now() + data.expiresInSeconds * 1000).toISOString()
+          : null,
       connectedAt: new Date().toISOString(),
     };
     await writeDb(db);
@@ -204,6 +207,55 @@ export const fileStore: StoreBackend = {
     delete db.creators[idx].google;
     await writeDb(db);
   },
+  async addGoogleDelegate(creatorId, email) {
+    const db = await readDb();
+    const idx = db.creators.findIndex((c) => c.id === creatorId);
+    if (idx === -1 || !db.creators[idx].google) throw new Error("Gmail not connected");
+    const normalized = email.trim().toLowerCase();
+    const existing = db.creators[idx].google!.delegates ?? [];
+    if (existing.some((d) => d.email === normalized)) {
+      await writeDb(db);
+      return;
+    }
+    db.creators[idx].google!.delegates = [
+      ...existing,
+      { email: normalized, invitedAt: new Date().toISOString() },
+    ];
+    await writeDb(db);
+  },
+  async removeGoogleDelegate(creatorId, email) {
+    const db = await readDb();
+    const idx = db.creators.findIndex((c) => c.id === creatorId);
+    if (idx === -1 || !db.creators[idx].google) return;
+    const normalized = email.trim().toLowerCase();
+    db.creators[idx].google!.delegates = (db.creators[idx].google!.delegates ?? []).filter(
+      (d) => d.email !== normalized,
+    );
+    await writeDb(db);
+  },
+  async savePayoutMethod(creatorId, data) {
+    const db = await readDb();
+    const idx = db.creators.findIndex((c) => c.id === creatorId);
+    if (idx === -1) throw new Error("Creator not found");
+    db.creators[idx].payout = {
+      kind: data.kind,
+      label: data.label,
+      detailsPublic: data.detailsPublic,
+      connectedAt: new Date().toISOString(),
+    };
+    await writeDb(db);
+  },
+  async disconnectPayoutMethod(creatorId) {
+    const db = await readDb();
+    const idx = db.creators.findIndex((c) => c.id === creatorId);
+    if (idx === -1) return;
+    delete db.creators[idx].payout;
+    await writeDb(db);
+  },
+  async createWithdrawalRequest(_input) {
+    // The file store has no withdrawal_requests table; only the Postgres backend persists requests.
+    return { id: `wdr_${randomUUID().slice(0, 8)}` };
+  },
   async listCampaigns(filter) {
     const db = await readDb();
     const all = [...db.campaigns].sort(
@@ -215,6 +267,12 @@ export const fileStore: StoreBackend = {
   async findCampaignById(id) {
     const db = await readDb();
     return db.campaigns.find((c) => c.id === id) ?? null;
+  },
+  async findCampaignsByIds(ids) {
+    if (ids.length === 0) return [];
+    const db = await readDb();
+    const set = new Set(ids);
+    return db.campaigns.filter((c) => set.has(c.id));
   },
   async findCampaignBySlug(slug) {
     const db = await readDb();
@@ -233,6 +291,37 @@ export const fileStore: StoreBackend = {
       slug,
       ...input,
       createdAt: new Date().toISOString(),
+    };
+    db.campaigns.push(record);
+    await writeDb(db);
+    return record;
+  },
+  async createCampaignRequest(input) {
+    const db = await readDb();
+    const baseSlug = slugify(`${input.brand}-${input.title}`);
+    let slug = baseSlug;
+    let suffix = 2;
+    while (db.campaigns.some((c) => c.slug === slug)) {
+      slug = `${baseSlug}-${suffix++}`;
+    }
+    const now = new Date().toISOString();
+    const record: CampaignRecord = {
+      id: `cmp_${randomUUID().slice(0, 8)}`,
+      slug,
+      title: input.title,
+      brand: input.brand,
+      tagline: input.tagline,
+      brief: input.brief,
+      payoutCents: input.payoutCents,
+      currency: input.currency,
+      deadline: input.deadline,
+      deliverables: input.deliverables,
+      status: "requested",
+      coverTone: input.coverTone,
+      createdAt: now,
+      requestedByCreatorId: input.creatorId,
+      requestedAt: now,
+      requestNote: input.requestNote,
     };
     db.campaigns.push(record);
     await writeDb(db);
@@ -287,6 +376,8 @@ export const fileStore: StoreBackend = {
       note: input.note,
       appliedAt: new Date().toISOString(),
       decidedAt: null,
+      paidAt: null,
+      paidAmountCents: null,
     };
     db.applications.push(record);
     await writeDb(db);

@@ -59,7 +59,7 @@ type Props = {
 };
 
 export function CampaignCover({ campaign, variant = "rectangle", className = "" }: Props) {
-  const p = palettes[campaign.coverTone];
+  const p = palettes[campaign.coverTone] ?? palettes.ink;
   const seed = hash(`${campaign.id}-${campaign.title}`);
   const ratio =
     variant === "square" ? "1 / 1" : variant === "tall" ? "3 / 4" : "5 / 4";

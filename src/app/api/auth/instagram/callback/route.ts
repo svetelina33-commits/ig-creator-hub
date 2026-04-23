@@ -20,18 +20,18 @@ export async function GET(req: NextRequest) {
 
   if (error) {
     return NextResponse.redirect(
-      new URL(`/dashboard?ig_error=${encodeURIComponent(errorReason ?? error)}`, base),
+      new URL(`/onboarding/instagram?ig_error=${encodeURIComponent(errorReason ?? error)}`, base),
     );
   }
 
   if (!code || !state) {
-    return NextResponse.redirect(new URL(`/dashboard?ig_error=missing_code`, base));
+    return NextResponse.redirect(new URL(`/onboarding/instagram?ig_error=missing_code`, base));
   }
   if (!session.creatorId) {
     return NextResponse.redirect(new URL(`/?ig_error=not_signed_in`, base));
   }
   if (!session.oauthState || session.oauthState !== state) {
-    return NextResponse.redirect(new URL(`/dashboard?ig_error=state_mismatch`, base));
+    return NextResponse.redirect(new URL(`/onboarding/instagram?ig_error=state_mismatch`, base));
   }
 
   try {
@@ -54,7 +54,7 @@ export async function GET(req: NextRequest) {
   } catch (err) {
     const message = err instanceof Error ? err.message : "unknown_error";
     return NextResponse.redirect(
-      new URL(`/dashboard?ig_error=${encodeURIComponent(message)}`, base),
+      new URL(`/onboarding/instagram?ig_error=${encodeURIComponent(message)}`, base),
     );
   }
 }

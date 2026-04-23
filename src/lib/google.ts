@@ -1,5 +1,7 @@
 import { env, googleRedirectUri, requireGoogleCredentials } from "./env";
 import {
+  createCreator,
+  findCreatorByEmail,
   findCreatorById,
   saveGoogleConnection,
   updateGoogleAccessToken,
@@ -11,20 +13,28 @@ const TOKEN_URL = "https://oauth2.googleapis.com/token";
 const USERINFO_URL = "https://openidconnect.googleapis.com/v1/userinfo";
 const GMAIL_SEND_URL = "https://gmail.googleapis.com/gmail/v1/users/me/messages/send";
 
-export function buildGoogleAuthorizeUrl(state: string): string {
+export function buildGoogleAuthorizeUrl(
+  state: string,
+  opts: { scopeOverride?: string; lightweight?: boolean } = {},
+): string {
   const { clientId } = requireGoogleCredentials();
-  const params = new URLSearchParams({
+  const base: Record<string, string> = {
     client_id: clientId,
     redirect_uri: googleRedirectUri(),
     response_type: "code",
-    scope: env().GOOGLE_SCOPES,
-    access_type: "offline", // returns a refresh_token
-    prompt: "consent", // force consent so we always get a refresh_token
+    scope: opts.scopeOverride ?? env().GOOGLE_SCOPES,
     include_granted_scopes: "true",
     state,
-  });
-  return `${AUTH_URL}?${params.toString()}`;
+  };
+  if (!opts.lightweight) {
+    // Refresh token needed for long-lived Gmail send/read; force consent so it's returned.
+    base.access_type = "offline";
+    base.prompt = "consent";
+  }
+  return `${AUTH_URL}?${new URLSearchParams(base).toString()}`;
 }
+
+export const GOOGLE_BASIC_SCOPES = "openid email profile";
 
 export type GoogleTokenResponse = {
   access_token: string;
@@ -97,11 +107,6 @@ export async function handleGoogleCallback(
   code: string,
 ): Promise<{ email: string; name?: string }> {
   const tokens = await exchangeGoogleCode(code);
-  if (!tokens.refresh_token) {
-    throw new Error(
-      "Google did not return a refresh_token. Revoke access at https://myaccount.google.com/permissions and reconnect.",
-    );
-  }
   const profile = await fetchGoogleUserInfo(tokens.access_token);
   const scopes = tokens.scope.split(" ").filter(Boolean);
   await saveGoogleConnection(creatorId, {
@@ -109,10 +114,30 @@ export async function handleGoogleCallback(
     name: profile.name,
     scopes,
     accessToken: tokens.access_token,
-    refreshToken: tokens.refresh_token,
-    expiresInSeconds: tokens.expires_in,
+    refreshToken: tokens.refresh_token ?? null,
+    expiresInSeconds: tokens.expires_in ?? null,
   });
   return { email: profile.email, name: profile.name };
+}
+
+/**
+ * For signup/signin-with-Google: exchange the code, find-or-create the creator by Google email.
+ * No Gmail scopes are requested in this flow — we only need the email to create/find the account.
+ * We deliberately do NOT save a Google connection record here; that's reserved for the
+ * "connect email for withdrawal" flow, which has its own explicit consent.
+ */
+export async function handleGoogleSignInOrSignup(
+  code: string,
+): Promise<{ creatorId: string; email: string; name?: string; created: boolean }> {
+  const tokens = await exchangeGoogleCode(code);
+  const profile = await fetchGoogleUserInfo(tokens.access_token);
+  let creator = await findCreatorByEmail(profile.email);
+  let created = false;
+  if (!creator) {
+    creator = await createCreator(profile.email, null);
+    created = true;
+  }
+  return { creatorId: creator.id, email: profile.email, name: profile.name, created };
 }
 
 /**
@@ -122,8 +147,12 @@ export async function handleGoogleCallback(
 export async function ensureFreshGoogleToken(creatorId: string): Promise<string> {
   const creator = await findCreatorById(creatorId);
   if (!creator?.google) throw new Error("Creator has not connected Gmail");
-
-  const expiresAt = new Date(creator.google.tokenExpiresAt).getTime();
+  if (!creator.google.encryptedAccessToken || !creator.google.encryptedRefreshToken) {
+    throw new Error("identity_only_connection · Gmail access not granted for this account");
+  }
+  const expiresAt = creator.google.tokenExpiresAt
+    ? new Date(creator.google.tokenExpiresAt).getTime()
+    : 0;
   if (expiresAt > Date.now() + 60_000) {
     return decryptToken(creator.google.encryptedAccessToken);
   }

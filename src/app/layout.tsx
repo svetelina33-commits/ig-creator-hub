@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Instrument_Serif, Manrope, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { GlobalChrome } from "@/components/GlobalChrome";
+import { ScrollProgress } from "@/components/ScrollProgress";
+import { MagneticAttach } from "@/components/MagneticAttach";
+import { CardInteractive } from "@/components/CardInteractive";
 
 const instrumentSerif = Instrument_Serif({
   variable: "--font-display",
@@ -29,6 +32,13 @@ export const metadata: Metadata = {
     "A members' club where creators with distinctive voices meet brand campaigns that respect them.",
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -40,6 +50,9 @@ export default function RootLayout({
       className={`${instrumentSerif.variable} ${manrope.variable} ${jetbrainsMono.variable} antialiased`}
     >
       <body className="min-h-screen">
+        <ScrollProgress />
+        <MagneticAttach />
+        <CardInteractive />
         {children}
         <GlobalChrome />
       </body>

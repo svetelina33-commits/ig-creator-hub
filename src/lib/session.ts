@@ -8,6 +8,8 @@ export type SessionData = {
   oauthState?: string;
   oauthVerifier?: string;
   googleOauthState?: string;
+  googleFlowKind?: "connect" | "auth";
+  googleReturnTo?: string;
 };
 
 function sessionOptions(): SessionOptions {

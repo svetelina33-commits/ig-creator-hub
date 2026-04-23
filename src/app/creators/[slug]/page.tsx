@@ -174,7 +174,7 @@ export default async function CreatorProfilePage({ params }: { params: Params })
               Interested in commissioning {p.displayName}?
             </p>
             <a
-              href="mailto:arcrxx@gmail.com?subject=Commission%20inquiry"
+              href="mailto:yashpanchalsx@gmail.com?subject=Commission%20inquiry"
               className="mt-8 btn-primary inline-flex items-center gap-3 px-7 py-4 rounded-full text-[13px] tracking-wide"
             >
               Write the editor

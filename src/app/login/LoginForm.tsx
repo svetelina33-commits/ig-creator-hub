@@ -43,8 +43,9 @@ export default function LoginForm() {
         disabled={loading}
         className="btn-primary w-full inline-flex items-center justify-center gap-3 px-6 py-3 rounded-full text-[12px] tracking-wide disabled:opacity-60"
       >
+        {loading && <span className="nc-spinner" aria-hidden />}
         {loading ? "Signing in…" : "Enter"}
-        <span aria-hidden>→</span>
+        {!loading && <span aria-hidden>→</span>}
       </button>
     </form>
   );

@@ -31,8 +31,8 @@ export default function TermsPage() {
               <p>
                 Nexus Club is a curated matchmaking layer between brands that commission
                 creator work and creators who accept it. Operated at{" "}
-                <a className="link-ed" href="mailto:arcrxx@gmail.com">
-                  arcrxx@gmail.com
+                <a className="link-ed" href="mailto:yashpanchalsx@gmail.com">
+                  yashpanchalsx@gmail.com
                 </a>
                 .
               </p>
@@ -93,8 +93,8 @@ export default function TermsPage() {
               <p>
                 Either party may end membership at any time. Delete your account from
                 your dashboard or write to{" "}
-                <a className="link-ed" href="mailto:arcrxx@gmail.com">
-                  arcrxx@gmail.com
+                <a className="link-ed" href="mailto:yashpanchalsx@gmail.com">
+                  yashpanchalsx@gmail.com
                 </a>
                 . Active campaigns you've committed to should be completed before leaving.
               </p>

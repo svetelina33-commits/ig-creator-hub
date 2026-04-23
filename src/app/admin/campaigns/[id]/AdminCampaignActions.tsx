@@ -5,7 +5,7 @@ import { useState } from "react";
 
 type Props = {
   id: string;
-  status: "draft" | "open" | "closed";
+  status: "draft" | "open" | "closed" | "requested";
 };
 
 export default function AdminCampaignActions({ id, status }: Props) {

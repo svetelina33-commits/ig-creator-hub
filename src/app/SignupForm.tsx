@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { GoogleGlyph } from "@/components/GoogleGlyph";
 
 export default function SignupForm() {
   const router = useRouter();
@@ -31,44 +32,62 @@ export default function SignupForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-5">
-      <Field
-        label="Email address"
-        type="email"
-        value={email}
-        onChange={setEmail}
-        placeholder="you@your-domain.com"
-      />
-      <Field
-        label="Choose a password"
-        type="password"
-        value={password}
-        onChange={setPassword}
-        placeholder="Minimum 8 characters"
-        minLength={8}
-      />
-      {error && (
-        <p className="text-sm text-vermillion" role="alert">
-          {error}
-        </p>
-      )}
-      <div className="flex items-center justify-between pt-1 gap-3 flex-wrap">
-        <Link
-          href="/login"
-          className="text-[11px] small-caps tracking-[0.2em] text-ink-muted hover:text-ink"
-        >
-          Already a member? Sign in →
-        </Link>
-        <button
-          type="submit"
-          disabled={loading}
-          className="btn-primary inline-flex items-center gap-3 px-6 py-3 rounded-full text-[12px] tracking-wide disabled:opacity-60"
-        >
-          {loading ? "Reserving your seat…" : "Request membership"}
-          <span aria-hidden>→</span>
-        </button>
+    <div className="space-y-5">
+      <a
+        href="/api/auth/google/start?scope=basic"
+        className="btn-ghost w-full justify-center px-5 py-3 rounded-full text-[13px] gap-3"
+      >
+        <GoogleGlyph />
+        Continue with Google
+      </a>
+
+      <div className="flex items-center gap-3 text-[10px] small-caps tracking-[0.3em] text-ink-faint">
+        <span className="flex-1 border-t border-white/10" />
+        <span>or</span>
+        <span className="flex-1 border-t border-white/10" />
       </div>
-    </form>
+
+      <form onSubmit={onSubmit} className="space-y-5">
+        <Field
+          label="Email address"
+          type="email"
+          value={email}
+          onChange={setEmail}
+          placeholder="you@your-domain.com"
+        />
+        <Field
+          label="Choose a password"
+          type="password"
+          value={password}
+          onChange={setPassword}
+          placeholder="Minimum 8 characters"
+          minLength={8}
+        />
+        {error && (
+          <p className="text-sm text-vermillion" role="alert">
+            {error}
+          </p>
+        )}
+        <div className="flex items-center justify-between pt-1 gap-3 flex-wrap">
+          <Link
+            href="/login"
+            className="text-[11px] small-caps tracking-[0.2em] text-ink-muted hover:text-ink"
+          >
+            Already a member? Sign in →
+          </Link>
+          <button
+            type="submit"
+            disabled={loading}
+            data-magnetic
+            className="btn-primary nc-magnetic inline-flex items-center gap-3 px-6 py-3 rounded-full text-[12px] tracking-wide disabled:opacity-60"
+          >
+            {loading && <span className="nc-spinner" aria-hidden />}
+            {loading ? "Reserving your seat…" : "Request membership"}
+            {!loading && <span aria-hidden>→</span>}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }
 
@@ -102,3 +121,4 @@ function Field({
     </label>
   );
 }
+

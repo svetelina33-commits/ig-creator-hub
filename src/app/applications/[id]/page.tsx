@@ -43,6 +43,43 @@ export default async function CreatorApplicationDetail({ params }: { params: Par
             </Link>
           </div>
 
+          {application.status === "pending" && (
+            <div className="mb-6 rounded-2xl border border-amber/30 bg-amber/[0.04] p-5 sm:p-6">
+              <div className="flex items-start gap-4 flex-wrap">
+                <div className="flex items-center gap-2 shrink-0">
+                  <span className="inline-block w-2 h-2 rounded-full bg-amber animate-pulse" />
+                  <span className="small-caps text-[10px] tracking-[0.3em] text-amber">
+                    Under human review · 12 hrs
+                  </span>
+                </div>
+                <div className="flex-1 min-w-[260px]">
+                  <div className="font-serif-display text-xl text-ink leading-tight">
+                    A human editor is reading your application.
+                  </div>
+                  <p className="mt-2 text-[13px] leading-[1.6] text-ink-muted">
+                    Every submission is reviewed by a person, not a bot. Expect a decision within
+                    12 hours — we&apos;ll post it to your dashboard and the thread below.
+                  </p>
+                  <p className="mt-2 text-[12px] leading-[1.5] text-ink-faint mono-num">
+                    Submitted{" "}
+                    {new Date(application.appliedAt).toLocaleString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                    {" · "}
+                    ETA{" "}
+                    {new Date(new Date(application.appliedAt).getTime() + 12 * 3600 * 1000).toLocaleString(
+                      "en-US",
+                      { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" },
+                    )}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="glass rounded-2xl p-6 sm:p-8">
             <div className="grid grid-cols-1 sm:grid-cols-5 gap-8 items-start">
               <div className="sm:col-span-3">

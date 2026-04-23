@@ -85,8 +85,8 @@ export default function PrivacyPage() {
             <Section n="VI" title="Your rights">
               <p>
                 Write to{" "}
-                <a href="mailto:arcrxx@gmail.com" className="link-ed">
-                  arcrxx@gmail.com
+                <a href="mailto:yashpanchalsx@gmail.com" className="link-ed">
+                  yashpanchalsx@gmail.com
                 </a>{" "}
                 to request a copy, correction, or deletion of your data. We respond
                 within thirty days.
