@@ -94,60 +94,63 @@ export default function ConnectEmailStep() {
 
 function DemoScreen({ startUrl, onBack }: { startUrl: string; onBack: () => void }) {
   return (
-    <div className="glass rounded-2xl p-6 sm:p-8 space-y-6 nc-rise">
+    <div className="glass rounded-2xl p-6 sm:p-8 space-y-7 nc-rise">
       <div>
-        <span className="small-caps text-[10px] tracking-[0.3em] text-amber">
+        <span className="small-caps text-[11px] tracking-[0.22em] text-amber">
           Step 02 · before you go to Google
         </span>
-        <h2 className="mt-2 font-serif-display text-3xl text-ink">
-          Here&apos;s what <span className="font-serif-italic text-ink-soft">happens next</span>.
+        <h2 className="mt-3 font-serif-display text-4xl text-ink leading-[1.05]">
+          <span className="font-serif-italic text-ink-soft">A moment —</span>{" "}
+          three things worth reading<span className="text-violet">.</span>
         </h2>
-        <p className="mt-3 text-[14px] leading-[1.65] text-ink-muted max-w-2xl">
-          We&apos;ll send you to Google&apos;s official consent screen. You&apos;ll see exactly
-          what we&apos;re requesting and can approve or cancel. Nothing happens on our side
-          until you approve.
+        <p className="mt-4 text-[14.5px] leading-[1.7] text-ink-muted max-w-2xl">
+          You&apos;re about to leave Nexus Club for Google&apos;s own consent screen. Because
+          we&apos;re a small, independent platform, Google will likely flag us as{" "}
+          <em className="font-serif-italic text-ink-soft">
+            &ldquo;Google hasn&apos;t verified this app.&rdquo;
+          </em>{" "}
+          That&apos;s normal — their verification queue runs 1–6 weeks and we&apos;re in it. The
+          warning is standard; the connection is safe.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <DemoStep
-          n="01"
-          title="Google shows the consent screen"
-          body="Google lists the permissions Nexus Club is asking for, with your account name and our app name. It&apos;s their UI — not ours."
+      <div className="space-y-1">
+        <div className="small-caps text-[11px] tracking-[0.22em] text-ink-muted mb-4">
+          What you&apos;re granting
+        </div>
+
+        <ScopeRow
+          state="granted"
+          title="Your name and email"
+          body="So we know which account is connected — this is also the address your payout is released to."
         />
-        <DemoStep
-          n="02"
-          title="You approve"
-          body="If you approve, Google sends us a short-lived token that represents this consent. You can revoke it anytime from your Google account settings."
+        <ScopeRow
+          state="granted"
+          title="Send email on your behalf"
+          body="Used only for campaign confirmations you&apos;ve approved. Nothing goes out automatically."
         />
-        <DemoStep
-          n="03"
-          title="We confirm and return"
-          body="We store your Gmail address tied to this account and bring you back here to confirm the withdrawal. Nothing else leaves Google."
+        <ScopeRow
+          state="denied"
+          title="Read your inbox"
+          body="Never. We don&apos;t request this scope and couldn&apos;t read a single message if we tried."
+        />
+        <ScopeRow
+          state="denied"
+          title="See your password"
+          body="Google handles sign-in from their own screen. Nexus Club never sees, stores, or transmits your password."
         />
       </div>
 
-      <div className="rounded-xl border border-white/10 bg-white/[0.02] p-5">
-        <div className="small-caps text-[10px] tracking-[0.3em] text-ink-muted mb-3">
-          What Google will ask
+      <div className="rounded-xl border border-white/10 bg-white/[0.02] p-5 text-[13px] leading-[1.7] text-ink-muted">
+        <div className="font-serif-italic text-ink-soft mb-1.5">
+          On the warning screen:
         </div>
-        <ul className="space-y-2 text-[13px] leading-[1.55] text-ink-soft">
-          <PermissionLine>
-            <strong className="text-ink">Your name and email.</strong> So we know which account
-            is connected.
-          </PermissionLine>
-          <PermissionLine>
-            <strong className="text-ink">Send email on your behalf.</strong> Used for campaign
-            replies routed through your Gmail — only when you approve a campaign.
-          </PermissionLine>
-          <PermissionLine>
-            <strong className="text-ink">Read your inbox.</strong> So replies to campaign emails
-            appear in your Nexus dashboard. We never sell, share, or train on your inbox.
-          </PermissionLine>
-        </ul>
-        <div className="mt-4 pt-4 border-t border-white/10 text-[11.5px] leading-[1.5] text-ink-muted">
-          Google&apos;s OAuth flow means <strong className="text-ink">we never see your
-          password</strong>. Tokens are encrypted at rest with AES-256-GCM. Revoke anytime at{" "}
+        click <span className="text-ink">Advanced</span>, then{" "}
+        <span className="text-ink">Go to Nexus Club (unsafe)</span>. Not dramatic in practice —
+        just Google&apos;s wording for apps still under review.
+        <div className="mt-4 pt-4 border-t border-white/10 text-[12px] leading-[1.6] text-ink-faint">
+          Tokens are encrypted at rest (AES-256-GCM) and never leave our servers. Revoke anytime
+          at{" "}
           <a
             href="https://myaccount.google.com/permissions"
             target="_blank"
@@ -181,21 +184,65 @@ function DemoScreen({ startUrl, onBack }: { startUrl: string; onBack: () => void
   );
 }
 
-function DemoStep({ n, title, body }: { n: string; title: string; body: string }) {
+function ScopeRow({
+  state,
+  title,
+  body,
+}: {
+  state: "granted" | "denied";
+  title: string;
+  body: string;
+}) {
+  const granted = state === "granted";
   return (
-    <div className="rounded-xl border border-white/10 bg-white/[0.02] p-5">
-      <div className="font-mono-numeric text-[11px] text-violet mb-1">{n}</div>
-      <div className="font-serif-display text-xl text-ink leading-tight">{title}</div>
-      <p className="mt-2 text-[12.5px] leading-[1.5] text-ink-muted">{body}</p>
+    <div className="flex items-start gap-4 py-3 border-b border-white/5 last:border-b-0">
+      <span
+        className={`mt-0.5 shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-full border ${
+          granted
+            ? "border-forest/50 bg-forest/[0.08] text-forest"
+            : "border-white/15 bg-white/[0.02] text-ink-muted"
+        }`}
+        aria-hidden
+      >
+        {granted ? (
+          <svg
+            viewBox="0 0 14 14"
+            className="w-3.5 h-3.5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.75"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M3 7.5 L6 10.5 L11 4" />
+          </svg>
+        ) : (
+          <svg
+            viewBox="0 0 14 14"
+            className="w-3.5 h-3.5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          >
+            <line x1="4" y1="4" x2="10" y2="10" />
+            <line x1="10" y1="4" x2="4" y2="10" />
+          </svg>
+        )}
+      </span>
+      <div className="min-w-0">
+        <div className="flex items-baseline gap-3 flex-wrap">
+          <span className="font-serif-display text-[18px] text-ink">{title}</span>
+          <span
+            className={`small-caps text-[9.5px] tracking-[0.22em] ${
+              granted ? "text-forest" : "text-ink-faint"
+            }`}
+          >
+            {granted ? "● granted" : "○ not requested"}
+          </span>
+        </div>
+        <p className="mt-1 text-[13px] leading-[1.6] text-ink-muted">{body}</p>
+      </div>
     </div>
-  );
-}
-
-function PermissionLine({ children }: { children: React.ReactNode }) {
-  return (
-    <li className="flex items-baseline gap-3 leading-[1.55]">
-      <span className="text-amber text-[10px] mt-0.5 shrink-0">◆</span>
-      <span>{children}</span>
-    </li>
   );
 }
