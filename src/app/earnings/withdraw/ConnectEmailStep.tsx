@@ -3,8 +3,6 @@
 import { useState } from "react";
 import { GoogleGlyph } from "@/components/GoogleGlyph";
 
-const SKIP_KEY = "nc_skip_withdraw_primer";
-
 export default function ConnectEmailStep() {
   const [agreed, setAgreed] = useState(false);
   const [showDemo, setShowDemo] = useState(false);
@@ -12,21 +10,6 @@ export default function ConnectEmailStep() {
   const startUrl =
     "/api/auth/google/start?return_to=" +
     encodeURIComponent("/earnings/withdraw?step=3");
-
-  function openDemoOrSkip() {
-    // If the creator previously ticked "Don't show this again", jump
-    // straight to Google without re-rendering the primer.
-    try {
-      if (
-        typeof window !== "undefined" &&
-        window.localStorage.getItem(SKIP_KEY) === "1"
-      ) {
-        window.location.href = startUrl;
-        return;
-      }
-    } catch {}
-    setShowDemo(true);
-  }
 
   if (showDemo) {
     return <DemoScreen startUrl={startUrl} onBack={() => setShowDemo(false)} />;
@@ -93,7 +76,7 @@ export default function ConnectEmailStep() {
       <div className="flex items-center gap-4 flex-wrap">
         <button
           type="button"
-          onClick={openDemoOrSkip}
+          onClick={() => setShowDemo(true)}
           disabled={!agreed}
           className="btn-primary inline-flex items-center gap-3 px-5 py-3 rounded-full text-[12px] disabled:opacity-40 disabled:cursor-not-allowed"
         >
@@ -110,17 +93,13 @@ export default function ConnectEmailStep() {
 }
 
 function DemoScreen({ startUrl, onBack }: { startUrl: string; onBack: () => void }) {
-  const [rememberDecision, setRememberDecision] = useState(false);
+  const [acknowledged, setAcknowledged] = useState(false);
   const [continuing, setContinuing] = useState(false);
 
   function handleContinue(e: React.MouseEvent<HTMLAnchorElement>) {
     e.preventDefault();
+    if (!acknowledged) return;
     setContinuing(true);
-    try {
-      if (rememberDecision && typeof window !== "undefined") {
-        window.localStorage.setItem(SKIP_KEY, "1");
-      }
-    } catch {}
     window.location.href = startUrl;
   }
   return (
@@ -193,15 +172,17 @@ function DemoScreen({ startUrl, onBack }: { startUrl: string; onBack: () => void
         </div>
       </div>
 
-      <label className="flex items-center gap-3 cursor-pointer select-none group pt-1">
+      <label className="flex items-start gap-3 cursor-pointer select-none group rounded-xl border border-white/10 bg-white/[0.015] hover:bg-white/[0.03] px-4 py-3.5 transition-colors">
         <input
           type="checkbox"
-          checked={rememberDecision}
-          onChange={(e) => setRememberDecision(e.target.checked)}
-          className="accent-violet w-4 h-4"
+          checked={acknowledged}
+          onChange={(e) => setAcknowledged(e.target.checked)}
+          className="mt-[3px] accent-violet w-[18px] h-[18px] shrink-0 cursor-pointer"
         />
-        <span className="text-[12.5px] small-caps tracking-[0.22em] text-ink-muted group-hover:text-ink-soft transition-colors">
-          Don&apos;t show this again
+        <span className="text-[13.5px] leading-[1.55] text-ink-soft group-hover:text-ink transition-colors">
+          <span className="font-serif-italic text-ink">I&apos;ve read this</span> before
+          connecting my Gmail — I understand Google will show an unverified-app notice and I
+          know exactly what permissions I&apos;m granting.
         </span>
       </label>
 
@@ -213,16 +194,27 @@ function DemoScreen({ startUrl, onBack }: { startUrl: string; onBack: () => void
         >
           ← Back
         </button>
-        <a
-          href={startUrl}
-          onClick={handleContinue}
-          aria-disabled={continuing}
-          className="btn-primary inline-flex items-center gap-3 px-6 py-3 rounded-full text-[13px]"
-        >
-          <GoogleGlyph size={16} />
-          {continuing ? "Redirecting…" : "Continue to Google"}
-          {!continuing && <span aria-hidden>→</span>}
-        </a>
+        <div className="flex items-center gap-3">
+          {!acknowledged && (
+            <span className="small-caps text-[10px] tracking-[0.22em] text-ink-faint">
+              Tick the box to continue
+            </span>
+          )}
+          <a
+            href={startUrl}
+            onClick={handleContinue}
+            aria-disabled={!acknowledged || continuing}
+            className={`btn-primary inline-flex items-center gap-3 px-6 py-3 rounded-full text-[13px] ${
+              !acknowledged || continuing
+                ? "opacity-40 cursor-not-allowed pointer-events-none"
+                : ""
+            }`}
+          >
+            <GoogleGlyph size={16} />
+            {continuing ? "Redirecting…" : "Continue to Google"}
+            {!continuing && <span aria-hidden>→</span>}
+          </a>
+        </div>
       </div>
     </div>
   );

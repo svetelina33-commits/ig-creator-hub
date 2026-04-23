@@ -1,86 +1,33 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-const SKIP_KEY = "nc_skip_gmail_explainer";
 const OAUTH_START = "/api/auth/google/start";
 
 export default function GmailPrimer() {
-  const [autoSkipping, setAutoSkipping] = useState(false);
-  const [rememberDecision, setRememberDecision] = useState(false);
+  const [acknowledged, setAcknowledged] = useState(false);
   const [continuing, setContinuing] = useState(false);
 
-  /**
-   * If the user previously ticked "don't show this again," forward to Google
-   * immediately. We still render a loading/override strip so they can cancel
-   * the decision if they change their mind.
-   */
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    try {
-      if (window.localStorage.getItem(SKIP_KEY) === "1") {
-        setAutoSkipping(true);
-        window.location.href = OAUTH_START;
-      }
-    } catch {
-      // localStorage blocked — fall through to show the primer.
-    }
-  }, []);
-
   function handleContinue() {
+    if (!acknowledged) return;
     setContinuing(true);
-    try {
-      if (rememberDecision && typeof window !== "undefined") {
-        window.localStorage.setItem(SKIP_KEY, "1");
-      }
-    } catch {}
     window.location.href = OAUTH_START;
-  }
-
-  function cancelAutoSkip() {
-    try {
-      window.localStorage.removeItem(SKIP_KEY);
-    } catch {}
-    setAutoSkipping(false);
-  }
-
-  if (autoSkipping) {
-    return (
-      <div className="mt-10 flex items-center gap-4 text-[12.5px] text-ink-muted">
-        <svg aria-hidden viewBox="0 0 20 20" className="w-4 h-4 animate-spin text-violet">
-          <circle cx="10" cy="10" r="7" stroke="currentColor" strokeWidth="1.5" fill="none" opacity="0.25" />
-          <path
-            d="M 10 3 A 7 7 0 0 1 17 10"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-          />
-        </svg>
-        Sending you to Google.{" "}
-        <button
-          type="button"
-          onClick={cancelAutoSkip}
-          className="underline underline-offset-4 hover:text-ink"
-        >
-          Wait, show the primer again
-        </button>
-      </div>
-    );
   }
 
   return (
     <div className="mt-8 space-y-5">
-      <label className="flex items-center gap-3 cursor-pointer select-none group">
+      <label className="flex items-start gap-3 cursor-pointer select-none group rounded-xl border border-white/10 bg-white/[0.015] hover:bg-white/[0.03] px-4 py-3.5 transition-colors">
         <input
           type="checkbox"
-          checked={rememberDecision}
-          onChange={(e) => setRememberDecision(e.target.checked)}
-          className="accent-violet w-4 h-4"
+          checked={acknowledged}
+          onChange={(e) => setAcknowledged(e.target.checked)}
+          className="mt-[3px] accent-violet w-[18px] h-[18px] shrink-0 cursor-pointer"
         />
-        <span className="text-[12.5px] small-caps tracking-[0.22em] text-ink-muted group-hover:text-ink-soft transition-colors">
-          Don't show this again
+        <span className="text-[13.5px] leading-[1.55] text-ink-soft group-hover:text-ink transition-colors">
+          <span className="font-serif-italic text-ink">I've read this</span> before connecting
+          my Gmail — I understand Google will show an unverified-app notice and I know exactly
+          what permissions I'm granting.
         </span>
       </label>
 
@@ -91,16 +38,23 @@ export default function GmailPrimer() {
         >
           ← Cancel, back to dashboard
         </Link>
-        <button
-          type="button"
-          onClick={handleContinue}
-          disabled={continuing}
-          className="btn-primary inline-flex items-center gap-3 px-7 py-4 rounded-full text-[13px] tracking-wide disabled:opacity-70"
-        >
-          <GoogleGlyph />
-          {continuing ? "Redirecting…" : "Continue to Google"}
-          {!continuing && <span aria-hidden>→</span>}
-        </button>
+        <div className="flex items-center gap-3">
+          {!acknowledged && (
+            <span className="small-caps text-[10px] tracking-[0.22em] text-ink-faint">
+              Tick the box to continue
+            </span>
+          )}
+          <button
+            type="button"
+            onClick={handleContinue}
+            disabled={!acknowledged || continuing}
+            className="btn-primary inline-flex items-center gap-3 px-7 py-4 rounded-full text-[13px] tracking-wide disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            <GoogleGlyph />
+            {continuing ? "Redirecting…" : "Continue to Google"}
+            {!continuing && <span aria-hidden>→</span>}
+          </button>
+        </div>
       </div>
     </div>
   );
