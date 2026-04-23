@@ -433,22 +433,15 @@ html { scroll-padding-top: 80px; }
   0%, 100% { stroke-opacity: 0.28; r: 30; }
   50% { stroke-opacity: 0.42; r: 30.6; }
 }
-.nc-seal {
-  display: inline-block;
+.nc-seal-rect {
   transition: transform 640ms cubic-bezier(0.22, 1, 0.36, 1),
     filter 640ms cubic-bezier(0.22, 1, 0.36, 1);
 }
-.nc-seal:hover {
-  transform: scale(1.05);
-  filter: drop-shadow(0 0 18px rgba(125, 90, 255, 0.35));
+.nc-seal-rect:hover {
+  transform: scale(1.04);
+  filter: drop-shadow(0 0 22px rgba(125, 90, 255, 0.38));
 }
-.nc-seal:hover .nc-seal-text-ring {
-  animation-duration: 14s !important;
-}
-.nc-seal:hover .nc-seal-ticks {
-  animation-duration: 32s !important;
-}
-.nc-seal:hover .nc-seal-punctum {
+.nc-seal-rect:hover .nc-seal-punctum {
   animation-duration: 0.9s !important;
 }
 
