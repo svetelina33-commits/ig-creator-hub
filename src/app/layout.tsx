@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Instrument_Serif, Manrope, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { GlobalChrome } from "@/components/GlobalChrome";
-import { ScrollProgress } from "@/components/ScrollProgress";
 import { MagneticAttach } from "@/components/MagneticAttach";
 import { CardInteractive } from "@/components/CardInteractive";
 
@@ -50,7 +49,6 @@ export default function RootLayout({
       className={`${instrumentSerif.variable} ${manrope.variable} ${jetbrainsMono.variable} antialiased`}
     >
       <body className="min-h-screen">
-        <ScrollProgress />
         <MagneticAttach />
         <CardInteractive />
         {children}

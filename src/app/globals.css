@@ -362,29 +362,6 @@ input[type="checkbox"]:checked {
   transform: scale(1.04);
 }
 
-/* ───── Scroll progress indicator (driven by CSS scroll-timeline on modern browsers) ───── */
-@keyframes nc-scroll-progress {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
-}
-.nc-scroll-progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  transform-origin: left center;
-  background: linear-gradient(90deg, var(--violet), var(--forest));
-  z-index: 100;
-  pointer-events: none;
-  animation: nc-scroll-progress auto linear;
-  animation-timeline: scroll(root);
-}
-/* Fallback: hide where scroll-timeline unsupported (Safari < 17) */
-@supports not (animation-timeline: scroll(root)) {
-  .nc-scroll-progress { display: none; }
-}
-
 /* ───── Smooth scroll + anchor offset ───── */
 html { scroll-padding-top: 80px; }
 
@@ -522,15 +499,19 @@ html { scroll-padding-top: 80px; }
   mask-image: linear-gradient(
     to right,
     transparent 0,
-    #000 56px,
-    #000 calc(100% - 80px),
+    rgba(0, 0, 0, 0.4) 40px,
+    #000 120px,
+    #000 calc(100% - 180px),
+    rgba(0, 0, 0, 0.4) calc(100% - 60px),
     transparent 100%
   );
   -webkit-mask-image: linear-gradient(
     to right,
     transparent 0,
-    #000 56px,
-    #000 calc(100% - 80px),
+    rgba(0, 0, 0, 0.4) 40px,
+    #000 120px,
+    #000 calc(100% - 180px),
+    rgba(0, 0, 0, 0.4) calc(100% - 60px),
     transparent 100%
   );
 }
@@ -539,15 +520,19 @@ html { scroll-padding-top: 80px; }
     mask-image: linear-gradient(
       to right,
       transparent 0,
-      #000 120px,
-      #000 calc(100% - 160px),
+      rgba(0, 0, 0, 0.4) 80px,
+      #000 220px,
+      #000 calc(100% - 260px),
+      rgba(0, 0, 0, 0.4) calc(100% - 100px),
       transparent 100%
     );
     -webkit-mask-image: linear-gradient(
       to right,
       transparent 0,
-      #000 120px,
-      #000 calc(100% - 160px),
+      rgba(0, 0, 0, 0.4) 80px,
+      #000 220px,
+      #000 calc(100% - 260px),
+      rgba(0, 0, 0, 0.4) calc(100% - 100px),
       transparent 100%
     );
   }
