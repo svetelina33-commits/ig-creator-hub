@@ -12,7 +12,6 @@ import {
 import { Masthead } from "@/components/Masthead";
 import { Footer } from "@/components/Footer";
 import { CountUp } from "@/components/CountUp";
-import { AmbientOrbs } from "@/components/AmbientOrbs";
 
 export const metadata = { title: "Withdraw · Nexus Club" };
 
@@ -38,7 +37,6 @@ export default async function EarningsPage() {
     <>
       <Masthead email={creator.email} isAdmin={admin} />
       <main className="px-6 sm:px-10 relative">
-        <AmbientOrbs />
         <div className="mx-auto max-w-7xl py-12 sm:py-16 relative">
           <div className="mb-12 flex items-end justify-between gap-6 flex-wrap">
             <div>

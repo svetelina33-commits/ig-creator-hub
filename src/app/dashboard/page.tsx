@@ -11,7 +11,6 @@ import {
 import { isAdmin } from "@/lib/auth";
 import { Masthead } from "@/components/Masthead";
 import { Footer } from "@/components/Footer";
-import { AmbientOrbs } from "@/components/AmbientOrbs";
 import { CampaignCover } from "@/components/CampaignCover";
 import { ToneChip } from "@/components/Ornaments";
 import DashboardInstagramCard from "./DashboardInstagramCard";
@@ -49,7 +48,6 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
     <>
       <Masthead email={creator.email} isAdmin={admin} />
       <main className="px-6 sm:px-10 relative overflow-hidden">
-        <AmbientOrbs />
         <div className="mx-auto max-w-7xl py-12 sm:py-16 relative">
           <div className="mb-10 flex items-end justify-between gap-6 flex-wrap">
             <div>

@@ -5,7 +5,6 @@ import { findCreatorById } from "@/lib/store";
 import { isAdmin } from "@/lib/auth";
 import { Masthead } from "@/components/Masthead";
 import { Footer } from "@/components/Footer";
-import { AmbientOrbs } from "@/components/AmbientOrbs";
 import PitchForm from "./PitchForm";
 
 export const metadata = { title: "Pitch a campaign · Nexus Club" };
@@ -21,7 +20,6 @@ export default async function PitchPage() {
     <>
       <Masthead email={creator.email} isAdmin={admin} />
       <main className="px-5 sm:px-10 relative overflow-hidden">
-        <AmbientOrbs />
         <div className="mx-auto max-w-3xl py-12 sm:py-16 relative">
           <div className="mb-6 flex items-baseline gap-3 text-[11px] small-caps tracking-[0.25em] text-ink-muted">
             <Link href="/campaigns" className="hover:text-ink">
