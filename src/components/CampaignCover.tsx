@@ -104,11 +104,22 @@ export function CampaignCover({ campaign, variant = "rectangle", className = "" 
           </linearGradient>
         </defs>
 
-        {/* Ambient glow — positioned behind the motif */}
-        <circle cx={glowX} cy={glowY} r="55" fill={`url(#glow-${campaign.id})`} opacity="1" />
+        {/* Ambient glow — positioned behind the motif center */}
+        <circle
+          cx={glowX + 25}
+          cy={glowY + 18}
+          r="55"
+          fill={`url(#glow-${campaign.id})`}
+          opacity="1"
+        />
 
-        {/* Niche-specific motif (top half) */}
-        <CampaignMotif id={campaign.id} glow={p.glow} />
+        {/* Niche-specific motif — vertically centered in the visible
+            area (5:4 aspect crops top/bottom ~y=10/90 of the 100x100
+            viewBox). Shifted +10 so motif center lands on the card's
+            optical center rather than the top half. */}
+        <g transform="translate(0, 10)">
+          <CampaignMotif id={campaign.id} glow={p.glow} />
+        </g>
 
         {/* Diagonal sheen */}
         <rect width="100" height="100" fill={`url(#sheen-${campaign.id})`} opacity="0.45" />
@@ -124,15 +135,15 @@ export function CampaignCover({ campaign, variant = "rectangle", className = "" 
         {/* Divider above brand plate */}
         <line
           x1="18"
-          y1="62"
+          y1="66"
           x2="82"
-          y2="62"
+          y2="66"
           stroke="rgba(255,255,255,0.12)"
           strokeWidth="0.2"
         />
 
         {/* Brand monogram mark — rendered like a signet/logo, square bracket frame */}
-        <g transform="translate(24 67)">
+        <g transform="translate(24 71)">
           <rect
             x="0"
             y="0"
@@ -161,7 +172,7 @@ export function CampaignCover({ campaign, variant = "rectangle", className = "" 
         {/* Brand name (italic serif, editorial) */}
         <text
           x="40"
-          y="74"
+          y="78"
           fontFamily='var(--font-italic), ui-serif, Georgia, serif'
           fontStyle="italic"
           fontSize="6.8"
@@ -174,7 +185,7 @@ export function CampaignCover({ campaign, variant = "rectangle", className = "" 
         {/* Volume / issue mark */}
         <text
           x="40"
-          y="80.5"
+          y="84.5"
           fontFamily="ui-monospace, monospace"
           fontSize="2.4"
           fill={p.textMuted}
