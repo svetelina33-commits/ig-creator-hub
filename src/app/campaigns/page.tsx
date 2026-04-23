@@ -60,7 +60,7 @@ export default async function CampaignsPage({ searchParams }: { searchParams: Se
               right={`${String(all.length).padStart(2, "0")} LIVE`}
             />
           </Reveal>
-          <Reveal delay={80} className="mt-8 flex items-end justify-between gap-4 flex-wrap">
+          <Reveal delay={80} className="mt-8 flex items-end justify-between gap-6 flex-wrap">
             <div>
               <h1 className="font-serif-display text-[clamp(3rem,8vw,7rem)] leading-[0.9] text-ink">
                 <span className="font-serif-italic text-violet">Now</span> commissioning.
@@ -70,6 +70,18 @@ export default async function CampaignsPage({ searchParams }: { searchParams: Se
                   {String(campaigns.length).padStart(2, "0")} MATCH CURRENT FILTERS
                 </p>
               )}
+            </div>
+            <div className="flex items-center gap-3 pb-2">
+              <Link
+                href="/campaigns/pitch"
+                className="btn-primary inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-[12px]"
+              >
+                Pitch yours
+                <span aria-hidden>+</span>
+              </Link>
+              <span className="hidden sm:inline small-caps text-[10px] tracking-[0.25em] text-ink-muted max-w-[220px] leading-[1.5]">
+                Got a brand in mind? Write the brief yourself.
+              </span>
             </div>
           </Reveal>
         </section>
