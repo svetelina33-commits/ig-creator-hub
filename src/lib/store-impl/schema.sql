@@ -96,16 +96,53 @@ CREATE TABLE IF NOT EXISTS messages (
 
 CREATE INDEX IF NOT EXISTS messages_application_idx ON messages (application_id, created_at ASC);
 
--- Seed campaigns (ignored if they already exist).
+-- Seed campaigns — Nexus Club roster (niche creator-page campaigns).
+-- Idempotent: re-running only inserts missing rows.
 INSERT INTO campaigns (id, slug, title, brand, tagline, brief, payout_cents, currency, deadline, deliverables, status, cover_tone, created_at)
 VALUES
-  ('cmp_seed_01', 'maison-ophir-fw26', 'Autumn Dossier', 'Maison Ophir', 'A quiet luxury edit for the cold months.',
-   'We''re looking for three creators with a distinct, editorial point-of-view to feature the Maison Ophir FW26 capsule. One carousel post and one Reel, shot in natural light. Styling freedom within our moodboard.',
-   180000, 'USD', '2026-05-20', '[{"kind":"post","count":1},{"kind":"reel","count":1}]'::jsonb, 'open', 'forest', '2026-04-12T09:00:00Z'),
-  ('cmp_seed_02', 'helia-vol-02', 'Volume 02', 'Helia', 'Slow mornings. Warm rituals. A product story.',
-   'A single 60–90 second Reel narrating your morning ritual with our new ceramic pour-over. We license the footage for 90 days across Helia''s channels.',
-   85000, 'USD', '2026-05-02', '[{"kind":"reel","count":1}]'::jsonb, 'open', 'ochre', '2026-04-14T10:30:00Z'),
-  ('cmp_seed_03', 'folio-press-launch', 'Folio Press — launch week', 'Folio Press', 'An independent bookshop, now online.',
-   'Help us open the doors. One Story set (minimum 6 frames) on launch day and one carousel post within the first week. Genuine voice required — we review portfolios.',
-   60000, 'USD', '2026-05-30', '[{"kind":"story","count":6},{"kind":"post","count":1}]'::jsonb, 'open', 'vermillion', '2026-04-18T08:15:00Z')
+  ('cmp_niche_01', 'meridian-labs-locked-in', 'Locked In', 'Meridian Labs', 'Early mornings. Compound wins. The rest follows.',
+   'For creators running a high-agency, self-improvement page (Gen Z men, 16–28). Two Reels: one morning-routine montage, one book-and-barbell voiceover framed around ''high agency'' as a personality trait. We license for 60 days across Meridian''s channels. Chris Williamson / Bryan Johnson / David Goggins energy welcomed.',
+   120000, 'USD', '2026-06-08', '[{"kind":"reel","count":2}]'::jsonb, 'open', 'ink', '2026-04-22T09:00:00Z'),
+  ('cmp_niche_02', 'lune-co-peace-protected', 'Peace, Protected', 'Lune & Co', 'Slow mornings, kept sacred.',
+   'Soft-girl / feminine-energy lifestyle pages. One aesthetic b-roll Reel (matcha, pilates, journaling, linen) and one carousel post with ''delusional affirmations'' or romanticize-the-mundane copy. Pinterest-core, clean-girl, quiet luxury. Audience: 18–30F.',
+   75000, 'USD', '2026-05-28', '[{"kind":"reel","count":1},{"kind":"post","count":1}]'::jsonb, 'open', 'vermillion', '2026-04-22T10:15:00Z'),
+  ('cmp_niche_03', 'cadence-ai-ten-times', 'Ten Times Before Noon', 'Cadence AI', 'Ship more, think cleaner — with the stack.',
+   'AI power-user pages — knowledge workers, 22–40. Two Reels: one ''tool of the week'' walkthrough and one ''things AI shipped for me this week'' storytime. Claude / GPT-5 / Sora / agent workflow references fair game. We provide talking points and a discount code.',
+   150000, 'USD', '2026-06-02', '[{"kind":"reel","count":2}]'::jsonb, 'open', 'ink', '2026-04-22T11:00:00Z'),
+  ('cmp_niche_04', 'dial-up-club-then-vs-now', 'Then vs. Now', 'Dial-Up Club', 'We grew up online. Now we grew up.',
+   'Late-millennial / geriatric-Gen-Z nostalgia pages (28–38). One Reel: Limewire / MSN / early-2000s internet screenshots vs. present-day adulthood. One carousel post: ''remember who you are'' framing. Purchasing-power demographic — treat it with warmth, not cringe.',
+   85000, 'USD', '2026-06-12', '[{"kind":"reel","count":1},{"kind":"post","count":1}]'::jsonb, 'open', 'ochre', '2026-04-22T12:30:00Z'),
+  ('cmp_niche_05', 'barbell-standard-iron-discipline', 'Iron Discipline', 'Barbell Standard', 'Heavy weights. Clean plates. No cope.',
+   'Serious-lifter fitness pages (16–30M). Two Reels: one physique-edit / gym-session montage, one training-split infographic walkthrough. Sam Sulek / protein-maxxing / carnivore-adjacent culture welcomed, within our brand guidelines. Supplement code + 60-day license.',
+   90000, 'USD', '2026-06-05', '[{"kind":"reel","count":2}]'::jsonb, 'open', 'vermillion', '2026-04-22T14:00:00Z'),
+  ('cmp_niche_06', 'ticker-co-chart-monday', 'Chart Monday', 'Ticker & Co', 'Markets, moves, and the occasional flex.',
+   'Finance / markets commentary pages (22–35M). One Reel: a ''chart of the week'' walkthrough tied to a live market story. Two Stories: earnings-season reactions or prediction-market hot takes. NVIDIA / AI-bubble / private-credit takes encouraged. High-net-worth audience — deliver substance, not just flex.',
+   140000, 'USD', '2026-06-01', '[{"kind":"reel","count":1},{"kind":"story","count":2}]'::jsonb, 'open', 'forest', '2026-04-22T15:00:00Z'),
+  ('cmp_niche_07', 'signal-desk-sixty-seconds', 'Sixty Seconds Abroad', 'Signal Desk', 'The world, in plain language.',
+   'Geopolitics / global-affairs explainer pages (20–40). Two Reels: one map-based ''what''s happening in [country]'' explainer and one historical-parallel carousel-style reel. Neutral tone. No hot takes on live conflicts — educate, don''t incite.',
+   95000, 'USD', '2026-06-10', '[{"kind":"reel","count":2}]'::jsonb, 'open', 'ochre', '2026-04-22T16:00:00Z'),
+  ('cmp_niche_08', 'noir-femme-unbothered', 'Unbothered', 'Noir Femme', 'High standards, quiet presence.',
+   'Dark-feminine / ''that girl'' pages (20–35F). One Reel: a ''signs you''re unbothered'' or ''high-value woman'' framing, luxury-lifestyle-adjacent. One carousel post: psychology or dating-dynamics screenshots. Audience buys coaching / courses.',
+   90000, 'USD', '2026-05-30', '[{"kind":"reel","count":1},{"kind":"post","count":1}]'::jsonb, 'open', 'ink', '2026-04-23T09:00:00Z'),
+  ('cmp_niche_09', 'zeitgeist-archive-commentary', 'The Commentary', 'Zeitgeist Archive', 'Reading the room. Screenshotting the times.',
+   'Cultural-commentary / meme-curation pages. Two Reels curating internet-culture screenshots with a ''man in the arena'' framing — reflective, not reactionary. We vet all copy before publish; keep it cultural, not political. High-engagement audience.',
+   70000, 'USD', '2026-06-14', '[{"kind":"reel","count":2}]'::jsonb, 'open', 'ink', '2026-04-23T10:00:00Z'),
+  ('cmp_niche_10', 'shipyard-build-in-public', 'Build in Public', 'Shipyard', 'Revenue. Reps. Receipts.',
+   'Startup-founder / indie-hacker pages (22–40). Two Reels: one ''tools I use to ship faster'' walkthrough and one revenue-milestone screenshot reel. Vibe-coding / YC / Anthropic-OpenAI discourse all fair. Direct SaaS-buyer audience — substantive content wins.',
+   130000, 'USD', '2026-06-06', '[{"kind":"reel","count":2}]'::jsonb, 'open', 'forest', '2026-04-23T11:00:00Z'),
+  ('cmp_niche_11', 'atelier-luxe-quiet-luxury', 'Quiet Luxury', 'Atelier Luxe', 'What you''re actually working for.',
+   'Aspirational-wealth / luxury-lifestyle pages (18–35). One Reel: supercar, watch, or mansion walkthrough — Saltburn-aesthetic, not bling. One carousel post: ''a day in Monaco'' style edit. Monetize via affiliate codes; audience converts on aspiration.',
+   160000, 'USD', '2026-06-20', '[{"kind":"reel","count":1},{"kind":"post","count":1}]'::jsonb, 'open', 'ochre', '2026-04-23T12:00:00Z'),
+  ('cmp_niche_12', 'feed-daily-already-happened', 'Today, Already Happened', 'Feed Daily', 'You scroll. We curate. Drama, explained.',
+   'Chronically-online pop-culture pages (16–30F). One Reel: a drama-timeline or celebrity-breakup recap. One Story: hot takes with tweet compilations. Euphoria / Coachella / TikToker drama fair game. High engagement, fast turnaround.',
+   70000, 'USD', '2026-05-28', '[{"kind":"reel","count":1},{"kind":"story","count":1}]'::jsonb, 'open', 'vermillion', '2026-04-23T13:00:00Z'),
+  ('cmp_niche_13', 'shadow-club-quiet-ones', 'The Quiet Ones', 'Shadow Club', 'Discipline without an audience.',
+   'Sigma / lone-wolf masculine-philosophy pages (14–25M). Two Reels: movie-edit compilations (Bateman / Shelby / Drive aesthetic) paired with stoicism quotes. ''Delete Instagram, read books'' framing. Young audience — emphasize books and discipline over product push.',
+   65000, 'USD', '2026-06-10', '[{"kind":"reel","count":2}]'::jsonb, 'open', 'ink', '2026-04-23T14:00:00Z'),
+  ('cmp_niche_14', 'high-vibration-regulated', 'Nervous System, Regulated', 'High Vibration', 'Root cause. Slow medicine. Real healing.',
+   'Conscious / spiritual-wellness pages (20–40F). One Reel: ''signs the universe is guiding you'' or somatic-healing framing. One carousel post: journaling prompts or cycle-syncing infographic. Manifestation / nervous-system / root-cause-health content. Course-buying audience.',
+   90000, 'USD', '2026-06-04', '[{"kind":"reel","count":1},{"kind":"post","count":1}]'::jsonb, 'open', 'vermillion', '2026-04-23T15:00:00Z'),
+  ('cmp_niche_15', 'hand-ink-analog-revival', 'Analog Revival', 'Hand & Ink', 'Made by people. On purpose.',
+   'Anti-AI / human-craft counter-trend pages (25–40). Two Reels: one artisan-process / film-photography / handmade-resurgence piece, one ''spot the AI'' or ''before vs after AI ruined it'' commentary. Educated, higher-income audience — less competition.',
+   110000, 'USD', '2026-06-16', '[{"kind":"reel","count":2}]'::jsonb, 'open', 'ochre', '2026-04-23T16:00:00Z')
 ON CONFLICT (id) DO NOTHING;
