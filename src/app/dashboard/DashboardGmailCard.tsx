@@ -92,7 +92,7 @@ export default function DashboardGmailCard({ isAdmin, connection }: Props) {
             official consent screen — scopes requested: <em>send email</em>.
           </p>
           <a
-            href="/api/auth/google/start"
+            href="/connect/gmail"
             className="btn-primary inline-flex items-center gap-3 px-5 py-3 rounded-full text-[12px] tracking-wide"
           >
             Connect Gmail
