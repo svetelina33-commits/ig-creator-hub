@@ -298,24 +298,33 @@ function AccentPicker({ value, onChange }: { value: Accent; onChange: (v: Accent
   return (
     <div>
       <Label>Profile accent</Label>
-      <div className="mt-3 flex gap-3">
-        {ACCENTS.map((a) => (
-          <button
-            type="button"
-            key={a}
-            onClick={() => onChange(a)}
-            className={`px-4 py-2 rounded-full small-caps text-[11px] tracking-[0.2em] border transition-colors ${
-              value === a
-                ? "bg-violet text-white border-violet"
-                : "text-ink bg-white/5 border-white/10 hover:border-white/25"
-            }`}
-          >
-            <span className="inline-flex items-center gap-2">
-              <span className={`inline-block w-2 h-2 ${toneBg(a)}`} />
-              {a}
-            </span>
-          </button>
-        ))}
+      <div className="mt-3 flex gap-3 flex-wrap">
+        {ACCENTS.map((a) => {
+          const selected = value === a;
+          return (
+            <button
+              type="button"
+              key={a}
+              onClick={() => onChange(a)}
+              aria-pressed={selected}
+              className={`px-4 py-2 rounded-full small-caps text-[11px] tracking-[0.2em] border transition-all ${
+                selected
+                  ? `${accentBorderClass(a)} ${accentTintBg(a)} text-ink shadow-[0_0_0_1px_rgba(255,255,255,0.04)_inset]`
+                  : "text-ink-soft bg-white/[0.03] border-white/10 hover:border-white/25 hover:text-ink"
+              }`}
+            >
+              <span className="inline-flex items-center gap-2">
+                <span
+                  aria-hidden
+                  className={`inline-block rounded-sm transition-all ${toneBg(a)} ${
+                    selected ? "w-2.5 h-2.5" : "w-2 h-2 opacity-80"
+                  }`}
+                />
+                {a}
+              </span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );
@@ -326,6 +335,24 @@ function toneBg(a: Accent): string {
     forest: "bg-forest",
     vermillion: "bg-vermillion",
     ochre: "bg-ochre",
-    ink: "bg-ink",
+    ink: "bg-white/70",
+  }[a];
+}
+
+function accentBorderClass(a: Accent): string {
+  return {
+    forest: "border-forest",
+    vermillion: "border-vermillion",
+    ochre: "border-ochre",
+    ink: "border-white/40",
+  }[a];
+}
+
+function accentTintBg(a: Accent): string {
+  return {
+    forest: "bg-forest/10",
+    vermillion: "bg-vermillion/10",
+    ochre: "bg-ochre/10",
+    ink: "bg-white/10",
   }[a];
 }

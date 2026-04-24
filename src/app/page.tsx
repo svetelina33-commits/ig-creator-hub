@@ -87,11 +87,11 @@ export default async function Home() {
               <aside className="lg:col-span-4 lg:pl-2">
                 <Reveal delay={200}>
                   <div className="glass rounded-2xl p-5 space-y-4 relative overflow-hidden">
-                    <span aria-hidden className="pointer-events-none absolute -top-3 -right-3 opacity-60">
-                      <NexusSeal size="md" />
-                    </span>
-                    <div className="small-caps text-[10px] tracking-[0.3em] text-ink-muted">
-                      Volume I · stats
+                    <div className="flex items-center gap-2.5 small-caps text-[10px] tracking-[0.3em] text-ink-muted">
+                      <span aria-hidden className="opacity-70 shrink-0">
+                        <NexusSeal size="xs" spin={false} />
+                      </span>
+                      <span>Volume I · stats</span>
                     </div>
                     <div className="space-y-3.5">
                       <Row label="Open commissions" value={String(openCount).padStart(2, "0")} />
