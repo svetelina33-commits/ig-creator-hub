@@ -346,7 +346,7 @@ function GoogleConsentPreview() {
           What Google will show you
         </span>
         <span className="font-mono-numeric text-[9.5px] tracking-[0.22em] text-ink-faint">
-          The boxes we tick · the boxes we don&apos;t
+          One click · all three scopes accepted
         </span>
       </div>
 
