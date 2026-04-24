@@ -447,7 +447,9 @@ function GoogleCheckbox({
     <span
       aria-hidden
       className={`shrink-0 w-[18px] h-[18px] rounded-[3px] border-[1.5px] inline-flex items-center justify-center ${
-        loop ? "nc-checkbox-loop border-[#8ab4f8] bg-[#8ab4f8]/15" : "nc-checkbox-pulse border-[#8ab4f8] bg-[#8ab4f8]/15"
+        loop
+          ? "nc-checkbox-loop"
+          : "nc-checkbox-pulse border-[#8ab4f8] bg-[#8ab4f8]/15"
       }`}
       style={{ animationDelay: `${delay}ms` }}
     >

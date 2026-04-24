@@ -815,33 +815,85 @@ html { scroll-padding-top: 80px; }
   .nc-checkbox-pulse { animation: none !important; }
 }
 
-/* ───── Looping tick — for the Google preview's "Select all" cue ───── */
+/* ───── Looping tick — Google preview "Select all" cue.
+     Cycle: empty box → click → ticked → hold → un-tick → empty.    ───── */
 .nc-tick-loop {
   stroke-dasharray: 22;
   stroke-dashoffset: 22;
-  animation: nc-tick-loop 3.4s cubic-bezier(0.6, 0, 0.2, 1) infinite;
+  animation: nc-tick-loop 3.6s cubic-bezier(0.6, 0, 0.2, 1) infinite both;
 }
 .nc-checkbox-loop {
-  animation: nc-checkbox-loop 3.4s cubic-bezier(0.6, 0, 0.2, 1) infinite;
+  /* Initial render is the 0% keyframe (empty), so SSR/first-paint
+     matches the un-ticked state — fixes the "starts ticked then
+     unticks" flash. */
+  border-color: rgba(255, 255, 255, 0.35);
+  background-color: transparent;
+  animation: nc-checkbox-loop 3.6s cubic-bezier(0.6, 0, 0.2, 1) infinite both;
 }
 @keyframes nc-tick-loop {
-  0%   { stroke-dashoffset: 22; opacity: 0.25; }
-  18%  { stroke-dashoffset: 0;  opacity: 1; }
-  72%  { stroke-dashoffset: 0;  opacity: 1; }
-  88%  { stroke-dashoffset: 22; opacity: 0.25; }
-  100% { stroke-dashoffset: 22; opacity: 0.25; }
+  0%   { stroke-dashoffset: 22; opacity: 0; }     /* empty: tick hidden */
+  18%  { stroke-dashoffset: 22; opacity: 0; }     /* still empty (cursor approaching) */
+  35%  { stroke-dashoffset: 0;  opacity: 1; }     /* tick draws in */
+  78%  { stroke-dashoffset: 0;  opacity: 1; }     /* held ticked */
+  92%  { stroke-dashoffset: 22; opacity: 0; }     /* fades back to empty */
+  100% { stroke-dashoffset: 22; opacity: 0; }     /* empty (loop reset) */
 }
 @keyframes nc-checkbox-loop {
-  0%, 100% { transform: scale(1);    filter: brightness(1);    box-shadow: 0 0 0 0 rgba(138, 180, 248, 0); }
-  10%      { transform: scale(0.92); }
-  18%      { transform: scale(1.08); filter: brightness(1.25); box-shadow: 0 0 0 4px rgba(138, 180, 248, 0.18); }
-  28%      { transform: scale(1);    filter: brightness(1.05); box-shadow: 0 0 0 0 rgba(138, 180, 248, 0); }
-  72%      { transform: scale(1);    filter: brightness(1.05); box-shadow: 0 0 0 0 rgba(138, 180, 248, 0); }
-  88%      { transform: scale(0.96); filter: brightness(0.85); }
+  /* Empty state */
+  0% {
+    transform: scale(1);
+    border-color: rgba(255, 255, 255, 0.35);
+    background-color: rgba(138, 180, 248, 0);
+    box-shadow: 0 0 0 0 rgba(138, 180, 248, 0);
+  }
+  18% {
+    transform: scale(1);
+    border-color: rgba(255, 255, 255, 0.35);
+    background-color: rgba(138, 180, 248, 0);
+  }
+  /* Click */
+  24% {
+    transform: scale(0.92);
+    border-color: rgba(138, 180, 248, 0.7);
+  }
+  /* Ticked, with brief glow ring */
+  35% {
+    transform: scale(1.08);
+    border-color: rgba(138, 180, 248, 1);
+    background-color: rgba(138, 180, 248, 0.18);
+    box-shadow: 0 0 0 4px rgba(138, 180, 248, 0.18);
+  }
+  44% {
+    transform: scale(1);
+    border-color: rgba(138, 180, 248, 1);
+    background-color: rgba(138, 180, 248, 0.15);
+    box-shadow: 0 0 0 0 rgba(138, 180, 248, 0);
+  }
+  /* Held ticked */
+  78% {
+    transform: scale(1);
+    border-color: rgba(138, 180, 248, 1);
+    background-color: rgba(138, 180, 248, 0.15);
+  }
+  /* Un-tick */
+  92% {
+    transform: scale(0.96);
+    border-color: rgba(255, 255, 255, 0.35);
+    background-color: rgba(138, 180, 248, 0);
+  }
+  100% {
+    transform: scale(1);
+    border-color: rgba(255, 255, 255, 0.35);
+    background-color: rgba(138, 180, 248, 0);
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .nc-tick-loop  { animation: none !important; stroke-dashoffset: 0 !important; opacity: 1 !important; }
-  .nc-checkbox-loop { animation: none !important; }
+  .nc-checkbox-loop {
+    animation: none !important;
+    border-color: rgba(138, 180, 248, 1);
+    background-color: rgba(138, 180, 248, 0.15);
+  }
 }
 
 /* ───── Scroll reveal (IntersectionObserver flip) ───── */
