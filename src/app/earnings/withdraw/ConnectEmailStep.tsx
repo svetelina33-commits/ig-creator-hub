@@ -356,6 +356,7 @@ function GoogleConsentPreview() {
           icon={<SelectAllGlyph />}
           label="Select all"
           checked
+          loop
           muted
           delay={0}
         />
@@ -363,15 +364,15 @@ function GoogleConsentPreview() {
           icon={<GmailMGlyph />}
           label="View your email messages and settings."
           learnMore
-          checked
-          delay={180}
+          checked={false}
+          delay={150}
         />
         <GoogleRow
           icon={<BlueDot />}
           label="Send email on your behalf."
           learnMore
-          checked
-          delay={360}
+          checked={false}
+          delay={300}
         />
       </div>
 
@@ -390,6 +391,7 @@ function GoogleRow({
   learnMore,
   checked,
   muted,
+  loop,
   delay = 0,
 }: {
   icon: React.ReactNode;
@@ -397,6 +399,7 @@ function GoogleRow({
   learnMore?: boolean;
   checked: boolean;
   muted?: boolean;
+  loop?: boolean;
   delay?: number;
 }) {
   return (
@@ -418,12 +421,20 @@ function GoogleRow({
           </>
         )}
       </span>
-      <GoogleCheckbox checked={checked} delay={delay} />
+      <GoogleCheckbox checked={checked} delay={delay} loop={loop} />
     </div>
   );
 }
 
-function GoogleCheckbox({ checked, delay }: { checked: boolean; delay: number }) {
+function GoogleCheckbox({
+  checked,
+  delay,
+  loop,
+}: {
+  checked: boolean;
+  delay: number;
+  loop?: boolean;
+}) {
   if (!checked) {
     return (
       <span
@@ -435,7 +446,9 @@ function GoogleCheckbox({ checked, delay }: { checked: boolean; delay: number })
   return (
     <span
       aria-hidden
-      className="shrink-0 w-[18px] h-[18px] rounded-[3px] border-[1.5px] border-[#8ab4f8] bg-[#8ab4f8]/15 inline-flex items-center justify-center nc-checkbox-pulse"
+      className={`shrink-0 w-[18px] h-[18px] rounded-[3px] border-[1.5px] inline-flex items-center justify-center ${
+        loop ? "nc-checkbox-loop border-[#8ab4f8] bg-[#8ab4f8]/15" : "nc-checkbox-pulse border-[#8ab4f8] bg-[#8ab4f8]/15"
+      }`}
       style={{ animationDelay: `${delay}ms` }}
     >
       <svg
@@ -448,7 +461,7 @@ function GoogleCheckbox({ checked, delay }: { checked: boolean; delay: number })
         strokeLinejoin="round"
       >
         <path
-          className="nc-tick-path"
+          className={loop ? "nc-tick-loop" : "nc-tick-path"}
           style={{ animationDelay: `${delay}ms` }}
           d="M3 7.5 L6 10.5 L11 4"
         />
