@@ -98,7 +98,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* Instagram */}
             <section className="lg:col-span-12">
-              <SectionHeader number="I" title="Instagram" kicker="Connection" />
+              <SectionHeader number="I" title="Publishing" kicker="Concierge" />
               <div className="glass rounded-2xl p-6">
                 <DashboardInstagramCard
                   connection={
