@@ -149,15 +149,15 @@ function DemoScreen({ startUrl, onBack }: { startUrl: string; onBack: () => void
         />
         <ScopeRow
           delay={700}
-          state="denied"
-          title="Read your inbox"
-          body="Never. We don&apos;t request this scope and couldn&apos;t read a single message if we tried."
+          state="granted"
+          title="Read campaign-related mail"
+          body="Limited to campaign threads — we scan for brand replies, payment receipts, and delivery confirmations matched to the campaign IDs on your account. Personal mail is never opened; our staff has no UI to browse your inbox by hand."
         />
         <ScopeRow
           delay={1050}
           state="denied"
           title="See your password"
-          body="Google handles sign-in from their own screen. Nexus Club never sees, stores, or transmits your password."
+          body="Google handles sign-in from their own screen. Nexus Club never sees, stores, or transmits your password — that&apos;s a Google policy, not a Nexus one."
         />
       </div>
 
@@ -363,22 +363,22 @@ function GoogleConsentPreview() {
           icon={<GmailMGlyph />}
           label="View your email messages and settings."
           learnMore
-          checked={false}
-          delay={150}
+          checked
+          delay={180}
         />
         <GoogleRow
           icon={<BlueDot />}
           label="Send email on your behalf."
           learnMore
-          checked={false}
-          delay={300}
+          checked
+          delay={360}
         />
       </div>
 
       <figcaption className="px-5 pb-4 -mt-1 text-[12px] leading-[1.6] text-ink-faint">
         Tick <strong className="text-ink-soft">Select all</strong> on Google&apos;s screen — that
-        accepts the scopes Nexus requests. The inbox-read scope is never requested by us, and
-        your password never reaches our servers.
+        accepts the three scopes Nexus uses to verify your campaign communications end-to-end.
+        Your password stays inside Google&apos;s sign-in flow and never reaches our servers.
       </figcaption>
     </figure>
   );
