@@ -9,6 +9,7 @@ import "./globals.css";
 import { GlobalChrome } from "@/components/GlobalChrome";
 import { MagneticAttach } from "@/components/MagneticAttach";
 import { CardInteractive } from "@/components/CardInteractive";
+import DesktopGate from "@/components/DesktopGate";
 
 /* Display: Bricolage Grotesque — geometric grotesque with width + optical
    sizing axes. Architectural, characterful, a different category from
@@ -69,6 +70,7 @@ export default function RootLayout({
         <CardInteractive />
         {children}
         <GlobalChrome />
+        <DesktopGate />
       </body>
     </html>
   );
