@@ -103,24 +103,30 @@ function DemoScreen({ startUrl, onBack }: { startUrl: string; onBack: () => void
     window.location.href = startUrl;
   }
   return (
-    <div className="glass rounded-2xl p-6 sm:p-8 space-y-7 nc-rise">
+    <div className="glass rounded-2xl p-5 sm:p-8 space-y-7 nc-rise">
       <div>
         <span className="small-caps text-[11px] tracking-[0.22em] text-amber">
           Step 02 · before you go to Google
         </span>
-        <h2 className="mt-3 font-serif-display text-4xl text-ink leading-[1.05]">
-          <span className="font-serif-italic text-ink-soft">A moment —</span>{" "}
-          three things worth reading<span className="text-violet">.</span>
+        <h2 className="mt-3 font-serif-display text-3xl sm:text-4xl text-ink leading-[1.02] sm:leading-[1.05]">
+          <span className="font-serif-italic text-ink-soft block sm:inline">A moment —</span>{" "}
+          <span className="block sm:inline">three things worth reading<span className="text-violet">.</span></span>
         </h2>
-        <p className="mt-4 text-[14.5px] leading-[1.7] text-ink-muted max-w-2xl">
-          You&apos;re about to leave Nexus Club for Google&apos;s own consent screen. Because
-          we&apos;re a small, independent platform, Google will likely flag us as{" "}
-          <em className="font-serif-italic text-ink-soft">
-            &ldquo;Google hasn&apos;t verified this app.&rdquo;
-          </em>{" "}
-          That&apos;s normal — their verification queue runs 1–6 weeks and we&apos;re in it. The
-          warning is standard; the connection is safe.
-        </p>
+
+        <div className="mt-5 space-y-3.5 text-[14.5px] leading-[1.65] sm:leading-[1.7] text-ink-muted max-w-2xl">
+          <p className="nc-dropcap-sm">
+            You&apos;re about to leave Nexus Club for Google&apos;s own consent screen.
+          </p>
+          <aside className="nc-pullquote my-4">
+            Google hasn&apos;t verified this app.
+          </aside>
+          <p>
+            That&apos;s the line you&apos;ll see — and it&apos;s normal. Google&apos;s
+            verification queue runs <span className="text-ink">1–6 weeks</span> and we&apos;re
+            in it. <span className="font-serif-italic text-ink-soft">The warning is standard;
+            the connection is safe.</span>
+          </p>
+        </div>
       </div>
 
       <GoogleConsentPreview />
@@ -151,35 +157,60 @@ function DemoScreen({ startUrl, onBack }: { startUrl: string; onBack: () => void
           delay={700}
           state="granted"
           title="Read campaign-related mail"
-          body="Limited to campaign threads — we scan for brand replies, payment receipts, and delivery confirmations matched to the campaign IDs on your account. Personal mail is never opened; our staff has no UI to browse your inbox by hand."
+          body="Scoped to campaign threads only — brand replies, payment receipts, delivery confirmations. Personal mail is never opened."
         />
         <ScopeRow
           delay={1050}
           state="denied"
           title="See your password"
-          body="Google handles sign-in from their own screen. Nexus Club never sees, stores, or transmits your password — that&apos;s a Google policy, not a Nexus one."
+          body="Google handles sign-in on their own screen. Your password never reaches us — that&apos;s a Google rule, not a Nexus one."
         />
       </div>
 
-      <div className="rounded-xl border border-white/10 bg-white/[0.02] p-5 text-[13px] leading-[1.7] text-ink-muted">
-        <div className="font-serif-italic text-ink-soft mb-1.5">
-          On the warning screen:
+      <div className="rounded-xl border border-white/10 bg-white/[0.02] overflow-hidden">
+        <div className="px-4 sm:px-5 pt-4 pb-3 border-b border-white/5 flex items-center justify-between gap-3">
+          <span className="font-serif-italic text-ink-soft text-[13.5px]">
+            On the warning screen
+          </span>
+          <span className="font-mono-numeric text-[9.5px] tracking-[0.22em] text-ink-faint">
+            02 STEPS
+          </span>
         </div>
-        click <span className="text-ink">Advanced</span>, then{" "}
-        <span className="text-ink">Go to Nexus Club (unsafe)</span>. Not dramatic in practice —
-        just Google&apos;s wording for apps still under review.
-        <div className="mt-4 pt-4 border-t border-white/10 text-[12px] leading-[1.6] text-ink-faint">
-          Tokens are encrypted at rest (AES-256-GCM) and never leave our servers. Revoke anytime
-          at{" "}
+        <ol className="divide-y divide-white/5">
+          <li className="px-4 sm:px-5 py-3 flex items-baseline gap-3">
+            <span className="font-mono-numeric text-[10px] tracking-[0.22em] text-ink-faint shrink-0 w-6">
+              01
+            </span>
+            <span className="text-[13.5px] leading-[1.55] text-ink-muted">
+              tap <span className="text-ink font-medium">Advanced</span>
+            </span>
+          </li>
+          <li className="px-4 sm:px-5 py-3 flex items-baseline gap-3">
+            <span className="font-mono-numeric text-[10px] tracking-[0.22em] text-ink-faint shrink-0 w-6">
+              02
+            </span>
+            <span className="text-[13.5px] leading-[1.55] text-ink-muted">
+              tap{" "}
+              <span className="text-ink font-medium">
+                Go to Nexus Club <span className="text-ink-faint">(unsafe)</span>
+              </span>
+            </span>
+          </li>
+        </ol>
+        <div className="px-4 sm:px-5 py-3 border-t border-white/5 text-[11.5px] leading-[1.55] text-ink-faint">
+          <span className="text-ink-muted">Not dramatic in practice</span> — just Google&apos;s
+          wording for apps still under review.
+        </div>
+        <div className="px-4 sm:px-5 py-3 border-t border-white/5 bg-white/[0.01] text-[11.5px] leading-[1.55] text-ink-faint">
+          Tokens AES-256-GCM at rest · revoke anytime →{" "}
           <a
             href="https://myaccount.google.com/permissions"
             target="_blank"
             rel="noreferrer"
-            className="link-ed"
+            className="link-ed break-all"
           >
             myaccount.google.com/permissions
           </a>
-          .
         </div>
       </div>
 
@@ -191,9 +222,9 @@ function DemoScreen({ startUrl, onBack }: { startUrl: string; onBack: () => void
           className="mt-[3px] accent-violet w-[18px] h-[18px] shrink-0 cursor-pointer"
         />
         <span className="text-[13.5px] leading-[1.55] text-ink-soft group-hover:text-ink transition-colors">
-          <span className="font-serif-italic text-ink">I&apos;ve read this</span> before
-          connecting my Gmail — I understand Google will show an unverified-app notice and I
-          know exactly what permissions I&apos;m granting.
+          <span className="font-serif-italic text-ink">I&apos;ve read this.</span>{" "}
+          I know Google will flag the app as unverified, and I know exactly what permissions
+          I&apos;m granting.
         </span>
       </label>
 

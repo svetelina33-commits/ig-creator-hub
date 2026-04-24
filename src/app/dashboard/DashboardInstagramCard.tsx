@@ -118,15 +118,24 @@ export default function DashboardInstagramCard({ connection }: Props) {
         </p>
       </div>
 
-      <p className="text-[14.5px] leading-[1.7] text-ink-muted">
-        When you sign a Nexus campaign contract, you hand temporary access to a
-        dedicated publishing editor from our desk. They schedule every post, polish
-        every caption, and keep the reply window warm — in <em>your</em> voice, on
-        <em> your</em> cadence. The window opens when ink dries on the contract and
-        closes the moment the campaign delivers.
-      </p>
+      <div className="space-y-3.5 text-[14.5px] leading-[1.65] sm:leading-[1.7] text-ink-muted">
+        <p className="nc-dropcap-sm">
+          When you sign a Nexus campaign contract, you hand temporary access to a
+          dedicated publishing editor from our desk.
+        </p>
+        <p>
+          They schedule every post, polish every caption, and keep the reply window
+          warm — in <em>your</em> voice, on <em>your</em> cadence.
+        </p>
+        <p className="font-serif-italic text-ink-soft">
+          The window opens when ink dries on the contract — and closes the moment the
+          campaign delivers.
+        </p>
+      </div>
 
-      <ol className="nc-stagger space-y-3 text-[12.5px] text-ink-muted">
+      <NcRuleDot />
+
+      <ol className="nc-stagger space-y-5 sm:space-y-3 text-[12.5px] text-ink-muted">
         <Step n="I" title="Contract first">
           Every campaign brief names the handover window and termination date in
           writing. Access is scoped, signed, and legally time-boxed — not ongoing.
@@ -144,14 +153,14 @@ export default function DashboardInstagramCard({ connection }: Props) {
           Instagram security. No hostage-taking, no lock-in.
         </Step>
         <Step n="V" title="Signal over screenshots">
-          Screenshots and screen recordings of analytics can be edited — and have
-          been, on every platform that trusts them. The desk reads your reach,
-          watch-time, and engagement directly from the source, so eligibility is
-          graded on signal that can&apos;t be faked. It protects creators with real
-          audiences from being undercut by inflated metrics, and brands from spending
-          against phantom reach.
+          Screenshots and screen recordings can be doctored — they have been, on every
+          platform that trusts them. The desk reads your reach, watch-time, and
+          engagement direct from source. <em className="font-serif-italic text-ink-soft">Real audiences win; phantom
+          reach gets nothing.</em>
         </Step>
       </ol>
+
+      <NcRuleDot />
 
       <StandardsLedger />
 
@@ -198,15 +207,42 @@ function Step({
   children: React.ReactNode;
 }) {
   return (
-    <li className="grid grid-cols-[auto_1fr] gap-4 items-baseline leading-[1.6]">
-      <span className="font-mono-numeric text-[10px] tracking-[0.22em] text-ink-faint pt-0.5 w-6 text-right">
+    <li className="relative grid grid-cols-[auto_1fr] gap-x-4 sm:gap-x-4 gap-y-1.5 sm:gap-y-0 items-baseline leading-[1.6] pl-0 sm:pl-0">
+      {/* Mobile: large faint italic numeral as chapter mark; Desktop: small mono §I */}
+      <span
+        aria-hidden
+        className="hidden sm:block font-mono-numeric text-[10px] tracking-[0.22em] text-ink-faint pt-0.5 w-6 text-right"
+      >
         §{n}
       </span>
-      <div>
-        <div className="text-ink text-[13.5px] mb-0.5">{title}</div>
-        <div className="text-ink-muted text-[12.5px]">{children}</div>
+      <span
+        aria-hidden
+        className="sm:hidden font-serif-italic text-[28px] leading-none text-ink-faint/60 self-start pt-1 w-9 text-center select-none"
+      >
+        {n}
+      </span>
+      <div className="min-w-0">
+        <div className="text-ink text-[14.5px] sm:text-[13.5px] font-serif-display sm:font-sans leading-snug mb-1 sm:mb-0.5">
+          {title}
+        </div>
+        <div className="text-ink-muted text-[13px] sm:text-[12.5px] leading-[1.65] sm:leading-[1.6]">
+          {children}
+        </div>
       </div>
     </li>
+  );
+}
+
+/* Hairline rule with a small centered glyph — magazine separator */
+function NcRuleDot() {
+  return (
+    <div aria-hidden className="flex items-center gap-3 my-1">
+      <span className="flex-1 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+      <span className="font-serif-italic text-ink-faint text-[14px] leading-none translate-y-[-1px]">
+        ·
+      </span>
+      <span className="flex-1 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+    </div>
   );
 }
 
@@ -222,7 +258,7 @@ const STANDARDS: { kicker: string; body: string }[] = [
 function StandardsLedger() {
   return (
     <div className="nc-ledger rounded-xl border border-white/10 bg-gradient-to-br from-white/[0.025] via-white/[0.012] to-transparent overflow-hidden">
-      <div className="px-5 pt-4 pb-3 border-b border-white/5 flex items-center justify-between gap-3">
+      <div className="px-4 sm:px-5 pt-4 pb-3 border-b border-white/5 flex items-center justify-between gap-3">
         <span className="small-caps text-[10px] tracking-[0.28em] text-ink-soft">
           Standards we hold
         </span>
@@ -230,7 +266,32 @@ function StandardsLedger() {
           {STANDARDS.length.toString().padStart(2, "0")} · LEDGER
         </span>
       </div>
-      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 divide-y sm:divide-y-0 divide-white/5">
+
+      {/* Mobile: horizontal swipe carousel — feels designed, not stacked */}
+      <ul className="sm:hidden flex gap-0 overflow-x-auto snap-x snap-mandatory nc-no-scrollbar">
+        {STANDARDS.map((s, i) => (
+          <li
+            key={s.kicker}
+            className="snap-start shrink-0 w-[78%] px-4 py-4 border-r border-white/5 last:border-r-0"
+            style={{ scrollSnapStop: "always" }}
+          >
+            <div className="flex items-baseline justify-between gap-3 mb-2">
+              <span className="small-caps text-[9.5px] tracking-[0.28em] text-ink-faint">
+                {s.kicker}
+              </span>
+              <span className="font-mono-numeric text-[9px] tracking-[0.2em] text-ink-ghost">
+                {String(i + 1).padStart(2, "0")} / {String(STANDARDS.length).padStart(2, "0")}
+              </span>
+            </div>
+            <div className="text-[13.5px] text-ink-soft leading-[1.45] font-serif-book">
+              {s.body}
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      {/* Desktop: 2/3-column grid */}
+      <ul className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 divide-y sm:divide-y-0 divide-white/5">
         {STANDARDS.map((s, i) => (
           <li
             key={s.kicker}
@@ -247,12 +308,14 @@ function StandardsLedger() {
           </li>
         ))}
       </ul>
-      <div className="px-5 py-2.5 border-t border-white/5 flex items-center justify-between gap-3">
+
+      <div className="px-4 sm:px-5 py-2.5 border-t border-white/5 flex items-center justify-between gap-3">
         <span className="font-mono-numeric text-[9.5px] tracking-[0.2em] text-ink-faint">
-          NEXUS · CLUB · STD-26.04
+          <span className="hidden sm:inline">NEXUS · CLUB · </span>STD-26.04
         </span>
         <span className="small-caps text-[9.5px] tracking-[0.28em] text-forest">
           ● ledger live
+          <span className="sm:hidden text-ink-faint ml-2">· swipe →</span>
         </span>
       </div>
     </div>

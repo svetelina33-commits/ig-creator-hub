@@ -896,6 +896,52 @@ html { scroll-padding-top: 80px; }
   }
 }
 
+/* ───── Editorial drop-cap (mobile-first, subtle on desktop) ───── */
+.nc-dropcap-sm::first-letter {
+  font-family: var(--font-serif-display, ui-serif, Georgia, serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 2.4em;
+  line-height: 0.9;
+  float: left;
+  margin: 0.05em 0.18em -0.05em 0;
+  color: var(--ink, #e8e6df);
+  letter-spacing: -0.02em;
+}
+@media (min-width: 640px) {
+  .nc-dropcap-sm::first-letter {
+    font-size: 1.8em;
+    margin-right: 0.14em;
+  }
+}
+
+/* ───── Mobile-friendly scroll carousel without scrollbar artefacts ───── */
+.nc-no-scrollbar::-webkit-scrollbar { display: none; }
+.nc-no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ───── Pull-quote: vertical hairline + serif italic, lifts a phrase ───── */
+.nc-pullquote {
+  border-left: 2px solid rgba(255, 94, 103, 0.55); /* vermillion */
+  padding-left: 1rem;
+  font-family: var(--font-serif-display, ui-serif, Georgia, serif);
+  font-style: italic;
+  font-size: 1.05em;
+  line-height: 1.45;
+  color: var(--ink-soft, #d3d1c8);
+  position: relative;
+}
+.nc-pullquote::before {
+  content: "“";
+  position: absolute;
+  left: -0.05em;
+  top: -0.55em;
+  font-size: 2.2em;
+  line-height: 1;
+  color: rgba(255, 94, 103, 0.35);
+  font-style: normal;
+  font-family: var(--font-serif-display, ui-serif, Georgia, serif);
+}
+
 /* ───── Scroll reveal (IntersectionObserver flip) ───── */
 .nc-reveal {
   opacity: 0;
