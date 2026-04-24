@@ -11,6 +11,8 @@ import type {
   Deliverable,
   MessageRecord,
   StoreBackend,
+  SupportTicketRecord,
+  SupportTicketStatus,
 } from "./types";
 import { slugify } from "./seed";
 
@@ -588,4 +590,94 @@ export const pgStore: StoreBackend = {
       createdAt: toIso(r.created_at)!,
     } as MessageRecord;
   },
+
+  // --- support tickets ---
+
+  async createSupportTicket({ creatorId, creatorEmail, subject, body }) {
+    const id = `sup_${randomUUID().slice(0, 12).replace(/-/g, "")}`;
+    await sql()`
+      INSERT INTO support_tickets (id, creator_id, creator_email, subject, body, status)
+      VALUES (${id}, ${creatorId}, ${creatorEmail}, ${subject}, ${body}, 'open')
+    `;
+    const found = await pgStore.findSupportTicketById(id);
+    if (!found) throw new Error("Failed to read back support ticket");
+    return found;
+  },
+
+  async listSupportTicketsForCreator(creatorId) {
+    const rows = (await sql()`
+      SELECT * FROM support_tickets WHERE creator_id = ${creatorId} ORDER BY created_at DESC
+    `) as SupportRow[];
+    return rows.map(mapSupportTicket);
+  },
+
+  async listSupportTickets(filter) {
+    const rows = filter?.status
+      ? ((await sql()`
+          SELECT * FROM support_tickets WHERE status = ${filter.status} ORDER BY created_at DESC
+        `) as SupportRow[])
+      : ((await sql()`
+          SELECT * FROM support_tickets ORDER BY created_at DESC
+        `) as SupportRow[]);
+    return rows.map(mapSupportTicket);
+  },
+
+  async findSupportTicketById(id) {
+    const rows = (await sql()`
+      SELECT * FROM support_tickets WHERE id = ${id} LIMIT 1
+    `) as SupportRow[];
+    return rows[0] ? mapSupportTicket(rows[0]) : null;
+  },
+
+  async replyToSupportTicket(id, reply) {
+    await sql()`
+      UPDATE support_tickets
+      SET admin_reply = ${reply}, status = 'replied', replied_at = now()
+      WHERE id = ${id}
+    `;
+  },
+
+  async setSupportTicketStatus(id, status) {
+    if (status === "resolved") {
+      await sql()`
+        UPDATE support_tickets
+        SET status = 'resolved', resolved_at = now()
+        WHERE id = ${id}
+      `;
+    } else {
+      await sql()`
+        UPDATE support_tickets
+        SET status = ${status}
+        WHERE id = ${id}
+      `;
+    }
+  },
 };
+
+type SupportRow = {
+  id: string;
+  creator_id: string;
+  creator_email: string;
+  subject: string;
+  body: string;
+  status: SupportTicketStatus;
+  admin_reply: string | null;
+  created_at: Date | string;
+  replied_at: Date | string | null;
+  resolved_at: Date | string | null;
+};
+
+function mapSupportTicket(r: SupportRow): SupportTicketRecord {
+  return {
+    id: r.id,
+    creatorId: r.creator_id,
+    creatorEmail: r.creator_email,
+    subject: r.subject,
+    body: r.body,
+    status: r.status,
+    adminReply: r.admin_reply,
+    createdAt: toIso(r.created_at)!,
+    repliedAt: toIso(r.replied_at),
+    resolvedAt: toIso(r.resolved_at),
+  };
+}

@@ -27,9 +27,9 @@ export function Footer() {
             <a href="/about" className="hover:text-ink transition-colors">ABOUT</a>
             <a href="/how-it-works" className="hover:text-ink transition-colors">HOW IT WORKS</a>
             <a href="/dispatches" className="hover:text-ink transition-colors">DISPATCHES</a>
+            <a href="/support" className="hover:text-ink transition-colors">SUPPORT</a>
             <a href="/terms" className="hover:text-ink transition-colors">TERMS</a>
             <a href="/privacy" className="hover:text-ink transition-colors">PRIVACY</a>
-            <a href="mailto:yashpanchalsx@gmail.com" className="hover:text-ink transition-colors">CONTACT</a>
           </div>
         </div>
       </div>

@@ -18,6 +18,8 @@ export type {
   CreateCampaignInput,
   PayoutMethod,
   StoreBackend,
+  SupportTicketRecord,
+  SupportTicketStatus,
 } from "./store-impl/types";
 
 // ---------- Backend selector ----------
@@ -212,6 +214,35 @@ export async function createMessage(input: {
   body: string;
 }) {
   return (await getBackend()).createMessage(input);
+}
+
+export async function createSupportTicket(input: {
+  creatorId: string;
+  creatorEmail: string;
+  subject: string;
+  body: string;
+}) {
+  return (await getBackend()).createSupportTicket(input);
+}
+export async function listSupportTicketsForCreator(creatorId: string) {
+  return (await getBackend()).listSupportTicketsForCreator(creatorId);
+}
+export async function listSupportTickets(filter?: {
+  status?: "open" | "replied" | "resolved";
+}) {
+  return (await getBackend()).listSupportTickets(filter);
+}
+export async function findSupportTicketById(id: string) {
+  return (await getBackend()).findSupportTicketById(id);
+}
+export async function replyToSupportTicket(id: string, reply: string) {
+  return (await getBackend()).replyToSupportTicket(id, reply);
+}
+export async function setSupportTicketStatus(
+  id: string,
+  status: "open" | "replied" | "resolved",
+) {
+  return (await getBackend()).setSupportTicketStatus(id, status);
 }
 
 // ---------- Helpers ----------

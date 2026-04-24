@@ -99,6 +99,21 @@ export type MessageRecord = {
   createdAt: string;
 };
 
+export type SupportTicketStatus = "open" | "replied" | "resolved";
+
+export type SupportTicketRecord = {
+  id: string;
+  creatorId: string;
+  creatorEmail: string;
+  subject: string;
+  body: string;
+  status: SupportTicketStatus;
+  adminReply: string | null;
+  createdAt: string;
+  repliedAt: string | null;
+  resolvedAt: string | null;
+};
+
 export type CreateCampaignInput = {
   title: string;
   brand: string;
@@ -223,4 +238,18 @@ export interface StoreBackend {
     authorEmail: string;
     body: string;
   }): Promise<MessageRecord>;
+
+  createSupportTicket(input: {
+    creatorId: string;
+    creatorEmail: string;
+    subject: string;
+    body: string;
+  }): Promise<SupportTicketRecord>;
+  listSupportTicketsForCreator(creatorId: string): Promise<SupportTicketRecord[]>;
+  listSupportTickets(filter?: {
+    status?: SupportTicketStatus;
+  }): Promise<SupportTicketRecord[]>;
+  findSupportTicketById(id: string): Promise<SupportTicketRecord | null>;
+  replyToSupportTicket(id: string, reply: string): Promise<void>;
+  setSupportTicketStatus(id: string, status: SupportTicketStatus): Promise<void>;
 }

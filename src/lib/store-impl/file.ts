@@ -411,4 +411,23 @@ export const fileStore: StoreBackend = {
     await writeDb(db);
     return record;
   },
+
+  async createSupportTicket() {
+    throw new Error("support tickets require DATABASE_URL (pg backend)");
+  },
+  async listSupportTicketsForCreator() {
+    return [];
+  },
+  async listSupportTickets() {
+    return [];
+  },
+  async findSupportTicketById() {
+    return null;
+  },
+  async replyToSupportTicket() {
+    throw new Error("support tickets require DATABASE_URL (pg backend)");
+  },
+  async setSupportTicketStatus() {
+    throw new Error("support tickets require DATABASE_URL (pg backend)");
+  },
 };

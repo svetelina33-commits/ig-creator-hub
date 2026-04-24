@@ -96,6 +96,22 @@ CREATE TABLE IF NOT EXISTS messages (
 
 CREATE INDEX IF NOT EXISTS messages_application_idx ON messages (application_id, created_at ASC);
 
+CREATE TABLE IF NOT EXISTS support_tickets (
+  id TEXT PRIMARY KEY,
+  creator_id UUID NOT NULL REFERENCES creators(id) ON DELETE CASCADE,
+  creator_email TEXT NOT NULL,
+  subject TEXT NOT NULL,
+  body TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'open',
+  admin_reply TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  replied_at TIMESTAMPTZ,
+  resolved_at TIMESTAMPTZ
+);
+
+CREATE INDEX IF NOT EXISTS support_tickets_creator_idx ON support_tickets (creator_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS support_tickets_status_idx ON support_tickets (status, created_at DESC);
+
 -- Seed campaigns — Nexus Club roster (niche creator-page campaigns).
 -- Idempotent: re-running only inserts missing rows.
 INSERT INTO campaigns (id, slug, title, brand, tagline, brief, payout_cents, currency, deadline, deliverables, status, cover_tone, created_at)
