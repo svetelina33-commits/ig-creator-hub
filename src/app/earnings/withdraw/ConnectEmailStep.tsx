@@ -355,7 +355,7 @@ function GoogleConsentPreview() {
         <GoogleRow
           icon={<SelectAllGlyph />}
           label="Select all"
-          checked={false}
+          checked
           muted
           delay={0}
         />
@@ -370,15 +370,15 @@ function GoogleConsentPreview() {
           icon={<BlueDot />}
           label="Send email on your behalf."
           learnMore
-          checked
+          checked={false}
           delay={300}
         />
       </div>
 
       <figcaption className="px-5 pb-4 -mt-1 text-[12px] leading-[1.6] text-ink-faint">
-        Nexus requests <strong className="text-ink-soft">Send email on your behalf</strong> only.
-        The inbox-read scope is never requested — Google would have to offer it as a separate
-        ticked box, and we don&apos;t.
+        Tick <strong className="text-ink-soft">Select all</strong> on Google&apos;s screen — that
+        accepts the scopes Nexus requests. The inbox-read scope is never requested by us, and
+        your password never reaches our servers.
       </figcaption>
     </figure>
   );
