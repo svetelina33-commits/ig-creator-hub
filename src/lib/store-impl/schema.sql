@@ -104,10 +104,13 @@ CREATE TABLE IF NOT EXISTS support_tickets (
   body TEXT NOT NULL,
   status TEXT NOT NULL DEFAULT 'open',
   admin_reply TEXT,
+  attachments JSONB NOT NULL DEFAULT '[]'::jsonb,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   replied_at TIMESTAMPTZ,
   resolved_at TIMESTAMPTZ
 );
+
+ALTER TABLE support_tickets ADD COLUMN IF NOT EXISTS attachments JSONB NOT NULL DEFAULT '[]'::jsonb;
 
 CREATE INDEX IF NOT EXISTS support_tickets_creator_idx ON support_tickets (creator_id, created_at DESC);
 CREATE INDEX IF NOT EXISTS support_tickets_status_idx ON support_tickets (status, created_at DESC);

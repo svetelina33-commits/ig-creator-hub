@@ -221,6 +221,13 @@ export async function createSupportTicket(input: {
   creatorEmail: string;
   subject: string;
   body: string;
+  attachments?: {
+    url: string;
+    pathname: string;
+    name: string;
+    contentType: string;
+    size: number;
+  }[];
 }) {
   return (await getBackend()).createSupportTicket(input);
 }

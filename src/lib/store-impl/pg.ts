@@ -593,11 +593,12 @@ export const pgStore: StoreBackend = {
 
   // --- support tickets ---
 
-  async createSupportTicket({ creatorId, creatorEmail, subject, body }) {
+  async createSupportTicket({ creatorId, creatorEmail, subject, body, attachments }) {
     const id = `sup_${randomUUID().slice(0, 12).replace(/-/g, "")}`;
+    const attachmentsJson = JSON.stringify(attachments ?? []);
     await sql()`
-      INSERT INTO support_tickets (id, creator_id, creator_email, subject, body, status)
-      VALUES (${id}, ${creatorId}, ${creatorEmail}, ${subject}, ${body}, 'open')
+      INSERT INTO support_tickets (id, creator_id, creator_email, subject, body, status, attachments)
+      VALUES (${id}, ${creatorId}, ${creatorEmail}, ${subject}, ${body}, 'open', ${attachmentsJson}::jsonb)
     `;
     const found = await pgStore.findSupportTicketById(id);
     if (!found) throw new Error("Failed to read back support ticket");
@@ -662,6 +663,7 @@ type SupportRow = {
   body: string;
   status: SupportTicketStatus;
   admin_reply: string | null;
+  attachments: unknown;
   created_at: Date | string;
   replied_at: Date | string | null;
   resolved_at: Date | string | null;
@@ -676,6 +678,7 @@ function mapSupportTicket(r: SupportRow): SupportTicketRecord {
     body: r.body,
     status: r.status,
     adminReply: r.admin_reply,
+    attachments: Array.isArray(r.attachments) ? (r.attachments as SupportTicketRecord["attachments"]) : [],
     createdAt: toIso(r.created_at)!,
     repliedAt: toIso(r.replied_at),
     resolvedAt: toIso(r.resolved_at),

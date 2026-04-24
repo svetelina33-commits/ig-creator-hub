@@ -101,6 +101,14 @@ export type MessageRecord = {
 
 export type SupportTicketStatus = "open" | "replied" | "resolved";
 
+export type SupportAttachment = {
+  url: string;
+  pathname: string;
+  name: string;
+  contentType: string;
+  size: number;
+};
+
 export type SupportTicketRecord = {
   id: string;
   creatorId: string;
@@ -109,6 +117,7 @@ export type SupportTicketRecord = {
   body: string;
   status: SupportTicketStatus;
   adminReply: string | null;
+  attachments: SupportAttachment[];
   createdAt: string;
   repliedAt: string | null;
   resolvedAt: string | null;
@@ -244,6 +253,7 @@ export interface StoreBackend {
     creatorEmail: string;
     subject: string;
     body: string;
+    attachments?: SupportAttachment[];
   }): Promise<SupportTicketRecord>;
   listSupportTicketsForCreator(creatorId: string): Promise<SupportTicketRecord[]>;
   listSupportTickets(filter?: {

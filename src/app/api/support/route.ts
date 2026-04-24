@@ -7,9 +7,28 @@ import {
   listSupportTicketsForCreator,
 } from "@/lib/store";
 
+const Attachment = z.object({
+  url: z
+    .string()
+    .url()
+    .refine((u) => {
+      try {
+        const host = new URL(u).hostname;
+        return host.endsWith(".public.blob.vercel-storage.com");
+      } catch {
+        return false;
+      }
+    }, "must be a vercel blob url"),
+  pathname: z.string().min(1).max(512),
+  name: z.string().min(1).max(256),
+  contentType: z.string().min(1).max(128),
+  size: z.number().int().nonnegative().max(10 * 1024 * 1024),
+});
+
 const Body = z.object({
   subject: z.string().trim().min(3).max(160),
   body: z.string().trim().min(10).max(8000),
+  attachments: z.array(Attachment).max(5).optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -36,6 +55,7 @@ export async function POST(req: NextRequest) {
     creatorEmail: creator.email,
     subject: parsed.data.subject,
     body: parsed.data.body,
+    attachments: parsed.data.attachments ?? [],
   });
 
   return NextResponse.json({ ok: true, id: ticket.id });

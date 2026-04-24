@@ -86,6 +86,9 @@ export default async function SupportPage() {
                         </div>
                       </div>
                     </div>
+                    {t.attachments.length > 0 && (
+                      <AttachmentStrip attachments={t.attachments} />
+                    )}
                     {t.adminReply && (
                       <div className="mt-3 pt-3 border-t border-white/5">
                         <div className="small-caps text-[10px] tracking-[0.22em] text-forest mb-1.5">
@@ -118,4 +121,58 @@ function StatusPill({ status }: { status: "open" | "replied" | "resolved" }) {
   return (
     <span className={`small-caps text-[10px] tracking-[0.22em] ${color}`}>{label}</span>
   );
+}
+
+function AttachmentStrip({
+  attachments,
+}: {
+  attachments: { url: string; name: string; contentType: string; size: number }[];
+}) {
+  return (
+    <div className="mt-3 pt-3 border-t border-white/5">
+      <div className="small-caps text-[10px] tracking-[0.22em] text-ink-muted mb-2">
+        Attached · {attachments.length.toString().padStart(2, "0")}
+      </div>
+      <div className="flex flex-wrap gap-2">
+        {attachments.map((a) => {
+          const isImg = a.contentType.startsWith("image/");
+          return (
+            <a
+              key={a.url}
+              href={a.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.05] transition px-2 py-1.5 max-w-full"
+            >
+              {isImg ? (
+                <img
+                  src={a.url}
+                  alt=""
+                  className="w-9 h-9 rounded object-cover border border-white/10"
+                />
+              ) : (
+                <span className="small-caps text-[9px] tracking-[0.22em] text-ink-faint w-9 h-9 flex items-center justify-center rounded border border-white/10 bg-white/[0.02]">
+                  {a.contentType === "application/pdf" ? "PDF" : "TXT"}
+                </span>
+              )}
+              <span className="flex flex-col min-w-0">
+                <span className="text-[12.5px] text-ink-soft truncate max-w-[180px]">
+                  {a.name}
+                </span>
+                <span className="font-mono-numeric text-[9.5px] text-ink-faint">
+                  {formatBytes(a.size)}
+                </span>
+              </span>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function formatBytes(n: number) {
+  if (n < 1024) return `${n} B`;
+  if (n < 1024 * 1024) return `${(n / 1024).toFixed(0)} KB`;
+  return `${(n / (1024 * 1024)).toFixed(1)} MB`;
 }
