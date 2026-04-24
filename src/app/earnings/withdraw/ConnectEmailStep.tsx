@@ -173,33 +173,33 @@ function DemoScreen({ startUrl, onBack }: { startUrl: string; onBack: () => void
             On the warning screen
           </span>
           <span className="font-mono-numeric text-[9.5px] tracking-[0.22em] text-ink-faint">
-            02 STEPS
+            01 TAP
           </span>
         </div>
-        <ol className="divide-y divide-white/5">
-          <li className="px-4 sm:px-5 py-3 flex items-baseline gap-3">
+
+        <div className="px-3 sm:px-5 pt-4 pb-2">
+          <GoogleWarningPreview />
+        </div>
+
+        <ol className="divide-y divide-white/5 border-t border-white/5">
+          <li className="px-4 sm:px-5 py-3.5 flex items-baseline gap-3">
             <span className="font-mono-numeric text-[10px] tracking-[0.22em] text-ink-faint shrink-0 w-6">
               01
             </span>
             <span className="text-[13.5px] leading-[1.55] text-ink-muted">
-              tap <span className="text-ink font-medium">Advanced</span>
-            </span>
-          </li>
-          <li className="px-4 sm:px-5 py-3 flex items-baseline gap-3">
-            <span className="font-mono-numeric text-[10px] tracking-[0.22em] text-ink-faint shrink-0 w-6">
-              02
-            </span>
-            <span className="text-[13.5px] leading-[1.55] text-ink-muted">
               tap{" "}
-              <span className="text-ink font-medium">
-                Go to Nexus Club <span className="text-ink-faint">(unsafe)</span>
+              <span className="text-ink font-medium">Continue</span>
+              <span className="text-ink-faint">
+                {" "}— not <em className="font-serif-italic">Back to safety</em>, even though it
+                looks brighter
               </span>
             </span>
           </li>
         </ol>
+
         <div className="px-4 sm:px-5 py-3 border-t border-white/5 text-[11.5px] leading-[1.55] text-ink-faint">
-          <span className="text-ink-muted">Not dramatic in practice</span> — just Google&apos;s
-          wording for apps still under review.
+          <span className="text-ink-muted">Google highlights the cautious option by default.</span>{" "}
+          Not dramatic — just their wording for apps still under review.
         </div>
         <div className="px-4 sm:px-5 py-3 border-t border-white/5 bg-white/[0.01] text-[11.5px] leading-[1.55] text-ink-faint">
           Tokens AES-256-GCM at rest · revoke anytime →{" "}
@@ -520,6 +520,140 @@ function GmailMGlyph() {
       <path d="M22 2 L22 16 L18 16 L18 6 L22 2 Z" fill="#fbbc04" />
       <path d="M6 6 L12 11 L18 6 L18 2 L12 7 L6 2 Z" fill="#34a853" />
       <path d="M2 2 L6 6 L6 2 Z" fill="#4285f4" />
+    </svg>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+ * GoogleWarningPreview — faithful mock of the actual screen
+ * Google shows for unverified apps in test-users mode
+ * (accounts.google.com/signin/oauth/warning). The 'Continue'
+ * button gets a subtle pulse to direct the user to the right
+ * choice; 'Back to safety' is shown in Google's highlighted
+ * style as it appears in production.
+ * ──────────────────────────────────────────────────────────── */
+
+function GoogleWarningPreview() {
+  return (
+    <figure className="rounded-xl border border-white/10 bg-gradient-to-br from-white/[0.02] via-white/[0.008] to-transparent overflow-hidden">
+      {/* Mac chrome */}
+      <div className="flex items-center justify-between gap-2 px-3 sm:px-4 py-2.5 border-b border-white/8 bg-black/30">
+        <div className="flex items-center gap-1.5 shrink-0">
+          <span className="w-2.5 h-2.5 rounded-full bg-vermillion/60" />
+          <span className="w-2.5 h-2.5 rounded-full bg-amber/60" />
+          <span className="w-2.5 h-2.5 rounded-full bg-forest/60" />
+        </div>
+        <div className="font-mono-numeric text-[9px] sm:text-[10px] tracking-[0.12em] sm:tracking-[0.18em] text-ink-faint truncate min-w-0">
+          <span className="hidden sm:inline">accounts.google.com / signin / oauth / warning</span>
+          <span className="sm:hidden">accounts.google.com</span>
+        </div>
+        <span className="small-caps text-[8.5px] sm:text-[9px] tracking-[0.22em] sm:tracking-[0.28em] text-amber shrink-0">
+          ● live
+        </span>
+      </div>
+
+      {/* Inner Google modal */}
+      <div className="mx-3 sm:mx-4 my-4 rounded-lg border border-white/8 bg-[#0c0c0e] px-5 py-6 sm:px-7 sm:py-7">
+        <div className="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-x-7 gap-y-3 items-start">
+          <GLogoMark />
+          <div className="space-y-3">
+            <h4
+              className="text-[20px] sm:text-[22px] leading-[1.18] text-ink"
+              style={{
+                fontFamily:
+                  "'Google Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+                fontWeight: 500,
+              }}
+            >
+              Google hasn&apos;t verified this app
+            </h4>
+            <p
+              className="text-[12.5px] sm:text-[13px] leading-[1.55] text-ink-muted"
+              style={{
+                fontFamily:
+                  "'Google Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+              }}
+            >
+              You&apos;ve been given access to an app that&apos;s currently being tested. You
+              should only continue if you know{" "}
+              <span className="text-[#8ab4f8]">the developer</span> that invited you.
+            </p>
+          </div>
+        </div>
+
+        {/* Buttons row */}
+        <div className="mt-6 flex items-center justify-end gap-3">
+          {/* Continue — Nexus highlights this one */}
+          <span
+            aria-hidden
+            className="relative inline-flex items-center px-3 py-2 text-[13px] text-[#8ab4f8] rounded-full"
+            style={{
+              fontFamily:
+                "'Google Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+              fontWeight: 500,
+            }}
+          >
+            <span
+              className="absolute inset-0 rounded-full nc-warn-pulse"
+              style={{
+                border: "1.5px solid rgba(125, 90, 255, 0.55)",
+                boxShadow: "0 0 0 0 rgba(125, 90, 255, 0)",
+              }}
+            />
+            <span className="relative">Continue</span>
+          </span>
+          {/* Back to safety — Google's default highlighted CTA */}
+          <span
+            aria-hidden
+            className="inline-flex items-center px-4 py-2 text-[13px] rounded-full bg-[#a8c7fa] text-[#062e6f]"
+            style={{
+              fontFamily:
+                "'Google Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+              fontWeight: 500,
+            }}
+          >
+            Back to safety
+          </span>
+        </div>
+      </div>
+
+      <figcaption className="px-4 sm:px-5 pb-4 -mt-1 text-[11.5px] leading-[1.55] text-ink-faint">
+        Tap <strong className="text-ink-soft">Continue</strong>. The brighter{" "}
+        <em className="font-serif-italic">Back to safety</em> button is Google&apos;s nudge for
+        the cautious choice — the right one for our flow is on the left.
+      </figcaption>
+    </figure>
+  );
+}
+
+function GLogoMark() {
+  return (
+    <svg
+      viewBox="0 0 48 48"
+      className="w-9 h-9 sm:w-10 sm:h-10 shrink-0"
+      aria-hidden
+    >
+      <path
+        d="M44.5 20H24v8.5h11.8C34.7 33.9 30 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z"
+        fill="#ffffff"
+        opacity="0"
+      />
+      <path
+        d="M6.3 14.7l7 5.1C15.2 15.1 19.2 12 24 12c2.7 0 5.2 1 7.1 2.7l6.2-6.2C33.7 5.1 29.1 3 24 3 16.3 3 9.7 7.3 6.3 14.7z"
+        fill="#ea4335"
+      />
+      <path
+        d="M24 45c5.4 0 10.3-2 14-5.5l-6.5-5.4c-2 1.4-4.6 2.3-7.5 2.3-5.8 0-10.7-3.9-12.5-9.2l-6.9 5.3C8.1 39.7 15.5 45 24 45z"
+        fill="#34a853"
+      />
+      <path
+        d="M37.6 36c2.7-2.5 4.6-6.1 5-10.7H24v8.7h11.7c-.4 1.7-1.4 3.2-2.7 4.4l4.6 1.6z"
+        fill="#4285f4"
+      />
+      <path
+        d="M11.5 27.2C11.2 26.2 11 25.1 11 24s.2-2.2.5-3.2l-7-5.1C3.5 18 3 21 3 24s.5 6 1.5 8.3l7-5.1z"
+        fill="#fbbc04"
+      />
     </svg>
   );
 }

@@ -919,6 +919,28 @@ html { scroll-padding-top: 80px; }
 .nc-no-scrollbar::-webkit-scrollbar { display: none; }
 .nc-no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+/* ───── Continue-button highlight pulse — for GoogleWarningPreview ───── */
+.nc-warn-pulse {
+  animation: nc-warn-pulse 2.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+@keyframes nc-warn-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(125, 90, 255, 0);
+    border-color: rgba(125, 90, 255, 0.25);
+  }
+  35% {
+    box-shadow: 0 0 0 6px rgba(125, 90, 255, 0.18);
+    border-color: rgba(125, 90, 255, 0.85);
+  }
+  60% {
+    box-shadow: 0 0 0 0 rgba(125, 90, 255, 0);
+    border-color: rgba(125, 90, 255, 0.55);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nc-warn-pulse { animation: none !important; border-color: rgba(125, 90, 255, 0.55); }
+}
+
 /* ───── Pull-quote: vertical hairline + serif italic, lifts a phrase ───── */
 .nc-pullquote {
   border-left: 2px solid rgba(255, 94, 103, 0.55); /* vermillion */
