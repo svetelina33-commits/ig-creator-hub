@@ -775,6 +775,46 @@ html { scroll-padding-top: 80px; }
   .nc-ledger::before { animation: none !important; opacity: 0; }
 }
 
+/* ───── Animated tick / X — looping "click & fill" feel ───── */
+.nc-tick-path {
+  stroke-dasharray: 22;
+  stroke-dashoffset: 22;
+  animation: nc-tick-draw 4.2s cubic-bezier(0.6, 0, 0.2, 1) infinite;
+}
+.nc-x-path {
+  stroke-dasharray: 14;
+  stroke-dashoffset: 14;
+  animation: nc-x-draw 4.2s cubic-bezier(0.6, 0, 0.2, 1) infinite;
+}
+.nc-checkbox-pulse {
+  animation: nc-checkbox-pulse 4.2s cubic-bezier(0.6, 0, 0.2, 1) infinite;
+}
+@keyframes nc-tick-draw {
+  0%, 8%   { stroke-dashoffset: 22; opacity: 0.55; }
+  18%      { stroke-dashoffset: 0;  opacity: 1; }
+  72%      { stroke-dashoffset: 0;  opacity: 1; }
+  84%      { stroke-dashoffset: 22; opacity: 0.4; }
+  100%     { stroke-dashoffset: 22; opacity: 0.55; }
+}
+@keyframes nc-x-draw {
+  0%, 8%   { stroke-dashoffset: 14; opacity: 0.45; }
+  18%      { stroke-dashoffset: 0;  opacity: 0.9; }
+  72%      { stroke-dashoffset: 0;  opacity: 0.9; }
+  84%      { stroke-dashoffset: 14; opacity: 0.35; }
+  100%     { stroke-dashoffset: 14; opacity: 0.45; }
+}
+@keyframes nc-checkbox-pulse {
+  0%, 12%, 88%, 100% { transform: scale(1); }
+  16%                { transform: scale(0.94); }
+  22%                { transform: scale(1.04); }
+  28%                { transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nc-tick-path,
+  .nc-x-path { animation: none !important; stroke-dashoffset: 0 !important; opacity: 1 !important; }
+  .nc-checkbox-pulse { animation: none !important; }
+}
+
 /* ───── Scroll reveal (IntersectionObserver flip) ───── */
 .nc-reveal {
   opacity: 0;

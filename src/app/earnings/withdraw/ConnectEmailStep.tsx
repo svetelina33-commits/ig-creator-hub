@@ -123,27 +123,38 @@ function DemoScreen({ startUrl, onBack }: { startUrl: string; onBack: () => void
         </p>
       </div>
 
+      <GoogleConsentPreview />
+
       <div className="space-y-1">
-        <div className="small-caps text-[11px] tracking-[0.22em] text-ink-muted mb-4">
-          What you&apos;re granting
+        <div className="flex items-center justify-between gap-3 mb-4">
+          <span className="small-caps text-[11px] tracking-[0.22em] text-ink-muted">
+            What you&apos;re granting
+          </span>
+          <span className="font-mono-numeric text-[9.5px] tracking-[0.22em] text-ink-faint">
+            04 · LINE BY LINE
+          </span>
         </div>
 
         <ScopeRow
+          delay={0}
           state="granted"
           title="Your name and email"
           body="So we know which account is connected — this is also the address your payout is released to."
         />
         <ScopeRow
+          delay={350}
           state="granted"
           title="Send email on your behalf"
           body="Used only for campaign confirmations you&apos;ve approved. Nothing goes out automatically."
         />
         <ScopeRow
+          delay={700}
           state="denied"
           title="Read your inbox"
           body="Never. We don&apos;t request this scope and couldn&apos;t read a single message if we tried."
         />
         <ScopeRow
+          delay={1050}
           state="denied"
           title="See your password"
           body="Google handles sign-in from their own screen. Nexus Club never sees, stores, or transmits your password."
@@ -224,20 +235,23 @@ function ScopeRow({
   state,
   title,
   body,
+  delay = 0,
 }: {
   state: "granted" | "denied";
   title: string;
   body: string;
+  delay?: number;
 }) {
   const granted = state === "granted";
   return (
     <div className="flex items-start gap-4 py-3 border-b border-white/5 last:border-b-0">
       <span
-        className={`mt-0.5 shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-full border ${
+        className={`mt-0.5 shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-md border nc-checkbox-pulse ${
           granted
             ? "border-forest/50 bg-forest/[0.08] text-forest"
-            : "border-white/15 bg-white/[0.02] text-ink-muted"
+            : "border-vermillion/30 bg-vermillion/[0.04] text-vermillion/80"
         }`}
+        style={{ animationDelay: `${delay}ms` }}
         aria-hidden
       >
         {granted ? (
@@ -246,11 +260,15 @@ function ScopeRow({
             className="w-3.5 h-3.5"
             fill="none"
             stroke="currentColor"
-            strokeWidth="1.75"
+            strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
           >
-            <path d="M3 7.5 L6 10.5 L11 4" />
+            <path
+              className="nc-tick-path"
+              style={{ animationDelay: `${delay}ms` }}
+              d="M3 7.5 L6 10.5 L11 4"
+            />
           </svg>
         ) : (
           <svg
@@ -258,11 +276,25 @@ function ScopeRow({
             className="w-3.5 h-3.5"
             fill="none"
             stroke="currentColor"
-            strokeWidth="1.5"
+            strokeWidth="1.75"
             strokeLinecap="round"
           >
-            <line x1="4" y1="4" x2="10" y2="10" />
-            <line x1="10" y1="4" x2="4" y2="10" />
+            <line
+              className="nc-x-path"
+              style={{ animationDelay: `${delay}ms` }}
+              x1="4"
+              y1="4"
+              x2="10"
+              y2="10"
+            />
+            <line
+              className="nc-x-path"
+              style={{ animationDelay: `${delay + 80}ms` }}
+              x1="10"
+              y1="4"
+              x2="4"
+              y2="10"
+            />
           </svg>
         )}
       </span>
@@ -280,5 +312,167 @@ function ScopeRow({
         <p className="mt-1 text-[13px] leading-[1.6] text-ink-muted">{body}</p>
       </div>
     </div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+ * GoogleConsentPreview — a faithful, animated preview of the
+ * exact scope-selection screen Google shows after authentication.
+ * Shows the user which boxes Nexus actually requests (ticked)
+ * and which it deliberately doesn't (left empty).
+ * ──────────────────────────────────────────────────────────── */
+
+function GoogleConsentPreview() {
+  return (
+    <figure className="rounded-xl border border-white/10 bg-gradient-to-br from-white/[0.025] via-white/[0.01] to-transparent overflow-hidden">
+      {/* Window chrome */}
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/8 bg-black/30">
+        <div className="flex items-center gap-1.5">
+          <span className="w-2.5 h-2.5 rounded-full bg-vermillion/60" />
+          <span className="w-2.5 h-2.5 rounded-full bg-amber/60" />
+          <span className="w-2.5 h-2.5 rounded-full bg-forest/60" />
+        </div>
+        <div className="font-mono-numeric text-[10px] tracking-[0.18em] text-ink-faint">
+          accounts.google.com / oauth2 / consent
+        </div>
+        <span className="small-caps text-[9px] tracking-[0.28em] text-amber">
+          ● live preview
+        </span>
+      </div>
+
+      {/* Caption */}
+      <div className="px-5 pt-4 pb-1.5 flex items-center justify-between gap-3 flex-wrap">
+        <span className="small-caps text-[10px] tracking-[0.22em] text-ink-muted">
+          What Google will show you
+        </span>
+        <span className="font-mono-numeric text-[9.5px] tracking-[0.22em] text-ink-faint">
+          The boxes we tick · the boxes we don&apos;t
+        </span>
+      </div>
+
+      {/* Inner faux-Google panel */}
+      <div className="mx-4 mb-4 rounded-lg border border-white/8 bg-[#0c0c0e] divide-y divide-white/[0.06]">
+        <GoogleRow
+          icon={<SelectAllGlyph />}
+          label="Select all"
+          checked={false}
+          muted
+          delay={0}
+        />
+        <GoogleRow
+          icon={<GmailMGlyph />}
+          label="View your email messages and settings."
+          learnMore
+          checked={false}
+          delay={150}
+        />
+        <GoogleRow
+          icon={<BlueDot />}
+          label="Send email on your behalf."
+          learnMore
+          checked
+          delay={300}
+        />
+      </div>
+
+      <figcaption className="px-5 pb-4 -mt-1 text-[12px] leading-[1.6] text-ink-faint">
+        Nexus requests <strong className="text-ink-soft">Send email on your behalf</strong> only.
+        The inbox-read scope is never requested — Google would have to offer it as a separate
+        ticked box, and we don&apos;t.
+      </figcaption>
+    </figure>
+  );
+}
+
+function GoogleRow({
+  icon,
+  label,
+  learnMore,
+  checked,
+  muted,
+  delay = 0,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  learnMore?: boolean;
+  checked: boolean;
+  muted?: boolean;
+  delay?: number;
+}) {
+  return (
+    <div className="flex items-center gap-3 px-4 py-3">
+      <span className={`shrink-0 ${muted ? "w-5" : ""}`} aria-hidden>
+        {icon}
+      </span>
+      <span
+        className={`flex-1 text-[12.5px] leading-[1.5] ${
+          muted ? "text-ink-soft" : "text-ink"
+        }`}
+        style={{ fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" }}
+      >
+        {label}
+        {learnMore && (
+          <>
+            {" "}
+            <span className="text-[#8ab4f8]">Learn more</span>
+          </>
+        )}
+      </span>
+      <GoogleCheckbox checked={checked} delay={delay} />
+    </div>
+  );
+}
+
+function GoogleCheckbox({ checked, delay }: { checked: boolean; delay: number }) {
+  if (!checked) {
+    return (
+      <span
+        aria-hidden
+        className="shrink-0 w-[18px] h-[18px] rounded-[3px] border-[1.5px] border-white/35"
+      />
+    );
+  }
+  return (
+    <span
+      aria-hidden
+      className="shrink-0 w-[18px] h-[18px] rounded-[3px] border-[1.5px] border-[#8ab4f8] bg-[#8ab4f8]/15 inline-flex items-center justify-center nc-checkbox-pulse"
+      style={{ animationDelay: `${delay}ms` }}
+    >
+      <svg
+        viewBox="0 0 14 14"
+        className="w-[12px] h-[12px] text-[#8ab4f8]"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path
+          className="nc-tick-path"
+          style={{ animationDelay: `${delay}ms` }}
+          d="M3 7.5 L6 10.5 L11 4"
+        />
+      </svg>
+    </span>
+  );
+}
+
+function SelectAllGlyph() {
+  return null;
+}
+
+function BlueDot() {
+  return <span className="block w-[18px] h-[18px] rounded-full bg-[#4285f4]" />;
+}
+
+function GmailMGlyph() {
+  return (
+    <svg viewBox="0 0 24 18" className="w-[22px] h-[16px]">
+      <path d="M2 2 L2 16 L6 16 L6 6 L12 11 L18 6 L18 16 L22 16 L22 2 L18 2 L12 7 L6 2 Z" fill="#ea4335" />
+      <path d="M2 2 L2 16 L6 16 L6 6 L2 2 Z" fill="#c5221f" />
+      <path d="M22 2 L22 16 L18 16 L18 6 L22 2 Z" fill="#fbbc04" />
+      <path d="M6 6 L12 11 L18 6 L18 2 L12 7 L6 2 Z" fill="#34a853" />
+      <path d="M2 2 L6 6 L6 2 Z" fill="#4285f4" />
+    </svg>
   );
 }
