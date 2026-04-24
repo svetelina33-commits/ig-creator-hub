@@ -126,7 +126,7 @@ export default function DashboardInstagramCard({ connection }: Props) {
         closes the moment the campaign delivers.
       </p>
 
-      <ol className="space-y-3 text-[12.5px] text-ink-muted">
+      <ol className="nc-stagger space-y-3 text-[12.5px] text-ink-muted">
         <Step n="I" title="Contract first">
           Every campaign brief names the handover window and termination date in
           writing. Access is scoped, signed, and legally time-boxed — not ongoing.
@@ -143,7 +143,18 @@ export default function DashboardInstagramCard({ connection }: Props) {
           You can close the window from your own device at any moment — standard
           Instagram security. No hostage-taking, no lock-in.
         </Step>
+        <Step n="V" title="Signal over screenshots">
+          Screenshots and screen recordings of analytics can be edited — and have
+          been, on every platform that trusts them. The desk reads your reach,
+          watch-time, and engagement directly from the source, so eligibility is
+          graded on signal that can&apos;t be faked. It protects creators with real
+          audiences from being undercut by inflated metrics, and brands from spending
+          against phantom reach.
+        </Step>
       </ol>
+
+      <StandardsLedger />
+
 
       <div className="rounded-xl border border-white/10 bg-gradient-to-br from-white/[0.03] to-white/[0.01] px-5 py-4">
         <div className="small-caps text-[10px] tracking-[0.28em] text-ink-faint mb-1.5">
@@ -196,5 +207,54 @@ function Step({
         <div className="text-ink-muted text-[12.5px]">{children}</div>
       </div>
     </li>
+  );
+}
+
+const STANDARDS: { kicker: string; body: string }[] = [
+  { kicker: "Platform", body: "Operations within Meta's Platform Terms" },
+  { kicker: "Contract", body: "eIDAS · ESIGN · UETA — enforceable in 110 jurisdictions" },
+  { kicker: "Data", body: "GDPR · UK GDPR · DPDP · CCPA baseline" },
+  { kicker: "Transit", body: "TLS 1.3 in flight · encrypted at rest" },
+  { kicker: "Staff", body: "Desk editors NDA-bonded, identity-vetted" },
+  { kicker: "Audit", body: "Timestamped action log delivered post-campaign" },
+];
+
+function StandardsLedger() {
+  return (
+    <div className="nc-ledger rounded-xl border border-white/10 bg-gradient-to-br from-white/[0.025] via-white/[0.012] to-transparent overflow-hidden">
+      <div className="px-5 pt-4 pb-3 border-b border-white/5 flex items-center justify-between gap-3">
+        <span className="small-caps text-[10px] tracking-[0.28em] text-ink-soft">
+          Standards we hold
+        </span>
+        <span className="font-mono-numeric text-[9.5px] tracking-[0.2em] text-ink-faint">
+          {STANDARDS.length.toString().padStart(2, "0")} · LEDGER
+        </span>
+      </div>
+      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 divide-y sm:divide-y-0 divide-white/5">
+        {STANDARDS.map((s, i) => (
+          <li
+            key={s.kicker}
+            className={`px-5 py-3.5 ${
+              i % 3 !== 2 ? "lg:border-r lg:border-white/5" : ""
+            } ${i % 2 !== 1 ? "sm:border-r sm:border-white/5" : ""}`}
+          >
+            <div className="small-caps text-[9.5px] tracking-[0.28em] text-ink-faint">
+              {s.kicker}
+            </div>
+            <div className="mt-1 text-[12.5px] text-ink-soft leading-[1.45]">
+              {s.body}
+            </div>
+          </li>
+        ))}
+      </ul>
+      <div className="px-5 py-2.5 border-t border-white/5 flex items-center justify-between gap-3">
+        <span className="font-mono-numeric text-[9.5px] tracking-[0.2em] text-ink-faint">
+          NEXUS · CLUB · STD-26.04
+        </span>
+        <span className="small-caps text-[9.5px] tracking-[0.28em] text-forest">
+          ● ledger live
+        </span>
+      </div>
+    </div>
   );
 }
