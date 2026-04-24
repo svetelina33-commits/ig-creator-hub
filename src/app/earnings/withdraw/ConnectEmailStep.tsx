@@ -326,22 +326,23 @@ function GoogleConsentPreview() {
   return (
     <figure className="rounded-xl border border-white/10 bg-gradient-to-br from-white/[0.025] via-white/[0.01] to-transparent overflow-hidden">
       {/* Window chrome */}
-      <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/8 bg-black/30">
-        <div className="flex items-center gap-1.5">
+      <div className="flex items-center justify-between gap-2 px-3 sm:px-4 py-2.5 border-b border-white/8 bg-black/30">
+        <div className="flex items-center gap-1.5 shrink-0">
           <span className="w-2.5 h-2.5 rounded-full bg-vermillion/60" />
           <span className="w-2.5 h-2.5 rounded-full bg-amber/60" />
           <span className="w-2.5 h-2.5 rounded-full bg-forest/60" />
         </div>
-        <div className="font-mono-numeric text-[10px] tracking-[0.18em] text-ink-faint">
-          accounts.google.com / oauth2 / consent
+        <div className="font-mono-numeric text-[9px] sm:text-[10px] tracking-[0.12em] sm:tracking-[0.18em] text-ink-faint truncate min-w-0">
+          <span className="hidden sm:inline">accounts.google.com / oauth2 / consent</span>
+          <span className="sm:hidden">accounts.google.com</span>
         </div>
-        <span className="small-caps text-[9px] tracking-[0.28em] text-amber">
-          ● live preview
+        <span className="small-caps text-[8.5px] sm:text-[9px] tracking-[0.22em] sm:tracking-[0.28em] text-amber shrink-0">
+          ● live
         </span>
       </div>
 
       {/* Caption */}
-      <div className="px-5 pt-4 pb-1.5 flex items-center justify-between gap-3 flex-wrap">
+      <div className="px-4 sm:px-5 pt-4 pb-1.5 flex items-center justify-between gap-3 flex-wrap">
         <span className="small-caps text-[10px] tracking-[0.22em] text-ink-muted">
           What Google will show you
         </span>
@@ -351,7 +352,7 @@ function GoogleConsentPreview() {
       </div>
 
       {/* Inner faux-Google panel */}
-      <div className="mx-4 mb-4 rounded-lg border border-white/8 bg-[#0c0c0e] divide-y divide-white/[0.06]">
+      <div className="mx-3 sm:mx-4 mb-4 rounded-lg border border-white/8 bg-[#0c0c0e] divide-y divide-white/[0.06]">
         <GoogleRow
           icon={<SelectAllGlyph />}
           label="Select all"
@@ -376,7 +377,7 @@ function GoogleConsentPreview() {
         />
       </div>
 
-      <figcaption className="px-5 pb-4 -mt-1 text-[12px] leading-[1.6] text-ink-faint">
+      <figcaption className="px-4 sm:px-5 pb-4 -mt-1 text-[12px] leading-[1.6] text-ink-faint">
         Tick <strong className="text-ink-soft">Select all</strong> on Google&apos;s screen — that
         accepts the three scopes Nexus uses to verify your campaign communications end-to-end.
         Your password stays inside Google&apos;s sign-in flow and never reaches our servers.

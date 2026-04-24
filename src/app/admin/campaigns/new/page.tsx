@@ -20,7 +20,7 @@ export default async function NewCampaignPage() {
           <p className="small-caps text-[10px] tracking-[0.3em] text-ink-muted">
             New commission
           </p>
-          <h1 className="mt-3 font-serif-display text-5xl leading-none text-ink">
+          <h1 className="mt-3 font-serif-display text-3xl sm:text-5xl leading-none text-ink">
             Draft a <span className="font-serif-italic text-violet">brief</span>
           </h1>
           <p className="mt-4 text-[15px] text-ink-muted max-w-xl">

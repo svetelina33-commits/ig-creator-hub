@@ -65,7 +65,7 @@ export default async function WithdrawPage({ searchParams }: { searchParams: Sea
           </div>
 
           {/* Stepper */}
-          <div className="mb-8 grid grid-cols-3 gap-2">
+          <div className="mb-8 grid grid-cols-1 sm:grid-cols-3 gap-2">
             <Step n={1} title="Payout method" active={step === 1} done={hasPayout && step > 1} />
             <Step n={2} title="Connect email" active={step === 2} done={hasGoogle && step > 2} />
             <Step n={3} title="Confirm" active={step === 3} done={false} />

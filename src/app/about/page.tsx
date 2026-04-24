@@ -60,7 +60,7 @@ export default async function AboutPage() {
         <section className="mx-auto max-w-6xl py-20">
           <Reveal>
             <div className="flex items-baseline justify-between mb-12">
-              <h2 className="font-serif-italic text-5xl text-ink">What we believe</h2>
+              <h2 className="font-serif-italic text-3xl sm:text-4xl md:text-5xl text-ink">What we believe</h2>
               <span className="font-mono-numeric text-[11px] text-ink-faint">§ II</span>
             </div>
           </Reveal>
@@ -96,7 +96,7 @@ export default async function AboutPage() {
                     </span>
                   </div>
                   <div className="col-span-12 md:col-span-10">
-                    <h3 className="font-serif-display text-3xl text-ink leading-tight">
+                    <h3 className="font-serif-display text-xl sm:text-2xl md:text-3xl text-ink leading-tight">
                       {item.h}
                     </h3>
                     <p className="mt-4 text-[17px] leading-[1.75] text-ink-muted max-w-2xl font-serif-book">
@@ -117,7 +117,7 @@ export default async function AboutPage() {
                 <span className="small-caps text-[10px] tracking-[0.3em] text-ink-muted">
                   Colophon
                 </span>
-                <h2 className="mt-3 font-serif-italic text-4xl text-ink">
+                <h2 className="mt-3 font-serif-italic text-2xl sm:text-3xl md:text-4xl text-ink">
                   Set in Fraunces<br />&amp; Figtree.
                 </h2>
               </div>

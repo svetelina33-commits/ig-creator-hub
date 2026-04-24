@@ -93,7 +93,7 @@ export default async function DispatchesPage() {
                     </div>
                   </div>
                   <div className="col-span-12 md:col-span-9">
-                    <h2 className="font-serif-display text-4xl text-ink group-hover:text-forest transition-colors leading-tight">
+                    <h2 className="font-serif-display text-2xl sm:text-3xl md:text-4xl text-ink group-hover:text-forest transition-colors leading-tight">
                       {d.title}
                     </h2>
                     <p className="mt-4 max-w-2xl text-[17px] leading-[1.75] text-ink-muted font-serif-book">

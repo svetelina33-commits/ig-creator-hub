@@ -156,7 +156,7 @@ function AttachmentStrip({
                 </span>
               )}
               <span className="flex flex-col min-w-0">
-                <span className="text-[12.5px] text-ink-soft truncate max-w-[180px]">
+                <span className="text-[12.5px] text-ink-soft truncate max-w-[140px] sm:max-w-[180px]">
                   {a.name}
                 </span>
                 <span className="font-mono-numeric text-[9.5px] text-ink-faint">

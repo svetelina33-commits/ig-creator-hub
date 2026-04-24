@@ -48,7 +48,7 @@ export default async function AdminCreatorsPage() {
             </div>
           ) : (
             <div className="glass rounded-2xl overflow-hidden">
-              <div className="grid grid-cols-12 gap-4 px-5 pt-4 pb-3 border-b border-white/10 text-[10px] small-caps tracking-[0.25em] text-ink-faint">
+              <div className="hidden sm:grid grid-cols-12 gap-4 px-5 pt-4 pb-3 border-b border-white/10 text-[10px] small-caps tracking-[0.25em] text-ink-faint">
                 <span className="col-span-5">Member</span>
                 <span className="col-span-3">Instagram</span>
                 <span className="col-span-2">Joined</span>
@@ -56,7 +56,7 @@ export default async function AdminCreatorsPage() {
               </div>
               <ul className="divide-y divide-white/10">
                 {withCounts.map(({ creator, applicationCount }) => (
-                  <li key={creator.id} className="grid grid-cols-12 gap-4 px-5 py-5">
+                  <li key={creator.id} className="grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-4 px-5 py-5">
                     <div className="col-span-5">
                       <div className="font-serif-display text-xl text-ink">
                         {creator.email}

@@ -48,7 +48,7 @@ export default async function AdminCampaignPage({ params }: { params: Params }) 
                   {campaign.brand}
                 </span>
               </div>
-              <h1 className="mt-4 font-serif-display text-5xl text-ink leading-[0.95]">
+              <h1 className="mt-4 font-serif-display text-3xl sm:text-4xl md:text-5xl text-ink leading-[0.95]">
                 {campaign.title}
               </h1>
               <p className="mt-3 font-serif-italic text-xl text-ink-muted max-w-xl">

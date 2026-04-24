@@ -24,7 +24,7 @@ export default async function SettingsPage() {
           <p className="small-caps text-[10px] tracking-[0.3em] text-ink-muted">
             Member · Profile
           </p>
-          <h1 className="mt-3 font-serif-display text-5xl leading-none text-ink">
+          <h1 className="mt-3 font-serif-display text-3xl sm:text-5xl leading-none text-ink">
             Your <span className="font-serif-italic text-violet">colophon.</span>
           </h1>
           <p className="mt-4 max-w-xl text-[15px] text-ink-muted">

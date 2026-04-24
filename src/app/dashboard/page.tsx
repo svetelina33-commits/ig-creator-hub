@@ -99,7 +99,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
             {/* Instagram */}
             <section className="lg:col-span-12">
               <SectionHeader number="I" title="Publishing" kicker="Concierge" />
-              <div className="glass rounded-2xl p-6">
+              <div className="glass rounded-2xl p-4 sm:p-6">
                 <DashboardInstagramCard
                   connection={
                     creator.instagram
@@ -174,7 +174,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
                 <span className="small-caps text-[10px] tracking-[0.3em] text-ink-muted">
                   The desk
                 </span>
-                <h2 className="mt-2 font-serif-italic text-4xl text-ink">Open commissions</h2>
+                <h2 className="mt-2 font-serif-italic text-2xl sm:text-4xl text-ink">Open commissions</h2>
               </div>
               <div className="flex items-center gap-2">
                 <Link

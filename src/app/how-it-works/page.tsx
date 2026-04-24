@@ -100,7 +100,7 @@ export default async function HowItWorksPage() {
                     <div className="mt-2 font-serif-italic text-2xl text-ink">{s.kicker}</div>
                   </div>
                   <div className="col-span-12 md:col-span-9 md:pl-10 md:border-l md:border-hairline">
-                    <h2 className="font-serif-display text-4xl text-ink leading-tight max-w-xl">
+                    <h2 className="font-serif-display text-2xl sm:text-3xl md:text-4xl text-ink leading-tight max-w-xl">
                       {s.title}
                     </h2>
                     <p className="mt-4 text-[17px] leading-[1.75] text-ink-muted max-w-2xl font-serif-book">
@@ -126,7 +126,7 @@ export default async function HowItWorksPage() {
                 <span className="small-caps text-[10px] tracking-[0.3em] text-ink-muted">
                   For brands
                 </span>
-                <h2 className="mt-3 font-serif-italic text-5xl text-ink leading-[0.95]">
+                <h2 className="mt-3 font-serif-italic text-3xl sm:text-4xl md:text-5xl text-ink leading-[0.95]">
                   Commissioning
                   <br />a campaign.
                 </h2>
