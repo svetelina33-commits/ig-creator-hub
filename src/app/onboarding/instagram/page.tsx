@@ -85,15 +85,19 @@ export default async function OnboardingInstagramPage({
             >
               ← Not now, sign out
             </a>
-            <a
-              href="/api/auth/instagram/start"
-              className="btn-primary inline-flex items-center gap-3 px-7 py-4 rounded-full text-[13px] tracking-wide"
+            <span
+              aria-disabled
+              className="inline-flex items-center gap-3 px-7 py-4 rounded-full text-[13px] tracking-wide border border-white/10 bg-white/[0.02] text-ink-muted cursor-not-allowed select-none"
+              title="Instagram connection is temporarily unavailable"
             >
               <InstagramGlyph />
-              Continue to Instagram
-              <span aria-hidden>→</span>
-            </a>
+              Temporarily unavailable
+            </span>
           </div>
+
+          <p className="mt-4 small-caps text-[10px] tracking-[0.22em] text-amber text-right">
+            ● connection flow in maintenance · back shortly
+          </p>
 
           <p className="mt-6 text-[11px] leading-[1.6] text-ink-faint max-w-md">
             By continuing you agree to our{" "}

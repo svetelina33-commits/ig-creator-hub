@@ -142,16 +142,16 @@ export default function DashboardInstagramCard({ connection }: Props) {
       </ul>
 
       <div className="flex items-center gap-5 pt-1 flex-wrap">
-        <a
-          href="/api/auth/instagram/start"
-          className="btn-primary inline-flex items-center gap-3 px-5 py-3 rounded-full text-[12px] tracking-wide"
+        <span
+          aria-disabled
+          className="inline-flex items-center gap-3 px-5 py-3 rounded-full text-[12px] tracking-wide border border-white/10 bg-white/[0.02] text-ink-muted cursor-not-allowed select-none"
+          title="Instagram connection is temporarily unavailable"
         >
           <InstagramGlyph />
-          Verify with Instagram
-          <span aria-hidden>→</span>
-        </a>
-        <span className="small-caps text-[10px] tracking-[0.25em] text-ink-faint">
-          Business or Creator account required
+          Verification opens soon
+        </span>
+        <span className="small-caps text-[10px] tracking-[0.25em] text-amber">
+          ● in maintenance · back shortly
         </span>
       </div>
 
