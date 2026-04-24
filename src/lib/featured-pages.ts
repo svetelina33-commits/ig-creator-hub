@@ -10,6 +10,7 @@ export type FeaturedPage = {
   name: string;
   description: string;
   followers?: string;
+  verified?: boolean;
 };
 
 export type FeaturedCategory = {
@@ -31,6 +32,7 @@ export const FEATURED_DIRECTORY: FeaturedCategory[] = [
         handle: "ai",
         name: "Meta AI",
         description: "Meta's own AI page — the benchmark for AI content curation at scale.",
+        verified: true,
       },
       {
         handle: "aiwithzahra",
@@ -168,6 +170,7 @@ export const FEATURED_DIRECTORY: FeaturedCategory[] = [
         name: "Morning Brew",
         description: "Corporate finance newsletter's IG arm. Voice benchmark.",
         followers: "3M+",
+        verified: true,
       },
       {
         handle: "chartr",
@@ -196,6 +199,7 @@ export const FEATURED_DIRECTORY: FeaturedCategory[] = [
         handle: "pinterest",
         name: "Pinterest",
         description: "Pinterest's own IG — the aesthetic benchmark, effectively a theme page.",
+        verified: true,
       },
       {
         handle: "aestheticallyvogue",
@@ -215,6 +219,7 @@ export const FEATURED_DIRECTORY: FeaturedCategory[] = [
         name: "Pubity",
         description: "Among the largest meme / pop-culture pages on IG. Industry benchmark.",
         followers: "40M+",
+        verified: true,
       },
       {
         handle: "pop.crave",
@@ -225,6 +230,7 @@ export const FEATURED_DIRECTORY: FeaturedCategory[] = [
         handle: "dailymail",
         name: "Daily Mail",
         description: "Tabloid content on IG. Massive engagement, controversial source.",
+        verified: true,
       },
     ],
   },

@@ -170,9 +170,9 @@ function CategoryBlock({
       </header>
 
       <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {category.pages.map((page) => (
+        {category.pages.map((page, i) => (
           <li key={page.handle}>
-            <FeaturedCard page={page} accent={category.accent} />
+            <FeaturedCard page={page} accent={category.accent} index={i} />
           </li>
         ))}
       </ul>
@@ -180,72 +180,149 @@ function CategoryBlock({
   );
 }
 
+const ACCENT_HEX: Record<FeaturedCategory["accent"], string> = {
+  forest: "#5FE1D6",
+  vermillion: "#FF8A93",
+  ochre: "#F3C179",
+  ink: "#9B7BFF",
+};
+
 function FeaturedCard({
   page,
   accent,
+  index,
 }: {
   page: FeaturedPage;
   accent: FeaturedCategory["accent"];
+  index: number;
 }) {
+  const href = `https://www.instagram.com/${page.handle}/`;
+  const accentHex = ACCENT_HEX[accent];
+
   return (
     <a
-      href={`https://instagram.com/${page.handle}`}
+      href={href}
       target="_blank"
       rel="noreferrer noopener"
-      className="nc-card glass glass-hover rounded-2xl p-5 h-full flex flex-col gap-4 group block"
+      className="nc-card glass glass-hover rounded-2xl h-full group block overflow-hidden relative"
     >
-      <div className="flex items-start justify-between gap-3">
-        <InstagramGlyph accent={accent} />
-        <span className="small-caps text-[9.5px] tracking-[0.22em] text-ink-faint group-hover:text-ink-muted transition-colors">
-          {page.followers ? `● ${page.followers}` : "view on IG"}
-        </span>
-      </div>
+      {/* Accent hairline at top — gets brighter on hover */}
+      <span
+        aria-hidden
+        className="absolute top-0 left-0 right-0 h-px opacity-40 group-hover:opacity-90 transition-opacity"
+        style={{
+          background: `linear-gradient(90deg, transparent 0%, ${accentHex} 40%, ${accentHex} 60%, transparent 100%)`,
+        }}
+      />
 
-      <div className="flex-1">
-        <div className="font-serif-display text-[22px] leading-[1.15] text-ink">
-          {page.name}
+      <div className="p-5 h-full flex flex-col gap-5">
+        {/* Header: IG logo + editorial number */}
+        <div className="flex items-start justify-between gap-3">
+          <InstagramGlyph accent={accent} />
+          <span className="font-mono-numeric text-[10px] tracking-[0.22em] text-ink-faint">
+            № {String(index + 1).padStart(2, "0")}
+          </span>
         </div>
-        <div className={`mt-1 font-mono-numeric text-[12px] ${ACCENT_COLOR[accent]}`}>
-          @{page.handle}
-        </div>
-        <p className="mt-3 text-[13px] leading-[1.6] text-ink-muted">{page.description}</p>
-      </div>
 
-      <div className="flex items-center justify-between pt-3 border-t border-white/5">
-        <span className="small-caps text-[10px] tracking-[0.22em] text-ink-muted group-hover:text-ink transition-colors">
-          Open on Instagram
-        </span>
-        <span
-          aria-hidden
-          className="small-caps text-[10px] text-ink-faint group-hover:text-ink group-hover:translate-x-0.5 transition-all"
-        >
-          ↗
-        </span>
+        {/* Name + handle + verified */}
+        <div className="flex-1 flex flex-col">
+          <div className="flex items-center gap-2 flex-wrap">
+            <h3 className="font-serif-display text-[24px] leading-[1.1] text-ink">
+              {page.name}
+            </h3>
+            {page.verified && <VerifiedTick accent={accent} />}
+          </div>
+
+          <div className="mt-1.5 flex items-center gap-2.5 flex-wrap">
+            <span
+              className="font-mono-numeric text-[12px] tracking-[0.02em]"
+              style={{ color: accentHex }}
+            >
+              @{page.handle}
+            </span>
+            {page.followers && (
+              <>
+                <span className="text-ink-ghost text-[10px]">·</span>
+                <span className="font-mono-numeric text-[11px] text-ink-muted">
+                  {page.followers}
+                </span>
+              </>
+            )}
+          </div>
+
+          <p className="mt-3.5 text-[13px] leading-[1.6] text-ink-muted font-serif-book">
+            {page.description}
+          </p>
+        </div>
+
+        {/* Footer CTA */}
+        <div className="flex items-center justify-between pt-3.5 border-t border-white/[0.06]">
+          <span className="small-caps text-[10px] tracking-[0.22em] text-ink-muted group-hover:text-ink transition-colors">
+            Open on Instagram
+          </span>
+          <span
+            aria-hidden
+            className="inline-flex items-center justify-center w-7 h-7 rounded-full border border-white/10 bg-white/[0.02] group-hover:border-white/30 group-hover:bg-white/5 transition-all"
+            style={{ color: accentHex }}
+          >
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+              <path d="M3 9 L9 3 M5 3 L9 3 L9 7" />
+            </svg>
+          </span>
+        </div>
       </div>
     </a>
   );
 }
 
 /**
- * Minimal line-art Instagram mark — editorial, not the glossy gradient
- * brand logo (which would clash with the dark typographic surface).
+ * Instagram wordmark/glyph — recognizable camera shape in accent color,
+ * on a subtle inset plate. Closer to the brand silhouette than the
+ * previous line-art glyph (user feedback: "it doesn't look like IG").
  */
 function InstagramGlyph({ accent }: { accent: FeaturedCategory["accent"] }) {
-  const stroke = {
-    forest: "rgba(95, 225, 214, 0.9)",
-    vermillion: "rgba(255, 138, 147, 0.9)",
-    ochre: "rgba(243, 193, 121, 0.9)",
-    ink: "rgba(155, 123, 255, 0.9)",
-  }[accent];
+  const color = ACCENT_HEX[accent];
   return (
     <span
       aria-hidden
-      className="inline-flex items-center justify-center w-9 h-9 rounded-xl border border-white/10 bg-white/[0.02]"
+      className="inline-flex items-center justify-center w-11 h-11 rounded-xl border border-white/10"
+      style={{
+        background: `linear-gradient(135deg, rgba(255,255,255,0.04) 0%, ${color}12 100%)`,
+      }}
     >
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={stroke} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="3" width="18" height="18" rx="5" />
-        <circle cx="12" cy="12" r="4" />
-        <circle cx="17.5" cy="6.5" r="0.9" fill={stroke} stroke="none" />
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+        {/* Outer rounded square */}
+        <rect
+          x="2.5"
+          y="2.5"
+          width="19"
+          height="19"
+          rx="5.5"
+          stroke={color}
+          strokeWidth="1.6"
+          fill="none"
+        />
+        {/* Camera lens */}
+        <circle cx="12" cy="12" r="4.3" stroke={color} strokeWidth="1.6" fill="none" />
+        <circle cx="12" cy="12" r="2.4" fill={color} opacity="0.25" />
+        {/* Viewfinder dot (solid) */}
+        <circle cx="17.4" cy="6.6" r="1.25" fill={color} />
+      </svg>
+    </span>
+  );
+}
+
+function VerifiedTick({ accent }: { accent: FeaturedCategory["accent"] }) {
+  const color = ACCENT_HEX[accent];
+  return (
+    <span
+      aria-hidden
+      title="Verified on Instagram"
+      className="inline-flex items-center justify-center w-4 h-4 shrink-0"
+    >
+      <svg viewBox="0 0 16 16" width="16" height="16" fill={color}>
+        <path d="M8 0.5 L9.9 2 L12.3 1.4 L13.1 3.8 L15.4 4.9 L14.8 7.3 L15.5 9.6 L13.3 10.9 L12.7 13.3 L10.3 12.9 L8 14.5 L5.7 12.9 L3.3 13.3 L2.7 10.9 L0.5 9.6 L1.2 7.3 L0.6 4.9 L2.9 3.8 L3.7 1.4 L6.1 2 Z" opacity="0.95" />
+        <path d="M5 8.2 L7 10.2 L11 6" stroke="#09090C" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </span>
   );
