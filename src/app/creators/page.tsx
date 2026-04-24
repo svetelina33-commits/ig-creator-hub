@@ -187,6 +187,16 @@ const ACCENT_HEX: Record<FeaturedCategory["accent"], string> = {
   ink: "#9B7BFF",
 };
 
+/**
+ * Deterministic hash so the same handle always renders the same avatar
+ * across reloads.
+ */
+function hashSeed(s: string): number {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
+
 function FeaturedCard({
   page,
   accent,
@@ -196,35 +206,30 @@ function FeaturedCard({
   accent: FeaturedCategory["accent"];
   index: number;
 }) {
-  const href = `https://www.instagram.com/${page.handle}/`;
   const accentHex = ACCENT_HEX[accent];
+  const redactedHandle = redactHandle(page.handle);
 
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer noopener"
-      className="nc-card glass glass-hover rounded-2xl h-full group block overflow-hidden relative"
-    >
-      {/* Accent hairline at top — gets brighter on hover */}
+    <div className="nc-card glass glass-hover rounded-2xl h-full block overflow-hidden relative group">
+      {/* Accent hairline at top */}
       <span
         aria-hidden
-        className="absolute top-0 left-0 right-0 h-px opacity-40 group-hover:opacity-90 transition-opacity"
+        className="absolute top-0 left-0 right-0 h-px opacity-60"
         style={{
           background: `linear-gradient(90deg, transparent 0%, ${accentHex} 40%, ${accentHex} 60%, transparent 100%)`,
         }}
       />
 
       <div className="p-5 h-full flex flex-col gap-5">
-        {/* Header: IG logo + editorial number */}
+        {/* Header: generative avatar + editorial number */}
         <div className="flex items-start justify-between gap-3">
-          <InstagramGlyph accent={accent} />
+          <GenerativeAvatar seed={page.handle} name={page.name} accent={accent} />
           <span className="font-mono-numeric text-[10px] tracking-[0.22em] text-ink-faint">
             № {String(index + 1).padStart(2, "0")}
           </span>
         </div>
 
-        {/* Name + handle + verified */}
+        {/* Name + verified + redacted handle */}
         <div className="flex-1 flex flex-col">
           <div className="flex items-center gap-2 flex-wrap">
             <h3 className="font-serif-display text-[24px] leading-[1.1] text-ink">
@@ -235,19 +240,13 @@ function FeaturedCard({
 
           <div className="mt-1.5 flex items-center gap-2.5 flex-wrap">
             <span
-              className="font-mono-numeric text-[12px] tracking-[0.02em]"
-              style={{ color: accentHex }}
+              className="font-mono-numeric text-[12px] tracking-[0.1em] select-none"
+              style={{ color: accentHex, filter: "blur(2.4px)" }}
+              aria-hidden
+              title="Handle redacted"
             >
-              @{page.handle}
+              @{redactedHandle}
             </span>
-            {page.followers && (
-              <>
-                <span className="text-ink-ghost text-[10px]">·</span>
-                <span className="font-mono-numeric text-[11px] text-ink-muted">
-                  {page.followers}
-                </span>
-              </>
-            )}
           </div>
 
           <p className="mt-3.5 text-[13px] leading-[1.6] text-ink-muted font-serif-book">
@@ -255,61 +254,118 @@ function FeaturedCard({
           </p>
         </div>
 
-        {/* Footer CTA */}
+        {/* Footer: followers + verified badge */}
         <div className="flex items-center justify-between pt-3.5 border-t border-white/[0.06]">
-          <span className="small-caps text-[10px] tracking-[0.22em] text-ink-muted group-hover:text-ink transition-colors">
-            Open on Instagram
-          </span>
-          <span
-            aria-hidden
-            className="inline-flex items-center justify-center w-7 h-7 rounded-full border border-white/10 bg-white/[0.02] group-hover:border-white/30 group-hover:bg-white/5 transition-all"
-            style={{ color: accentHex }}
-          >
-            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
-              <path d="M3 9 L9 3 M5 3 L9 3 L9 7" />
-            </svg>
+          <div className="flex items-center gap-2">
+            <span
+              aria-hidden
+              className="inline-block w-1.5 h-1.5 rounded-full"
+              style={{ background: accentHex }}
+            />
+            <span className="font-mono-numeric text-[11.5px] tracking-[0.08em] text-ink-soft">
+              {page.followers ? `${page.followers} followers` : "private"}
+            </span>
+          </div>
+          <span className="small-caps text-[9.5px] tracking-[0.25em] text-ink-faint">
+            {page.verified ? "● verified" : "member"}
           </span>
         </div>
       </div>
-    </a>
+    </div>
   );
 }
 
+function redactHandle(handle: string): string {
+  // Keep the first char, replace the rest with ● (even for short handles).
+  if (handle.length <= 2) return "●●●●●●";
+  return handle[0] + "●".repeat(Math.min(8, handle.length - 1));
+}
+
 /**
- * Instagram wordmark/glyph — recognizable camera shape in accent color,
- * on a subtle inset plate. Closer to the brand silhouette than the
- * previous line-art glyph (user feedback: "it doesn't look like IG").
+ * Generative avatar — SVG composition seeded by the page handle, so each
+ * card gets a unique premium-looking mark that's recognizably ours (not
+ * scraped from Instagram). Accent color drives the glow / geometry tint.
  */
-function InstagramGlyph({ accent }: { accent: FeaturedCategory["accent"] }) {
+function GenerativeAvatar({
+  seed,
+  name,
+  accent,
+}: {
+  seed: string;
+  name: string;
+  accent: FeaturedCategory["accent"];
+}) {
   const color = ACCENT_HEX[accent];
+  const h = hashSeed(seed);
+  const monogram = deriveMonogram(name);
+
+  // Seeded parameters for variety.
+  const rotA = (h % 360);
+  const rotB = ((h >> 3) % 360);
+  const shapeSeed = (h >> 6) % 3;
+  const uid = `av-${seed}`;
+
   return (
     <span
       aria-hidden
-      className="inline-flex items-center justify-center w-11 h-11 rounded-xl border border-white/10"
+      className="relative inline-flex items-center justify-center w-14 h-14 rounded-2xl overflow-hidden"
       style={{
-        background: `linear-gradient(135deg, rgba(255,255,255,0.04) 0%, ${color}12 100%)`,
+        background: `linear-gradient(${rotA}deg, ${color}28 0%, ${color}08 100%), radial-gradient(circle at 30% 20%, ${color}40 0%, transparent 55%)`,
+        border: `1px solid ${color}35`,
       }}
     >
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
-        {/* Outer rounded square */}
-        <rect
-          x="2.5"
-          y="2.5"
-          width="19"
-          height="19"
-          rx="5.5"
-          stroke={color}
-          strokeWidth="1.6"
-          fill="none"
-        />
-        {/* Camera lens */}
-        <circle cx="12" cy="12" r="4.3" stroke={color} strokeWidth="1.6" fill="none" />
-        <circle cx="12" cy="12" r="2.4" fill={color} opacity="0.25" />
-        {/* Viewfinder dot (solid) */}
-        <circle cx="17.4" cy="6.6" r="1.25" fill={color} />
+      <svg
+        viewBox="0 0 100 100"
+        width="100%"
+        height="100%"
+        style={{ position: "absolute", inset: 0 }}
+      >
+        <defs>
+          <radialGradient id={`${uid}-glow`} cx="50%" cy="40%" r="60%">
+            <stop offset="0%" stopColor={color} stopOpacity="0.35" />
+            <stop offset="100%" stopColor={color} stopOpacity="0" />
+          </radialGradient>
+        </defs>
+        <rect width="100" height="100" fill={`url(#${uid}-glow)`} />
+        {/* Seeded geometry underlay — three families, deterministic */}
+        {shapeSeed === 0 && (
+          <g stroke={color} strokeWidth="0.6" fill="none" opacity="0.5" transform={`rotate(${rotB} 50 50)`}>
+            <circle cx="50" cy="50" r="28" />
+            <circle cx="50" cy="50" r="38" opacity="0.45" />
+          </g>
+        )}
+        {shapeSeed === 1 && (
+          <g stroke={color} strokeWidth="0.6" fill="none" opacity="0.45" transform={`rotate(${rotB} 50 50)`}>
+            <path d="M 15 50 L 85 50 M 50 15 L 50 85" />
+            <rect x="25" y="25" width="50" height="50" />
+          </g>
+        )}
+        {shapeSeed === 2 && (
+          <g stroke={color} strokeWidth="0.55" fill="none" opacity="0.5" transform={`rotate(${rotB} 50 50)`}>
+            <polygon points="50,18 82,68 18,68" />
+            <polygon points="50,82 82,32 18,32" opacity="0.35" />
+          </g>
+        )}
       </svg>
+      <span
+        className="relative font-serif-display text-[17px] leading-none"
+        style={{ color, fontStyle: monogram.length === 1 ? "italic" : "normal", fontWeight: 500 }}
+      >
+        {monogram}
+      </span>
     </span>
   );
+}
+
+function deriveMonogram(name: string): string {
+  const clean = name.replace(/[^A-Za-z0-9 &]/g, "");
+  const parts = clean.split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "•";
+  if (parts.length === 1) {
+    const p = parts[0];
+    return (p[0] + (p[1] ?? "")).toUpperCase();
+  }
+  return (parts[0][0] + parts[1][0]).toUpperCase();
 }
 
 function VerifiedTick({ accent }: { accent: FeaturedCategory["accent"] }) {
@@ -317,7 +373,7 @@ function VerifiedTick({ accent }: { accent: FeaturedCategory["accent"] }) {
   return (
     <span
       aria-hidden
-      title="Verified on Instagram"
+      title="Verified"
       className="inline-flex items-center justify-center w-4 h-4 shrink-0"
     >
       <svg viewBox="0 0 16 16" width="16" height="16" fill={color}>
