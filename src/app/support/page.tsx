@@ -45,7 +45,7 @@ export default async function SupportPage() {
               weirdness, anything that isn't in the FAQ. Every message lands on the control
               desk; we reply from{" "}
               <em className="font-serif-italic text-ink-soft">
-                hello@nexus.club
+                hello@thenexusclub.org
               </em>{" "}
               within 24–48 hours.
             </p>

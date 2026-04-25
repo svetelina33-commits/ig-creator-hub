@@ -59,9 +59,9 @@ Open <http://localhost:3000>. Sign up with any email → click **Connect your In
    ```
 3. Go to <https://vercel.com/new> → import the repo → Deploy.
 4. In Vercel → Project → **Settings → Environment Variables**, add each line from `.env.local` (generate fresh `SESSION_SECRET` and `TOKEN_ENCRYPTION_KEY` for production).
-5. After first deploy you'll get `https://<project>.vercel.app`. Back in Meta app settings, add this as an additional OAuth redirect URI:
-   `https://<project>.vercel.app/api/auth/instagram/callback`
-6. Update `APP_BASE_URL` in Vercel env vars to `https://<project>.vercel.app`.
+5. Map your custom domain (`thenexusclub.org`) under Vercel → Project → Settings → Domains, then point your registrar's DNS to the records Vercel provides. Back in Meta app settings, add the production redirect URI:
+   `https://thenexusclub.org/api/auth/instagram/callback`
+6. Set `APP_BASE_URL` in Vercel env vars to `https://thenexusclub.org`.
 
 ### 5. Get approved for Content Publishing
 
