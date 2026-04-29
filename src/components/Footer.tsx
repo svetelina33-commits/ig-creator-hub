@@ -2,6 +2,16 @@ import Link from "next/link";
 import { NexusSeal } from "@/components/NexusSeal";
 import { META_APPROVAL } from "@/lib/verification";
 
+/* Standing inboxes — role label first, address second.
+   Order is the visual order in the footer's "In writing" block. */
+const INBOXES = [
+  { role: "Members", email: "support@thenexusclub.org" },
+  { role: "Brands", email: "brands@thenexusclub.org" },
+  { role: "Press", email: "press@thenexusclub.org" },
+  { role: "Disclosure", email: "security@thenexusclub.org" },
+  { role: "Escalation", email: "disputes@thenexusclub.org" },
+] as const;
+
 /**
  * Editorial footer — five bands.
  *
@@ -154,53 +164,35 @@ export function Footer() {
             </p>
           </div>
 
-          {/* In writing — standing inboxes */}
-          <div className="md:col-span-5">
-            <div className="small-caps text-[10px] tracking-[0.3em] text-ink-faint mb-4">
-              In writing
+          {/* In writing — standing inboxes.
+              Right-anchored on desktop within the col-span-5 grid cell so the
+              tight key-value block sits flush with the footer's right edge.
+              On narrow screens the role/email pairs stack into a directory
+              listing rather than overflowing horizontally. */}
+          <div className="md:col-span-5 md:flex md:justify-end">
+            <div>
+              <div className="small-caps text-[10px] tracking-[0.3em] text-ink-faint mb-4">
+                In writing
+              </div>
+              <ul className="space-y-2.5">
+                {INBOXES.map(({ role, email }) => (
+                  <li
+                    key={email}
+                    className="flex flex-col sm:flex-row sm:items-baseline sm:gap-6"
+                  >
+                    <span className="small-caps text-[9.5px] tracking-[0.28em] text-ink-faint sm:min-w-[5.75rem] mb-0.5 sm:mb-0">
+                      {role}
+                    </span>
+                    <a
+                      href={`mailto:${email}`}
+                      className="font-mono-numeric text-[11px] tracking-[0.04em] text-ink-soft hover:text-ink transition-colors"
+                    >
+                      {email}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <ul className="space-y-2 font-mono-numeric text-[11px] tracking-[0.04em] text-ink-soft">
-              <li className="flex items-baseline justify-between gap-3">
-                <a href="mailto:support@thenexusclub.org" className="hover:text-ink transition-colors">
-                  support@thenexusclub.org
-                </a>
-                <span className="small-caps text-[9.5px] tracking-[0.28em] text-ink-faint shrink-0">
-                  Members
-                </span>
-              </li>
-              <li className="flex items-baseline justify-between gap-3">
-                <a href="mailto:brands@thenexusclub.org" className="hover:text-ink transition-colors">
-                  brands@thenexusclub.org
-                </a>
-                <span className="small-caps text-[9.5px] tracking-[0.28em] text-ink-faint shrink-0">
-                  Brands
-                </span>
-              </li>
-              <li className="flex items-baseline justify-between gap-3">
-                <a href="mailto:press@thenexusclub.org" className="hover:text-ink transition-colors">
-                  press@thenexusclub.org
-                </a>
-                <span className="small-caps text-[9.5px] tracking-[0.28em] text-ink-faint shrink-0">
-                  Press
-                </span>
-              </li>
-              <li className="flex items-baseline justify-between gap-3">
-                <a href="mailto:security@thenexusclub.org" className="hover:text-ink transition-colors">
-                  security@thenexusclub.org
-                </a>
-                <span className="small-caps text-[9.5px] tracking-[0.28em] text-ink-faint shrink-0">
-                  Disclosure
-                </span>
-              </li>
-              <li className="flex items-baseline justify-between gap-3">
-                <a href="mailto:disputes@thenexusclub.org" className="hover:text-ink transition-colors">
-                  disputes@thenexusclub.org
-                </a>
-                <span className="small-caps text-[9.5px] tracking-[0.28em] text-ink-faint shrink-0">
-                  Escalation
-                </span>
-              </li>
-            </ul>
           </div>
         </div>
 
