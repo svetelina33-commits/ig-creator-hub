@@ -102,7 +102,7 @@ export default function SettingsForm({ existing, defaultDisplayName }: Props) {
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-        <Field label="City" value={city} onChange={setCity} placeholder="Mumbai" />
+        <Field label="City" value={city} onChange={setCity} placeholder="New York" />
         <AccentPicker value={accent} onChange={setAccent} />
       </div>
 
