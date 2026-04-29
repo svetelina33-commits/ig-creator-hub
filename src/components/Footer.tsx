@@ -1,5 +1,7 @@
+import { Fragment } from "react";
 import Link from "next/link";
 import { NexusSeal } from "@/components/NexusSeal";
+import { EmailLink } from "@/components/EmailLink";
 import { META_APPROVAL } from "@/lib/verification";
 
 /* Standing inboxes — role label first, address second.
@@ -10,6 +12,24 @@ const INBOXES = [
   { role: "Press", email: "press@thenexusclub.org" },
   { role: "Disclosure", email: "security@thenexusclub.org" },
   { role: "Escalation", email: "disputes@thenexusclub.org" },
+] as const;
+
+/* Standing-document shelf — every policy on one rail.
+   Pulled out of the JSX so the separator render loop can iterate. */
+const SHELF = [
+  { href: "/house-rules", label: "House rules" },
+  { href: "/community-guidelines", label: "Community guidelines" },
+  { href: "/code-of-conduct", label: "Code of conduct" },
+  { href: "/standards", label: "Editorial standards" },
+  { href: "/disputes", label: "Disputes" },
+  { href: "/security", label: "Security" },
+  { href: "/subprocessors", label: "Subprocessors" },
+  { href: "/dpa", label: "DPA" },
+  { href: "/terms-brands", label: "Brand terms" },
+  { href: "/copyright", label: "Copyright" },
+  { href: "/accessibility", label: "Accessibility" },
+  { href: "/terms", label: "Terms" },
+  { href: "/privacy", label: "Privacy" },
 ] as const;
 
 /**
@@ -94,28 +114,23 @@ export function Footer() {
           </div>
         </div>
 
-        {/* ── ③ Policies sub-row — every standing document on one shelf ─── */}
+        {/* ── ③ Policies sub-row — every standing document on one shelf.
+                Vertical hairline separator between entries so the row reads
+                as a discrete list, not a run-on sentence. ────────────── */}
         <div className="mt-6 px-1 sm:px-3">
           <div className="small-caps text-[10px] tracking-[0.32em] text-ink-faint mb-3">
             On the shelf —
           </div>
           <nav
             aria-label="Policies and standing documents"
-            className="flex flex-wrap gap-x-5 sm:gap-x-7 gap-y-2 font-mono-numeric text-[10.5px] tracking-[0.16em] text-ink-faint uppercase"
+            className="flex flex-wrap items-center gap-x-4 sm:gap-x-5 gap-y-2 font-mono-numeric text-[10.5px] tracking-[0.16em] text-ink-faint uppercase"
           >
-            <FootLink href="/house-rules">House rules</FootLink>
-            <FootLink href="/community-guidelines">Community guidelines</FootLink>
-            <FootLink href="/code-of-conduct">Code of conduct</FootLink>
-            <FootLink href="/standards">Editorial standards</FootLink>
-            <FootLink href="/disputes">Disputes</FootLink>
-            <FootLink href="/security">Security</FootLink>
-            <FootLink href="/subprocessors">Subprocessors</FootLink>
-            <FootLink href="/dpa">DPA</FootLink>
-            <FootLink href="/terms-brands">Brand terms</FootLink>
-            <FootLink href="/copyright">Copyright</FootLink>
-            <FootLink href="/accessibility">Accessibility</FootLink>
-            <FootLink href="/terms">Terms</FootLink>
-            <FootLink href="/privacy">Privacy</FootLink>
+            {SHELF.map((item, i) => (
+              <Fragment key={item.href}>
+                {i > 0 && <span aria-hidden className="nc-sep-v" />}
+                <FootLink href={item.href}>{item.label}</FootLink>
+              </Fragment>
+            ))}
           </nav>
         </div>
 
@@ -185,12 +200,10 @@ export function Footer() {
                     <span className="small-caps text-[9.5px] tracking-[0.28em] text-ink-faint sm:min-w-[5.75rem] mb-0.5 sm:mb-0">
                       {role}
                     </span>
-                    <a
-                      href={`mailto:${email}`}
+                    <EmailLink
+                      email={email}
                       className="font-mono-numeric text-[11px] tracking-[0.04em] text-ink-soft hover:text-ink transition-colors"
-                    >
-                      {email}
-                    </a>
+                    />
                   </li>
                 ))}
               </ul>
@@ -210,13 +223,26 @@ export function Footer() {
             © {new Date().getFullYear()} The Nexus Club Agency Pte. Ltd.
           </span>
           <span className="font-mono-numeric text-[10.5px] tracking-[0.16em] text-ink-faint uppercase">
-            <Link href="/.well-known/security.txt" className="hover:text-ink transition-colors">
+            {/* security.txt and sitemap.xml are static files in /public,
+                so use plain anchors — Next's Link tries client-side
+                navigation and silently fails on non-React resources. */}
+            <a
+              href="/.well-known/security.txt"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-ink transition-colors"
+            >
               security.txt
-            </Link>
+            </a>
             <span aria-hidden className="text-ink-ghost mx-2">·</span>
-            <Link href="/sitemap.xml" className="hover:text-ink transition-colors">
+            <a
+              href="/sitemap.xml"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-ink transition-colors"
+            >
               sitemap
-            </Link>
+            </a>
           </span>
         </div>
       </div>

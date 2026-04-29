@@ -4,6 +4,7 @@ import { Footer } from "@/components/Footer";
 import { Reveal } from "@/components/Reveal";
 import { RunningHead } from "@/components/Ornaments";
 import { HelpSearch } from "@/components/HelpSearch";
+import { EmailLink } from "@/components/EmailLink";
 import { getSession } from "@/lib/session";
 import { findCreatorById } from "@/lib/store";
 import { isAdmin } from "@/lib/auth";
@@ -216,12 +217,12 @@ export default async function HelpCenterPage() {
                 Open a support thread
                 <span aria-hidden>→</span>
               </Link>
-              <a
-                href="mailto:support@thenexusclub.org"
+              <EmailLink
+                email="support@thenexusclub.org"
                 className="btn-ghost inline-flex items-center gap-2 px-6 py-3 rounded-full text-[13px]"
               >
                 Email support@thenexusclub.org
-              </a>
+              </EmailLink>
             </div>
           </Reveal>
         </section>

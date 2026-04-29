@@ -821,6 +821,68 @@ html { scroll-padding-top: 80px; }
   50%      { opacity: 1;   transform: translateX(-50%) scale(1.25); }
 }
 
+/* Gold variant — same anatomy, ochre/gold tones. Used as a chapter
+   break above the credential strip on the homepage so the reader's
+   eye registers an "and now, the credential" beat. The diamond glyph
+   replaces the dot to echo the seal and credential vocabulary. */
+.nc-flourish-gold {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(231, 206, 148, 0) 18%,
+    rgba(231, 206, 148, 0.32) 50%,
+    rgba(231, 206, 148, 0) 82%,
+    transparent 100%
+  );
+}
+.nc-flourish-gold-mark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background: linear-gradient(180deg, rgba(243,224,178,0.92), rgba(208,155,79,0.6));
+  box-shadow: 0 0 14px 1px rgba(231, 206, 148, 0.45);
+  animation: nc-flourish-gold-pulse 4.2s ease-in-out infinite;
+  pointer-events: none;
+}
+.nc-flourish-gold-mark::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border: 0.5px solid rgba(231, 206, 148, 0.45);
+  transform: rotate(0deg);
+  pointer-events: none;
+}
+@keyframes nc-flourish-gold-pulse {
+  0%, 100% { opacity: 0.7; box-shadow: 0 0 10px 1px rgba(231, 206, 148, 0.35); }
+  50%      { opacity: 1;   box-shadow: 0 0 18px 2px rgba(231, 206, 148, 0.55); }
+}
+
+/* Vertical hairline separator — used inline between footer policy
+   links so the "On the shelf" row reads as discrete entries rather
+   than a run-on sentence. Fades top + bottom to dissolve at the
+   tracking edges of the surrounding mono caps. */
+.nc-sep-v {
+  display: inline-block;
+  width: 1px;
+  height: 0.85em;
+  vertical-align: -0.05em;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(231, 206, 148, 0.35) 35%,
+    rgba(231, 206, 148, 0.5) 50%,
+    rgba(231, 206, 148, 0.35) 65%,
+    transparent 100%
+  );
+  pointer-events: none;
+  user-select: none;
+}
+
 /* ───── Respect reduced-motion preference ───── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

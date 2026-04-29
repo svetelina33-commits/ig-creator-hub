@@ -441,12 +441,15 @@ export default function SecurityPage() {
               >
                 Subprocessors
               </Link>
-              <Link
+              <a
                 href="/.well-known/security.txt"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="btn-ghost inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-[12.5px]"
               >
                 security.txt
-              </Link>
+                <span aria-hidden>↗</span>
+              </a>
             </div>
           </Reveal>
         </section>

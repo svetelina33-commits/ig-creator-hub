@@ -3,6 +3,7 @@ import { Masthead } from "@/components/Masthead";
 import { Footer } from "@/components/Footer";
 import { Reveal } from "@/components/Reveal";
 import { RunningHead } from "@/components/Ornaments";
+import { EmailLink } from "@/components/EmailLink";
 
 export const metadata = {
   title: "Disputes · Nexus Club",
@@ -229,9 +230,10 @@ export default function DisputesPage() {
               — to open a dispute —
             </p>
             <p className="mt-6 font-serif-italic text-2xl text-ink-muted">
-              <a className="link-ed" href="mailto:disputes@thenexusclub.org">
-                disputes@thenexusclub.org
-              </a>
+              <EmailLink
+                email="disputes@thenexusclub.org"
+                className="link-ed"
+              />
             </p>
             <p className="mt-5 max-w-xl mx-auto text-[14.5px] leading-[1.7] text-ink-faint font-serif-book">
               Most disputes resolve at step two, on the file. The desk reads what was

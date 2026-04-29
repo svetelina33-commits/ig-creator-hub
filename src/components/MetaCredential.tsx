@@ -52,6 +52,7 @@ export function MetaCredential({ variant = "full", className = "" }: Props) {
       >
         <div className="flex items-center gap-3 min-w-0">
           <DiamondMark />
+          <InstagramGlyph />
           <span className="font-mono-numeric text-[9.5px] sm:text-[10px] tracking-[0.32em] text-gold/90 uppercase truncate">
             Instagram Graph API
             <span className="text-gold/40 mx-2">·</span>
@@ -303,6 +304,42 @@ function DiamondMark() {
           fill="rgba(231,206,148,0.85)"
         />
       </g>
+    </svg>
+  );
+}
+
+/* Camera-aperture glyph that reads as Instagram without lifting Meta's
+   trademarked gradient. Monochrome gold to match the credential's
+   editorial register; rounded square + lens + flash dot. */
+function InstagramGlyph() {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      aria-hidden
+      className="shrink-0"
+    >
+      <rect
+        x="1.5"
+        y="1.5"
+        width="11"
+        height="11"
+        rx="3"
+        ry="3"
+        fill="none"
+        stroke="rgba(231,206,148,0.85)"
+        strokeWidth="0.85"
+      />
+      <circle
+        cx="7"
+        cy="7"
+        r="2.65"
+        fill="none"
+        stroke="rgba(231,206,148,0.85)"
+        strokeWidth="0.85"
+      />
+      <circle cx="10.4" cy="3.6" r="0.55" fill="rgba(231,206,148,0.85)" />
     </svg>
   );
 }
