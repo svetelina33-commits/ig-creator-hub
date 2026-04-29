@@ -12,7 +12,7 @@
     x="29"
     y="46"
     text-anchor="middle"
-    font-family="'Cormorant Garamond', 'EB Garamond', 'Iowan Old Style', Georgia, 'Times New Roman', serif"
+    font-family="ui-serif, 'Iowan Old Style', Georgia, 'Times New Roman', serif"
     font-style="italic"
     font-weight="500"
     font-size="46"

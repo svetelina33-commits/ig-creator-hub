@@ -182,7 +182,7 @@ export function NexusSeal({
           </circle>
         </g>
 
-        {/* Center N — Cormorant italic for editorial contrast */}
+        {/* Center N — Instrument Serif italic for editorial contrast */}
         <text
           x="50"
           y={compact ? "54" : "48"}

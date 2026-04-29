@@ -283,7 +283,7 @@ function FullMark({
         />
         {/* Embossed gold core */}
         <circle cx="40" cy="49" r="5.4" fill={`url(#${uid}-rosette)`} />
-        {/* italic M monogram — center punch (Cormorant) */}
+        {/* italic M monogram — center punch (Instrument Serif) */}
         <text
           x="40"
           y="51.6"
