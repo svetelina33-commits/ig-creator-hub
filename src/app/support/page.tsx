@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/session";
 import { findCreatorById, listSupportTicketsForCreator } from "@/lib/store";
@@ -6,6 +7,7 @@ import { Masthead } from "@/components/Masthead";
 import { Footer } from "@/components/Footer";
 import { RunningHead } from "@/components/Ornaments";
 import SupportForm from "./SupportForm";
+import { popularArticles } from "@/lib/help-articles";
 
 export const metadata = {
   title: "Support · Nexus Club",
@@ -42,14 +44,64 @@ export default async function SupportPage() {
             </h1>
             <p className="mt-5 text-[15.5px] leading-[1.7] text-ink-muted max-w-2xl">
               Write to the editor directly — campaign questions, payout issues, account
-              weirdness, anything that isn't in the FAQ. Every message lands on the control
-              desk; we reply from{" "}
+              weirdness, anything that isn&apos;t in the help center. Every message lands on
+              the control desk; we reply from{" "}
               <em className="font-serif-italic text-ink-soft">
-                hello@thenexusclub.org
+                support@thenexusclub.org
               </em>{" "}
               within 24–48 hours.
             </p>
           </header>
+
+          {/* Help-first nudge — most questions get faster answers in the articles */}
+          <Link
+            href="/help"
+            className="group block mb-10 rounded-2xl px-6 py-5 transition-colors"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(20,18,14,0.7) 0%, rgba(12,11,9,0.85) 100%)",
+              boxShadow:
+                "inset 0 1px 0 rgba(231,206,148,0.08), 0 0 0 1px rgba(231,206,148,0.18)",
+            }}
+          >
+            <div className="flex items-center justify-between gap-4 flex-wrap">
+              <div className="min-w-0">
+                <span className="small-caps text-[10px] tracking-[0.3em] text-gold/75">
+                  ◆ Faster · check the help center first
+                </span>
+                <p className="mt-1.5 font-serif-display text-[18px] sm:text-[20px] text-ink leading-[1.25]">
+                  Answers to most questions live at{" "}
+                  <span className="font-serif-italic text-gold/95">/help</span>.
+                </p>
+                <p className="mt-1 text-[12.5px] text-ink-muted">
+                  Connecting Instagram, payouts, revoking access, and more — already written.
+                </p>
+              </div>
+              <span
+                aria-hidden
+                className="small-caps text-[10px] tracking-[0.3em] text-gold/85 group-hover:text-gold transition-colors whitespace-nowrap"
+              >
+                Open help center →
+              </span>
+            </div>
+
+            {/* Popular article preview chips */}
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {popularArticles(4).map((a) => (
+                <li
+                  key={a.slug}
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[11.5px] text-ink-muted"
+                  style={{
+                    background: "rgba(255,255,255,0.025)",
+                    boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.07)",
+                  }}
+                >
+                  <span aria-hidden className="text-gold/55">●</span>
+                  {a.title}
+                </li>
+              ))}
+            </ul>
+          </Link>
 
           <SupportForm />
 
