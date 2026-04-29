@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import {
-  Bricolage_Grotesque,
-  Cormorant_Garamond,
-  Onest,
+  Newsreader,
+  Instrument_Serif,
+  Schibsted_Grotesk,
   JetBrains_Mono,
 } from "next/font/google";
 import "./globals.css";
@@ -11,31 +11,42 @@ import { MagneticAttach } from "@/components/MagneticAttach";
 import { CardInteractive } from "@/components/CardInteractive";
 import DesktopGate from "@/components/DesktopGate";
 
-/* Display: Bricolage Grotesque — geometric grotesque with width + optical
-   sizing axes. Architectural, characterful, a different category from
-   the classical serifs we were using. */
-const bricolage = Bricolage_Grotesque({
+/* Display: Newsreader (Production Type, OFL) — editorial serif with an
+   optical sizing axis (opsz 6→72). Designed for long-form reading and
+   pulls a quietly-authoritative magazine register at display sizes.
+   Different category from grotesque-display; reads like a masthead. */
+const newsreader = Newsreader({
   variable: "--font-display",
   subsets: ["latin"],
   display: "swap",
+  axes: ["opsz"],
+  style: ["normal", "italic"],
 });
 
-/* Italic accent: Cormorant Garamond (italic only) — classical italic
-   against geometric grotesque is a premium editorial contrast. */
-const cormorant = Cormorant_Garamond({
+/* Italic accent: Instrument Serif (Instrument Type, OFL) — italic-only
+   display serif. Used for the stressed words in display heads
+   ("Privacy, plainly.", "from the desk", "in writing") where Cormorant
+   sat. Pairs cleanly with Newsreader at headline sizes. */
+const instrumentSerif = Instrument_Serif({
   variable: "--font-italic",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  style: ["italic"],
+  weight: "400",
+  style: "italic",
   display: "swap",
 });
 
-const onest = Onest({
+/* Body: Schibsted Grotesk (Henrik Kubel for Schibsted, OFL) — humanist
+   grotesque originally drawn for the Schibsted news group's editorial
+   identity. Variable weight 400→900. Reads more characterful than Inter
+   or Onest while keeping screen legibility. */
+const schibsted = Schibsted_Grotesk({
   variable: "--font-sans",
   subsets: ["latin"],
   display: "swap",
 });
 
+/* Mono numerics: JetBrains Mono — kept. Tabular figures and editorial
+   register fits the small-caps + roman-numeral framing across the site. */
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
   subsets: ["latin"],
@@ -62,8 +73,8 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
-      className={`${bricolage.variable} ${cormorant.variable} ${onest.variable} ${jetbrainsMono.variable} antialiased`}
+      lang="en-SG"
+      className={`${newsreader.variable} ${instrumentSerif.variable} ${schibsted.variable} ${jetbrainsMono.variable} antialiased`}
     >
       <body className="min-h-screen">
         <MagneticAttach />

@@ -187,7 +187,7 @@ export default async function HowItWorksPage() {
 
           <Reveal delay={120}>
             <div
-              className="nc-card rounded-3xl overflow-hidden nc-ledger"
+              className="rounded-3xl overflow-hidden nc-ledger"
               style={{
                 background:
                   "linear-gradient(180deg, rgba(20,18,28,0.6) 0%, rgba(12,11,16,0.78) 100%)",

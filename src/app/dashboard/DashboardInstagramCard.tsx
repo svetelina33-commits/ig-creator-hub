@@ -48,7 +48,7 @@ export default function DashboardInstagramCard({ connection }: Props) {
             <div className="font-serif-display text-3xl text-ink">@{connection.username}</div>
             <div className="mt-1 small-caps text-[10px] tracking-[0.25em] text-ink-muted">
               on file since{" "}
-              {new Date(connection.connectedAt).toLocaleDateString("en-US", {
+              {new Date(connection.connectedAt).toLocaleDateString("en-SG", {
                 month: "short",
                 day: "numeric",
                 year: "numeric",

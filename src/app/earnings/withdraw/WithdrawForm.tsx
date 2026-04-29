@@ -23,7 +23,7 @@ export default function WithdrawForm({
   const [error, setError] = useState<string | null>(null);
 
   const symbol = currency === "USD" ? "$" : currency === "EUR" ? "€" : "£";
-  const whole = Math.floor(amountCents / 100).toLocaleString("en-US");
+  const whole = Math.floor(amountCents / 100).toLocaleString("en-SG");
   const cents = String(amountCents % 100).padStart(2, "0");
 
   const kindLabel =

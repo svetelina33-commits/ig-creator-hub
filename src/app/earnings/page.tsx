@@ -248,7 +248,7 @@ function EarningsBarChart({
         const approvedPct = (m.approvedCents / max) * 100;
         const total = m.paidCents + m.approvedCents;
         const label = shortMonth(m.month);
-        const value = total === 0 ? "—" : `${symbol}${Math.floor(total / 100).toLocaleString("en-US")}`;
+        const value = total === 0 ? "—" : `${symbol}${Math.floor(total / 100).toLocaleString("en-SG")}`;
         const delay = 120 + monthly.indexOf(m) * 90;
         return (
           <div key={m.month} className="flex-1 flex flex-col items-center gap-2">
@@ -319,7 +319,7 @@ function PayoutMethodCard({
         <div className="mt-1 font-mono-numeric text-[12px] text-ink-muted">{payout.label}</div>
         <div className="mt-1 small-caps text-[10px] tracking-[0.25em] text-ink-faint">
           Since{" "}
-          {new Date(payout.connectedAt).toLocaleDateString("en-US", {
+          {new Date(payout.connectedAt).toLocaleDateString("en-SG", {
             month: "short",
             day: "numeric",
             year: "numeric",
@@ -388,7 +388,7 @@ function FundsInMotion({
                       </div>
                       <div className="mt-0.5 font-mono-numeric text-[10px] text-ink-faint">
                         Applied{" "}
-                        {new Date(r.appliedAt).toLocaleDateString("en-US", {
+                        {new Date(r.appliedAt).toLocaleDateString("en-SG", {
                           month: "short",
                           day: "numeric",
                           year: "numeric",
@@ -396,7 +396,7 @@ function FundsInMotion({
                         {r.paidAt && (
                           <>
                             {" · paid "}
-                            {new Date(r.paidAt).toLocaleDateString("en-US", {
+                            {new Date(r.paidAt).toLocaleDateString("en-SG", {
                               month: "short",
                               day: "numeric",
                             })}

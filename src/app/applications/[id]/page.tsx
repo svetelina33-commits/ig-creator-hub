@@ -62,7 +62,7 @@ export default async function CreatorApplicationDetail({ params }: { params: Par
                   </p>
                   <p className="mt-2 text-[12px] leading-[1.5] text-ink-faint mono-num">
                     Submitted{" "}
-                    {new Date(application.appliedAt).toLocaleString("en-US", {
+                    {new Date(application.appliedAt).toLocaleString("en-SG", {
                       month: "short",
                       day: "numeric",
                       hour: "2-digit",
@@ -71,7 +71,7 @@ export default async function CreatorApplicationDetail({ params }: { params: Par
                     {" · "}
                     ETA{" "}
                     {new Date(new Date(application.appliedAt).getTime() + 12 * 3600 * 1000).toLocaleString(
-                      "en-US",
+                      "en-SG",
                       { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" },
                     )}
                   </p>
@@ -99,7 +99,7 @@ export default async function CreatorApplicationDetail({ params }: { params: Par
                 </div>
                 <div className="mt-1 font-mono-numeric text-[11px] text-ink-faint">
                   Applied{" "}
-                  {new Date(application.appliedAt).toLocaleDateString("en-US", {
+                  {new Date(application.appliedAt).toLocaleDateString("en-SG", {
                     month: "long",
                     day: "numeric",
                     year: "numeric",

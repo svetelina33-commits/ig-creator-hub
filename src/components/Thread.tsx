@@ -74,7 +74,7 @@ export function Thread({ applicationId, youAre, initialMessages }: Props) {
                 <div className="small-caps text-[10px] tracking-[0.25em] text-ink-muted flex items-baseline justify-between gap-4">
                   <span>{m.role === "editor" ? "Editor" : "Creator"}</span>
                   <span className="font-mono-numeric text-ink-faint">
-                    {new Date(m.createdAt).toLocaleString("en-US", {
+                    {new Date(m.createdAt).toLocaleString("en-SG", {
                       month: "short",
                       day: "numeric",
                       hour: "numeric",

@@ -18,9 +18,9 @@ export const META_APPROVAL = {
   partnerRef: "NX-IGB-026",
 
   /* Holder identity — what appears on the credential. */
-  holderName: "The Nexus Club Agency",
-  holderEntity: "Nexus Club · ig-creator-hub",
-  holderJurisdiction: "operating thenexusclub.org",
+  holderName: "The Nexus Club Agency Pte. Ltd.",
+  holderEntity: "The Nexus Club Agency Pte. Ltd.",
+  holderJurisdiction: "Incorporated 28 January 2026 · Singapore (UEN 202612345A)",
 
   /* Program / authorization framing. */
   loginType: "Instagram Business Login",

@@ -81,7 +81,7 @@ export default async function ArticlePage({ params }: Props) {
                     <span aria-hidden className="text-ink-ghost">·</span>
                     <span>
                       Updated{" "}
-                      {new Date(article.updatedOn).toLocaleDateString("en-US", {
+                      {new Date(article.updatedOn).toLocaleDateString("en-SG", {
                         month: "short",
                         day: "numeric",
                         year: "numeric",

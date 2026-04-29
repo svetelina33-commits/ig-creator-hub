@@ -76,7 +76,7 @@ export default function ApplicationRow({
           </span>
         </div>
         <div className="col-span-4 sm:col-span-2 font-mono-numeric text-[11px] text-ink-faint">
-          {new Date(application.appliedAt).toLocaleDateString("en-US", {
+          {new Date(application.appliedAt).toLocaleDateString("en-SG", {
             month: "short",
             day: "numeric",
           })}

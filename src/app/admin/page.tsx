@@ -52,7 +52,7 @@ export default async function AdminHome() {
             <RunningHead
               left="PRIVATE · EDITOR-IN-CHIEF"
               center="· THE ATELIER ·"
-              right={`VOL. I · ${new Date().toLocaleDateString("en-US", { month: "short", year: "numeric" }).toUpperCase()}`}
+              right={`VOL. I · ${new Date().toLocaleDateString("en-SG", { month: "short", year: "numeric" }).toUpperCase()}`}
             />
           </Reveal>
 

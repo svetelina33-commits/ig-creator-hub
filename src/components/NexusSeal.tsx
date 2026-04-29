@@ -130,7 +130,7 @@ export function NexusSeal({
               fill="rgba(147, 144, 159, 0.7)"
               style={{ textTransform: "uppercase" }}
             >
-              Est. MMXXVI
+              Founded MMXXVI
             </text>
           </>
         )}

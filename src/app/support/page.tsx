@@ -131,7 +131,7 @@ export default async function SupportPage() {
                       <div className="text-right shrink-0">
                         <StatusPill status={t.status} />
                         <div className="mt-1 font-mono-numeric text-[10px] text-ink-faint whitespace-nowrap">
-                          {new Date(t.createdAt).toLocaleDateString("en-US", {
+                          {new Date(t.createdAt).toLocaleDateString("en-SG", {
                             month: "short",
                             day: "numeric",
                           })}

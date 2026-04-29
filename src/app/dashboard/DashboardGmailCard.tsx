@@ -40,7 +40,7 @@ export default function DashboardGmailCard({ isAdmin, connection }: Props) {
               </div>
               <div className="mt-1 small-caps text-[10px] tracking-[0.25em] text-ink-muted">
                 {connection.name ?? "connected"} · since{" "}
-                {new Date(connection.connectedAt).toLocaleDateString("en-US", {
+                {new Date(connection.connectedAt).toLocaleDateString("en-SG", {
                   month: "short",
                   day: "numeric",
                   year: "numeric",
@@ -375,7 +375,7 @@ function DelegatesPanel({
                     <div className="font-mono-numeric text-[13px] text-ink">{d.email}</div>
                     <div className="small-caps text-[10px] tracking-[0.25em] text-ink-faint mt-0.5">
                       added{" "}
-                      {new Date(d.invitedAt).toLocaleDateString("en-US", {
+                      {new Date(d.invitedAt).toLocaleDateString("en-SG", {
                         month: "short",
                         day: "numeric",
                       })}

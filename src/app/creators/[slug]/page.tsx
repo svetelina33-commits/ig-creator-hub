@@ -89,7 +89,7 @@ export default async function CreatorProfilePage({ params }: { params: Params })
                     Member since
                   </div>
                   <div className="mt-1 font-mono-numeric text-sm text-ink">
-                    {new Date(creator.createdAt).toLocaleDateString("en-US", {
+                    {new Date(creator.createdAt).toLocaleDateString("en-SG", {
                       month: "long",
                       year: "numeric",
                     })}

@@ -183,21 +183,23 @@ export default async function AboutPage() {
                   Colophon
                 </span>
                 <h2 className="mt-3 font-serif-italic text-2xl sm:text-3xl md:text-4xl text-ink">
-                  Set in Bricolage<br />&amp; Cormorant.
+                  Set in Newsreader<br />&amp; Schibsted Grotesk.
                 </h2>
               </div>
               <div className="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-8 text-[15px] leading-[1.7] text-ink-muted font-serif-book">
                 <p>
-                  Display set in Bricolage Grotesque (Mathieu Triay, OFL) — geometric grotesque
-                  with width and optical-sizing axes. Italic accent in Cormorant Garamond
-                  (Christian Thalmann, Catharsis Fonts, OFL). Body in Onest. Numerics set in
-                  JetBrains Mono. The paper tone is a near-black of our own mixing; the ink
-                  is a warm bone.
+                  Display set in Newsreader (Production Type, OFL) — an editorial serif
+                  drawn for long-form reading, with an optical sizing axis from text to
+                  display. Italic accents in Instrument Serif (Instrument Type, OFL). Body
+                  in Schibsted Grotesk (Henrik Kubel for Schibsted, OFL) — a humanist
+                  grotesque from the editorial identity of a Nordic news group. Numerics
+                  in JetBrains Mono. Paper near-black; ink a warm bone.
                 </p>
                 <p>
-                  Hosted on Vercel. Data in Neon Postgres. Email by Resend. Payouts via
-                  Stripe Connect. The full subprocessor list — what each touches and where it
-                  sits — is at <Link href="/subprocessors" className="link-ed">/subprocessors</Link>.
+                  Hosted on Vercel. Data in Neon Postgres, Singapore region. Email by Resend.
+                  Payouts via Stripe Connect. The full subprocessor list — what each touches
+                  and where it sits — is at{" "}
+                  <Link href="/subprocessors" className="link-ed">/subprocessors</Link>.
                 </p>
               </div>
             </div>

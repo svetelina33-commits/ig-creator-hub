@@ -13,7 +13,7 @@ export function CountUp({
   value,
   duration = 1400,
   className = "",
-  formatter = (n) => n.toLocaleString("en-US"),
+  formatter = (n) => n.toLocaleString("en-SG"),
 }: Props) {
   const [current, setCurrent] = useState(0);
   const raf = useRef<number | null>(null);

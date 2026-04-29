@@ -235,7 +235,7 @@ function CampaignGridCard({ c }: { c: CampaignRecord }) {
             <div className="font-mono-numeric text-[10px] text-ink-faint">
               DEADLINE ·{" "}
               {new Date(c.deadline)
-                .toLocaleDateString("en-US", { month: "short", day: "numeric" })
+                .toLocaleDateString("en-SG", { month: "short", day: "numeric" })
                 .toUpperCase()}
             </div>
           )}

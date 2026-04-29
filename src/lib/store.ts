@@ -265,5 +265,5 @@ export function formatMoney(
 ): string {
   const symbols = { USD: "$", EUR: "€", GBP: "£" } as const;
   const whole = Math.floor(cents / 100);
-  return `${symbols[currency]}${whole.toLocaleString("en-US")}`;
+  return `${symbols[currency]}${whole.toLocaleString("en-SG")}`;
 }

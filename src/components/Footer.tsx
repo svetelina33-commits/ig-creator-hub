@@ -19,7 +19,7 @@ const INBOXES = [
  *   ② Primary nav pill — the public surface of the site.
  *   ③ Policies sub-row — every standing document on one shelf.
  *   ④ Contact strip — Singapore registered entity + standing inboxes.
- *   ⑤ Bottom rule — EST. MMXXVI · VOL. I · security.txt · sitemap.
+ *   ⑤ Bottom rule — Founded MMXXVI · VOL. I · security.txt · sitemap.
  */
 export function Footer() {
   return (
@@ -70,7 +70,7 @@ export function Footer() {
         {/* ── ② Primary nav pill ────────────────────────────────── */}
         <div className="glass rounded-3xl px-6 sm:px-10 py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 text-ink-muted">
           <span className="font-mono-numeric text-[12px] tracking-[0.18em] text-ink-faint">
-            EST. MMXXVI · VOL. I
+            Founded MMXXVI · Singapore · VOL. I
           </span>
           <div className="flex items-center gap-5 sm:gap-7 font-mono-numeric flex-wrap text-[12px] tracking-[0.14em]">
             <a href="/about" className="hover:text-ink transition-colors">
@@ -153,7 +153,7 @@ export function Footer() {
             </p>
             <address className="mt-3 not-italic font-mono-numeric text-[10.5px] tracking-[0.14em] text-ink-faint leading-[1.85]">
               {/* TODO — replace UEN with the real ACRA-issued number */}
-              Incorporated in Singapore · UEN 202612345A
+              Incorporated 28 January 2026 · UEN 202612345A
               <br />
               138 Robinson Road, #20-04
               <br />
@@ -199,7 +199,7 @@ export function Footer() {
         {/* ── ⑤ Bottom rule ──────────────────────────────────────── */}
         <div className="mt-10 pt-5 hairline-top flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <span className="font-mono-numeric text-[10.5px] tracking-[0.18em] text-ink-faint">
-            EST. MMXXVI · VOL. I · {new Date().getFullYear()} The Nexus Club Agency Pte. Ltd.
+            Founded 28·I·MMXXVI · Singapore · © {new Date().getFullYear()} The Nexus Club Agency Pte. Ltd.
           </span>
           <span className="font-mono-numeric text-[10.5px] tracking-[0.18em] text-ink-faint">
             <Link href="/.well-known/security.txt" className="hover:text-ink">

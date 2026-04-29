@@ -82,7 +82,7 @@ export default async function DispatchesPage() {
                       {d.kicker}
                     </div>
                     <div className="mt-2 font-mono-numeric text-[11px] text-ink-faint">
-                      {new Date(d.date).toLocaleDateString("en-US", {
+                      {new Date(d.date).toLocaleDateString("en-SG", {
                         month: "long",
                         day: "numeric",
                         year: "numeric",

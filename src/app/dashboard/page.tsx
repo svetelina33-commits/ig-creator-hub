@@ -152,7 +152,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
                           <div className="text-right shrink-0">
                             <StatusPill status={application.status} />
                             <div className="mt-1 font-mono-numeric text-[10px] text-ink-faint whitespace-nowrap">
-                              {new Date(application.appliedAt).toLocaleDateString("en-US", {
+                              {new Date(application.appliedAt).toLocaleDateString("en-SG", {
                                 month: "short",
                                 day: "numeric",
                               })}

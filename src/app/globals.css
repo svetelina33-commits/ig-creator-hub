@@ -73,7 +73,7 @@ main {
 
 body {
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
-  font-feature-settings: "ss01", "cv11";
+  font-feature-settings: "kern", "liga", "calt";
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 
@@ -103,27 +103,31 @@ body::before {
 body > * { position: relative; z-index: 1; }
 
 /* ───── Typography ───── */
-/* Display: Bricolage Grotesque — geometric grotesque, variable (width +
-   optical sizing). Completely different category from classical serifs. */
+/* Display: Newsreader (Production Type, OFL) — editorial serif with an
+   optical sizing axis. Reads like a magazine masthead at display sizes
+   and like a long-form text serif at body sizes. */
 .font-serif-display {
-  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-display), ui-serif, "Iowan Old Style", Georgia, "Times New Roman", serif;
   font-weight: 500;
-  letter-spacing: -0.028em;
+  letter-spacing: -0.018em;
   font-optical-sizing: auto;
+  font-feature-settings: "kern", "liga";
 }
-/* Italic: Cormorant Garamond — classical italic against the grotesque
-   for editorial contrast. Only used for the italic-styled words. */
+/* Italic: Instrument Serif — italic-only display serif. Used for the
+   stressed accent words in headlines and pull-quotes. */
 .font-serif-italic {
   font-family: var(--font-italic), ui-serif, "Iowan Old Style", Georgia, serif;
   font-style: italic;
-  font-weight: 500;
-  letter-spacing: -0.004em;
+  font-weight: 400;
+  letter-spacing: -0.006em;
   font-feature-settings: "dlig", "liga", "kern";
 }
+/* Body: Schibsted Grotesk — humanist grotesque, variable weight. */
 .font-serif-book {
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-weight: 400;
-  letter-spacing: -0.003em;
+  letter-spacing: -0.005em;
+  font-feature-settings: "kern", "ss01";
 }
 body {
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;

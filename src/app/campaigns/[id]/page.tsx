@@ -117,7 +117,7 @@ export default async function CampaignDetailPage({ params }: { params: Params })
                     </span>
                     <div className="mt-2 font-serif-display text-3xl text-ink">
                       {campaign.deadline
-                        ? new Date(campaign.deadline).toLocaleDateString("en-US", {
+                        ? new Date(campaign.deadline).toLocaleDateString("en-SG", {
                             month: "long",
                             day: "numeric",
                             year: "numeric",
@@ -151,7 +151,7 @@ export default async function CampaignDetailPage({ params }: { params: Params })
                   <div className="pt-5 border-t border-white/10 text-[11px] small-caps tracking-[0.25em] text-ink-faint space-y-1">
                     <div>
                       Issued{" "}
-                      {new Date(campaign.createdAt).toLocaleDateString("en-US", {
+                      {new Date(campaign.createdAt).toLocaleDateString("en-SG", {
                         month: "long",
                         day: "numeric",
                         year: "numeric",

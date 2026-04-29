@@ -74,7 +74,7 @@ export default async function AdminCreatorsPage() {
                       )}
                     </div>
                     <div className="col-span-2 font-mono-numeric text-[11px] text-ink-muted pt-1">
-                      {new Date(creator.createdAt).toLocaleDateString("en-US", {
+                      {new Date(creator.createdAt).toLocaleDateString("en-SG", {
                         month: "short",
                         day: "numeric",
                         year: "2-digit",
