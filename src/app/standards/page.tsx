@@ -205,7 +205,7 @@ export default function StandardsPage() {
             {JURISDICTIONS.map((j, idx) => (
               <Reveal key={j.region} delay={idx * 50}>
                 <li
-                  className="rounded-2xl px-6 py-6 sm:px-8 sm:py-7"
+                  className="nc-card rounded-2xl px-6 py-6 sm:px-8 sm:py-7"
                   style={{
                     background:
                       "linear-gradient(180deg, rgba(20,18,28,0.55) 0%, rgba(12,11,18,0.7) 100%)",
@@ -307,7 +307,7 @@ export default function StandardsPage() {
             ].map((p, i) => (
               <Reveal key={p.t} delay={i * 60}>
                 <article
-                  className="rounded-2xl p-6 h-full"
+                  className="nc-card rounded-2xl p-6 h-full"
                   style={{
                     background:
                       "linear-gradient(180deg, rgba(20,18,24,0.55) 0%, rgba(12,11,16,0.7) 100%)",

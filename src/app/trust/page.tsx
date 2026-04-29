@@ -259,7 +259,7 @@ export default function TrustPage() {
             </div>
             <Reveal delay={200} className="lg:col-span-5 flex justify-center lg:justify-end">
               <div
-                className="relative rounded-3xl px-8 py-7 max-w-md w-full"
+                className="nc-card relative rounded-3xl px-8 py-7 max-w-md w-full"
                 style={{
                   background:
                     "linear-gradient(180deg, rgba(28,22,40,0.7) 0%, rgba(14,12,20,0.85) 100%)",
@@ -314,7 +314,7 @@ export default function TrustPage() {
                     <Link
                       key={doc.href}
                       href={doc.href}
-                      className="group rounded-2xl p-6 transition-all duration-300"
+                      className="nc-card group rounded-2xl p-6 transition-all duration-300"
                       style={{
                         background:
                           "linear-gradient(180deg, rgba(20,18,28,0.5) 0%, rgba(12,11,16,0.7) 100%)",

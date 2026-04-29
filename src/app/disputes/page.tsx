@@ -202,7 +202,7 @@ export default function DisputesPage() {
             ].map((t, i) => (
               <Reveal key={t.k} delay={i * 50}>
                 <div
-                  className="rounded-2xl p-5"
+                  className="nc-card rounded-2xl p-5"
                   style={{
                     background:
                       "linear-gradient(180deg, rgba(20,18,28,0.55) 0%, rgba(12,11,16,0.7) 100%)",

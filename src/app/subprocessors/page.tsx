@@ -106,7 +106,7 @@ export default function SubprocessorsPage() {
             {SUBS.map((s, i) => (
               <li
                 key={s.name}
-                className="rounded-2xl px-6 py-6 sm:px-8 sm:py-7 hairline-top first:hairline-top-0"
+                className="nc-card rounded-2xl px-6 py-6 sm:px-8 sm:py-7 hairline-top first:hairline-top-0"
                 style={{
                   background:
                     "linear-gradient(180deg, rgba(20,18,24,0.55) 0%, rgba(12,11,16,0.7) 100%)",

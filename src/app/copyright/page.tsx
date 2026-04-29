@@ -123,7 +123,7 @@ export default function CopyrightPage() {
                 member directly — are forwarded but slow the process.
               </p>
               <div
-                className="mt-5 rounded-2xl px-6 py-5"
+                className="nc-card mt-5 rounded-2xl px-6 py-5"
                 style={{
                   background:
                     "linear-gradient(180deg, rgba(20,18,14,0.7) 0%, rgba(12,11,9,0.85) 100%)",

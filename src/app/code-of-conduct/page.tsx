@@ -179,7 +179,7 @@ export default function CodeOfConductPage() {
             ].map((p, i) => (
               <Reveal key={p.t} delay={i * 60}>
                 <article
-                  className="rounded-2xl p-6"
+                  className="nc-card rounded-2xl p-6"
                   style={{
                     background:
                       "linear-gradient(180deg, rgba(20,18,24,0.55) 0%, rgba(12,11,16,0.7) 100%)",

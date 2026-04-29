@@ -129,7 +129,7 @@ export default function SecurityPage() {
         <section className="mx-auto max-w-6xl pb-12">
           <Reveal>
             <div
-              className="rounded-3xl p-7 sm:p-10 grid grid-cols-1 md:grid-cols-12 gap-8"
+              className="nc-card rounded-3xl p-7 sm:p-10 grid grid-cols-1 md:grid-cols-12 gap-8"
               style={{
                 background:
                   "linear-gradient(180deg, rgba(28,22,40,0.65) 0%, rgba(14,12,20,0.85) 100%)",
@@ -245,7 +245,7 @@ export default function SecurityPage() {
             {POSTURE.map((p, i) => (
               <Reveal key={p.k} delay={i * 50}>
                 <li
-                  className="rounded-2xl p-6 h-full"
+                  className="nc-card rounded-2xl p-6 h-full"
                   style={{
                     background:
                       "linear-gradient(180deg, rgba(20,18,28,0.55) 0%, rgba(12,11,16,0.7) 100%)",
@@ -381,7 +381,7 @@ export default function SecurityPage() {
             {ASKS.map((a, i) => (
               <Reveal key={i} delay={i * 50}>
                 <li
-                  className="rounded-2xl px-6 py-5"
+                  className="nc-card rounded-2xl px-6 py-5"
                   style={{
                     background:
                       "linear-gradient(180deg, rgba(20,18,28,0.45) 0%, rgba(12,11,16,0.65) 100%)",

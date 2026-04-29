@@ -175,7 +175,7 @@ export default function CurationPage() {
             ].map((p, idx) => (
               <Reveal key={p.k} delay={idx * 70}>
                 <article
-                  className="rounded-2xl p-6 h-full"
+                  className="nc-card rounded-2xl p-6 h-full"
                   style={{
                     background:
                       "linear-gradient(180deg, rgba(20,18,28,0.6) 0%, rgba(12,11,16,0.78) 100%)",

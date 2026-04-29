@@ -141,7 +141,7 @@ export default async function AboutPage() {
             ].map((t, i) => (
               <Reveal key={t.l} delay={i * 60}>
                 <div
-                  className="rounded-2xl p-6 h-full"
+                  className="nc-card rounded-2xl p-6 h-full"
                   style={{
                     background:
                       "linear-gradient(180deg, rgba(20,18,28,0.55) 0%, rgba(12,11,16,0.7) 100%)",
