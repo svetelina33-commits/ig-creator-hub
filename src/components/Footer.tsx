@@ -125,7 +125,7 @@ export function Footer() {
               The address below is the registered office on record with the
               Accounting and Corporate Regulatory Authority (ACRA).
               TODO: swap the UEN placeholder for the real ACRA-issued number. */}
-          <div className="md:col-span-7 md:pr-10 md:border-r md:border-hairline">
+          <div className="md:col-span-7 md:pr-10 md:hairline-fade-right">
             <div className="flex items-center gap-2.5 mb-4">
               <span className="small-caps text-[10px] tracking-[0.3em] text-ink-faint">
                 Of record
@@ -148,18 +148,20 @@ export function Footer() {
                 Singapore
               </span>
             </div>
-            <p className="font-serif-italic text-[18px] text-ink-soft leading-snug">
+            <p className="font-serif-italic text-[19px] text-ink-soft leading-snug tracking-[-0.005em]">
               The Nexus Club Agency Pte. Ltd.
             </p>
-            <address className="mt-3 not-italic font-mono-numeric text-[10.5px] tracking-[0.14em] text-ink-faint leading-[1.85]">
+            <address className="mt-3 not-italic font-serif-book text-[12.5px] text-ink-faint leading-[1.7]">
               {/* TODO — replace UEN with the real ACRA-issued number */}
-              Incorporated 28 January 2026 · UEN 202612345A
+              <span>Incorporated 28 January 2026</span>
+              <span aria-hidden className="text-ink-ghost mx-2">·</span>
+              <span className="font-mono-numeric text-[11px] tracking-[0.06em] text-ink-soft/80">
+                UEN 202612345A
+              </span>
               <br />
-              138 Robinson Road, #20-04
-              <br />
-              Singapore 068906
+              <span>138 Robinson Road, #20-04 · Singapore 068906</span>
             </address>
-            <p className="mt-4 font-mono-numeric text-[10px] tracking-[0.18em] text-ink-faint uppercase">
+            <p className="mt-4 small-caps text-[10px] tracking-[0.28em] text-ink-faint">
               Registered under the Singapore Companies Act, 1967
             </p>
           </div>
@@ -197,16 +199,22 @@ export function Footer() {
         </div>
 
         {/* ── ⑤ Bottom rule ──────────────────────────────────────── */}
-        <div className="mt-10 pt-5 hairline-top flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <span className="font-mono-numeric text-[10.5px] tracking-[0.18em] text-ink-faint">
-            Founded 28·I·MMXXVI · Singapore · © {new Date().getFullYear()} The Nexus Club Agency Pte. Ltd.
+        <div className="mt-10 pt-5 hairline-fade-top flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <span className="text-[11.5px] text-ink-faint font-serif-book leading-relaxed">
+            <span className="font-mono-numeric tracking-[0.14em] text-ink-soft/85">
+              28·I·MMXXVI
+            </span>
+            <span aria-hidden className="text-ink-ghost mx-2">·</span>
+            Founded in Singapore
+            <span aria-hidden className="text-ink-ghost mx-2">·</span>
+            © {new Date().getFullYear()} The Nexus Club Agency Pte. Ltd.
           </span>
-          <span className="font-mono-numeric text-[10.5px] tracking-[0.18em] text-ink-faint">
-            <Link href="/.well-known/security.txt" className="hover:text-ink">
+          <span className="font-mono-numeric text-[10.5px] tracking-[0.16em] text-ink-faint uppercase">
+            <Link href="/.well-known/security.txt" className="hover:text-ink transition-colors">
               security.txt
             </Link>
-            <span className="text-ink-ghost mx-2">·</span>
-            <Link href="/sitemap.xml" className="hover:text-ink">
+            <span aria-hidden className="text-ink-ghost mx-2">·</span>
+            <Link href="/sitemap.xml" className="hover:text-ink transition-colors">
               sitemap
             </Link>
           </span>

@@ -77,16 +77,20 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 
-  /* Ambient color glow field — pure Cursor.ai vibes */
+  /* Ambient color glow field — pure Cursor.ai vibes.
+     Multi-stop transparent tails so each glow dissolves into the page
+     instead of terminating at a visible radius boundary. */
   background-image:
-    radial-gradient(ellipse 70% 50% at 15% 5%, rgba(125, 90, 255, 0.14) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 40% at 95% 15%, rgba(95, 225, 214, 0.08) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 40% at 90% 90%, rgba(255, 180, 148, 0.06) 0%, transparent 55%),
-    radial-gradient(ellipse 70% 40% at 20% 100%, rgba(125, 90, 255, 0.08) 0%, transparent 60%);
+    radial-gradient(ellipse 70% 50% at 15% 5%,  rgba(125, 90, 255, 0.14) 0%, rgba(125, 90, 255, 0.05) 35%, rgba(125, 90, 255, 0.015) 65%, transparent 88%),
+    radial-gradient(ellipse 60% 40% at 95% 15%, rgba(95, 225, 214, 0.08) 0%, rgba(95, 225, 214, 0.025) 40%, transparent 78%),
+    radial-gradient(ellipse 60% 40% at 90% 90%, rgba(255, 180, 148, 0.06) 0%, rgba(255, 180, 148, 0.02)  40%, transparent 80%),
+    radial-gradient(ellipse 70% 40% at 20% 100%, rgba(125, 90, 255, 0.08) 0%, rgba(125, 90, 255, 0.025) 40%, transparent 82%);
   background-attachment: fixed;
 }
 
-/* Subtle grid behind everything (the Cursor signature) */
+/* Subtle grid behind everything (the Cursor signature).
+   Gradient mask uses an intermediate alpha stop so the grid dissolves
+   smoothly instead of cutting off at a visible radius boundary. */
 body::before {
   content: "";
   position: fixed;
@@ -97,8 +101,22 @@ body::before {
   background-size: 56px 56px;
   pointer-events: none;
   z-index: 0;
-  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black, transparent 80%);
+  mask-image: radial-gradient(
+    ellipse 95% 75% at 50% 0%,
+    black 0%,
+    rgba(0, 0, 0, 0.7) 35%,
+    rgba(0, 0, 0, 0.3) 65%,
+    rgba(0, 0, 0, 0.08) 85%,
+    transparent 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 95% 75% at 50% 0%,
+    black 0%,
+    rgba(0, 0, 0, 0.7) 35%,
+    rgba(0, 0, 0, 0.3) 65%,
+    rgba(0, 0, 0, 0.08) 85%,
+    transparent 100%
+  );
 }
 body > * { position: relative; z-index: 1; }
 
@@ -145,10 +163,98 @@ body {
   font-weight: 500;
 }
 
-/* ───── Hairlines ───── */
-.hairline-top { border-top: 1px solid var(--hairline); }
-.hairline-bottom { border-bottom: 1px solid var(--hairline); }
+/* ───── Hairlines ─────
+   The default hairline fades toward both edges rather than running as a
+   solid line edge-to-edge. Implemented via `border-image` on a real top
+   border so we don't fight pseudo-element ownership with neighbouring
+   classes (e.g. `.nc-card::before` for the spotlight, which co-occurs
+   in the subprocessors list).
+   `.hairline-fade-top` is a synonym kept for code clarity. */
+.hairline-top,
+.hairline-fade-top {
+  border: 0 solid transparent;
+  border-top-width: 1px;
+  border-image-source: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.06) 14%,
+    rgba(255, 255, 255, 0.16) 50%,
+    rgba(255, 255, 255, 0.06) 86%,
+    transparent 100%
+  );
+  border-image-slice: 1;
+  border-image-width: 1px 0 0 0;
+}
+.hairline-bottom,
+.hairline-fade-bottom {
+  border: 0 solid transparent;
+  border-bottom-width: 1px;
+  border-image-source: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.06) 14%,
+    rgba(255, 255, 255, 0.16) 50%,
+    rgba(255, 255, 255, 0.06) 86%,
+    transparent 100%
+  );
+  border-image-slice: 1;
+  border-image-width: 0 0 1px 0;
+}
 .hairline-strong-top { border-top: 1px solid var(--hairline-strong); }
+.hairline-top-0 {
+  border-top: none;
+  border-image: none;
+}
+
+/* Faded vertical divider — used between footer columns, sidebar + main,
+   and any place where a solid full-height border reads as harsh. The
+   `md\:` prefixed variants gate the divider behind the md breakpoint
+   without depending on Tailwind to compose responsive prefixes onto
+   custom CSS classes. */
+.hairline-fade-right {
+  border: 0 solid transparent;
+  border-right-width: 1px;
+  border-image-source: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.06) 18%,
+    rgba(255, 255, 255, 0.16) 50%,
+    rgba(255, 255, 255, 0.06) 82%,
+    transparent 100%
+  );
+  border-image-slice: 1;
+  border-image-width: 0 1px 0 0;
+}
+.hairline-fade-left {
+  border: 0 solid transparent;
+  border-left-width: 1px;
+  border-image-source: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.06) 18%,
+    rgba(255, 255, 255, 0.16) 50%,
+    rgba(255, 255, 255, 0.06) 82%,
+    transparent 100%
+  );
+  border-image-slice: 1;
+  border-image-width: 0 0 0 1px;
+}
+@media (min-width: 768px) {
+  .md\:hairline-fade-right {
+    border: 0 solid transparent;
+    border-right-width: 1px;
+    border-image-source: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.06) 18%,
+      rgba(255, 255, 255, 0.16) 50%,
+      rgba(255, 255, 255, 0.06) 82%,
+      transparent 100%
+    );
+    border-image-slice: 1;
+    border-image-width: 0 1px 0 0;
+  }
+}
 
 /* ───── Glass (Arc-inspired) ───── */
 .glass {

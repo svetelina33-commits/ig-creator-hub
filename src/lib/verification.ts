@@ -7,9 +7,10 @@ export const META_APPROVAL = {
   status: "authorized" as const,
 
   /* Issuance dates — surface the same date in three registers
-     (ISO for tooling · Roman for editorial flourish · long-form for prose). */
+     (ISO for tooling · Roman for editorial flourish · long-form for prose).
+     Roman ordering is Day · Month · Year, the Singapore convention. */
   approvedOn: "2026-04-29",
-  approvedOnRoman: "IV · XXIX · MMXXVI",
+  approvedOnRoman: "XXIX · IV · MMXXVI",
   approvedOnDisplay: "29 April 2026",
   yearRoman: "MMXXVI",
 

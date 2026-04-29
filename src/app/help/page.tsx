@@ -127,14 +127,25 @@ export default async function HelpCenterPage() {
         {/* ════════════ All categories ════════════ */}
         <section className="mx-auto max-w-6xl pb-20 pt-10 hairline-top">
           <Reveal>
-            <div className="flex items-baseline justify-between gap-4 mb-8">
-              <div>
-                <span className="small-caps text-[10px] tracking-[0.3em] text-ink-faint">
-                  All sections
-                </span>
-                <h2 className="mt-2 font-serif-display text-[34px] sm:text-[42px] text-ink leading-[1.05] tracking-tight">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-4 items-end mb-10">
+              <div className="md:col-span-7">
+                <div className="flex items-baseline gap-3">
+                  <span className="font-mono-numeric text-[10px] tracking-[0.3em] text-gold/70">
+                    ◆
+                  </span>
+                  <span className="small-caps text-[10px] tracking-[0.3em] text-ink-faint">
+                    All sections
+                  </span>
+                </div>
+                <h2 className="mt-3 font-serif-display text-[34px] sm:text-[42px] text-ink leading-[1.05] tracking-tight max-w-xl">
                   Every <span className="font-serif-italic">topic</span>, in one place.
                 </h2>
+              </div>
+              <div className="md:col-span-5 md:flex md:justify-end md:pb-2">
+                <p className="max-w-sm text-[13.5px] leading-[1.65] text-ink-muted font-serif-book md:text-right">
+                  Twelve sections, organised the way the editor commissions —
+                  from the application desk through to the day-fifteen payout.
+                </p>
               </div>
             </div>
           </Reveal>
