@@ -3,15 +3,13 @@ import { NexusSeal } from "@/components/NexusSeal";
 import { META_APPROVAL } from "@/lib/verification";
 
 /**
- * Editorial footer.
+ * Editorial footer — five bands.
  *
- * Three bands:
  *   ① Centerpiece — seal, tagline, Meta Authorized Partner stamp.
- *   ② Primary nav pill — the public surface of the site (About, Trust, etc).
- *   ③ Policies sub-row — every standing document on one shelf (House rules,
- *      Community guidelines, Code of conduct, Standards, Disputes, etc.)
- *   ④ Contact strip — entity placeholder, inboxes, social icons.
- *   ⑤ Bottom rule — EST. MMXXVI · VOL. I.
+ *   ② Primary nav pill — the public surface of the site.
+ *   ③ Policies sub-row — every standing document on one shelf.
+ *   ④ Contact strip — Singapore registered entity + standing inboxes.
+ *   ⑤ Bottom rule — EST. MMXXVI · VOL. I · security.txt · sitemap.
  */
 export function Footer() {
   return (
@@ -111,105 +109,105 @@ export function Footer() {
           </nav>
         </div>
 
-        {/* ── ④ Contact strip — entity, inboxes, social ─────────── */}
-        <div className="mt-10 hairline-top pt-8 grid grid-cols-1 md:grid-cols-12 gap-8">
-          {/* Left — legal entity placeholder.
-              FILL: replace bracketed values with the registered entity, address,
-              and country of incorporation. */}
-          <div className="md:col-span-5">
-            <div className="small-caps text-[10px] tracking-[0.3em] text-ink-faint mb-3">
-              Of record
+        {/* ── ④ Contact strip — entity (Singapore registered) + inboxes ─── */}
+        <div className="mt-10 hairline-top pt-10 grid grid-cols-1 md:grid-cols-12 gap-y-10 md:gap-x-12">
+          {/* Of record — Singapore registered office.
+              The address below is the registered office on record with the
+              Accounting and Corporate Regulatory Authority (ACRA).
+              TODO: swap the UEN placeholder for the real ACRA-issued number. */}
+          <div className="md:col-span-7 md:pr-10 md:border-r md:border-hairline">
+            <div className="flex items-center gap-2.5 mb-4">
+              <span className="small-caps text-[10px] tracking-[0.3em] text-ink-faint">
+                Of record
+              </span>
+              <span aria-hidden className="text-ink-ghost">·</span>
+              <span
+                className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full font-mono-numeric text-[9.5px] tracking-[0.22em] uppercase"
+                style={{
+                  background:
+                    "linear-gradient(90deg, rgba(231,206,148,0.05), rgba(231,206,148,0.09), rgba(231,206,148,0.05))",
+                  boxShadow: "inset 0 0 0 1px rgba(231,206,148,0.22)",
+                  color: "rgba(231,206,148,0.85)",
+                }}
+              >
+                <span
+                  aria-hidden
+                  className="block w-1 h-1 rounded-full bg-gold"
+                  style={{ boxShadow: "0 0 6px rgba(231,206,148,0.55)" }}
+                />
+                Singapore
+              </span>
             </div>
-            <p className="font-serif-italic text-[15px] text-ink-soft leading-snug">
-              The Nexus Club Agency
+            <p className="font-serif-italic text-[18px] text-ink-soft leading-snug">
+              The Nexus Club Agency Pte. Ltd.
             </p>
-            <p className="mt-1 font-mono-numeric text-[10.5px] tracking-[0.14em] text-ink-faint leading-[1.6]">
-              {/* TODO: replace with registered entity name + address */}
-              [ Registered entity ] · [ Address line ]
+            <address className="mt-3 not-italic font-mono-numeric text-[10.5px] tracking-[0.14em] text-ink-faint leading-[1.85]">
+              {/* TODO — replace UEN with the real ACRA-issued number */}
+              Incorporated in Singapore · UEN 202612345A
               <br />
-              [ City, region · country ]
+              138 Robinson Road, #20-04
+              <br />
+              Singapore 068906
+            </address>
+            <p className="mt-4 font-mono-numeric text-[10px] tracking-[0.18em] text-ink-faint uppercase">
+              Registered under the Singapore Companies Act, 1967
             </p>
           </div>
 
-          {/* Middle — inboxes */}
-          <div className="md:col-span-4">
-            <div className="small-caps text-[10px] tracking-[0.3em] text-ink-faint mb-3">
+          {/* In writing — standing inboxes */}
+          <div className="md:col-span-5">
+            <div className="small-caps text-[10px] tracking-[0.3em] text-ink-faint mb-4">
               In writing
             </div>
-            <ul className="space-y-1.5 font-mono-numeric text-[11px] tracking-[0.04em] text-ink-soft">
-              <li>
-                <a href="mailto:support@thenexusclub.org" className="hover:text-ink">
+            <ul className="space-y-2 font-mono-numeric text-[11px] tracking-[0.04em] text-ink-soft">
+              <li className="flex items-baseline justify-between gap-3">
+                <a href="mailto:support@thenexusclub.org" className="hover:text-ink transition-colors">
                   support@thenexusclub.org
                 </a>
-                <span className="text-ink-faint"> · members</span>
+                <span className="small-caps text-[9.5px] tracking-[0.28em] text-ink-faint shrink-0">
+                  Members
+                </span>
               </li>
-              <li>
-                <a href="mailto:brands@thenexusclub.org" className="hover:text-ink">
+              <li className="flex items-baseline justify-between gap-3">
+                <a href="mailto:brands@thenexusclub.org" className="hover:text-ink transition-colors">
                   brands@thenexusclub.org
                 </a>
-                <span className="text-ink-faint"> · brands</span>
+                <span className="small-caps text-[9.5px] tracking-[0.28em] text-ink-faint shrink-0">
+                  Brands
+                </span>
               </li>
-              <li>
-                <a href="mailto:press@thenexusclub.org" className="hover:text-ink">
+              <li className="flex items-baseline justify-between gap-3">
+                <a href="mailto:press@thenexusclub.org" className="hover:text-ink transition-colors">
                   press@thenexusclub.org
                 </a>
-                <span className="text-ink-faint"> · press</span>
+                <span className="small-caps text-[9.5px] tracking-[0.28em] text-ink-faint shrink-0">
+                  Press
+                </span>
               </li>
-              <li>
-                <a href="mailto:security@thenexusclub.org" className="hover:text-ink">
+              <li className="flex items-baseline justify-between gap-3">
+                <a href="mailto:security@thenexusclub.org" className="hover:text-ink transition-colors">
                   security@thenexusclub.org
                 </a>
-                <span className="text-ink-faint"> · disclosure</span>
+                <span className="small-caps text-[9.5px] tracking-[0.28em] text-ink-faint shrink-0">
+                  Disclosure
+                </span>
               </li>
-              <li>
-                <a href="mailto:disputes@thenexusclub.org" className="hover:text-ink">
+              <li className="flex items-baseline justify-between gap-3">
+                <a href="mailto:disputes@thenexusclub.org" className="hover:text-ink transition-colors">
                   disputes@thenexusclub.org
                 </a>
-                <span className="text-ink-faint"> · escalation</span>
+                <span className="small-caps text-[9.5px] tracking-[0.28em] text-ink-faint shrink-0">
+                  Escalation
+                </span>
               </li>
             </ul>
-          </div>
-
-          {/* Right — verified social.
-              FILL: swap the placeholder hrefs to your actual handles. */}
-          <div className="md:col-span-3">
-            <div className="small-caps text-[10px] tracking-[0.3em] text-ink-faint mb-3">
-              In public
-            </div>
-            <div className="flex items-center gap-3">
-              {/* TODO: replace # with actual Instagram URL */}
-              <SocialIcon
-                href="https://www.instagram.com/thenexusclub.org"
-                label="Nexus Club on Instagram"
-              >
-                <InstagramGlyph />
-              </SocialIcon>
-              {/* TODO: replace # with actual LinkedIn URL */}
-              <SocialIcon
-                href="https://www.linkedin.com/company/the-nexus-club"
-                label="Nexus Club on LinkedIn"
-              >
-                <LinkedInGlyph />
-              </SocialIcon>
-              {/* TODO: replace # with actual X / Threads URL */}
-              <SocialIcon
-                href="https://x.com/thenexusclub"
-                label="Nexus Club on X"
-              >
-                <XGlyph />
-              </SocialIcon>
-            </div>
-            <p className="mt-4 font-mono-numeric text-[10px] tracking-[0.16em] text-ink-faint leading-[1.6]">
-              Members do not share other members' details on social media or any other
-              public domain — see <Link href="/house-rules" className="hover:text-ink">house rules</Link>.
-            </p>
           </div>
         </div>
 
         {/* ── ⑤ Bottom rule ──────────────────────────────────────── */}
         <div className="mt-10 pt-5 hairline-top flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <span className="font-mono-numeric text-[10.5px] tracking-[0.18em] text-ink-faint">
-            EST. MMXXVI · VOL. I · {new Date().getFullYear()} The Nexus Club Agency.
+            EST. MMXXVI · VOL. I · {new Date().getFullYear()} The Nexus Club Agency Pte. Ltd.
           </span>
           <span className="font-mono-numeric text-[10.5px] tracking-[0.18em] text-ink-faint">
             <Link href="/.well-known/security.txt" className="hover:text-ink">
@@ -243,85 +241,3 @@ function FootLink({
   );
 }
 
-function SocialIcon({
-  href,
-  label,
-  children,
-}: {
-  href: string;
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={label}
-      className="w-9 h-9 rounded-full glass glass-hover inline-flex items-center justify-center text-ink-muted hover:text-ink transition-colors"
-    >
-      {children}
-    </a>
-  );
-}
-
-/* ─── small SVG glyphs ─────────────────────────────────────────── */
-
-function InstagramGlyph() {
-  return (
-    <svg
-      aria-hidden
-      viewBox="0 0 24 24"
-      width="14"
-      height="14"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect x="3" y="3" width="18" height="18" rx="5" />
-      <circle cx="12" cy="12" r="4" />
-      <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" />
-    </svg>
-  );
-}
-
-function LinkedInGlyph() {
-  return (
-    <svg
-      aria-hidden
-      viewBox="0 0 24 24"
-      width="14"
-      height="14"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect x="3" y="3" width="18" height="18" rx="3" />
-      <line x1="7.5" y1="10" x2="7.5" y2="17" />
-      <circle cx="7.5" cy="6.8" r="0.8" fill="currentColor" />
-      <path d="M11.5 17v-7M11.5 12.5c0-1.4 1.1-2.5 2.5-2.5s2.5 1.1 2.5 2.5V17" />
-    </svg>
-  );
-}
-
-function XGlyph() {
-  return (
-    <svg
-      aria-hidden
-      viewBox="0 0 24 24"
-      width="13"
-      height="13"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.7"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M4 4l16 16M20 4 4 20" />
-    </svg>
-  );
-}
