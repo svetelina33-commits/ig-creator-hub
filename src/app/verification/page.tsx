@@ -337,10 +337,10 @@ export default async function VerificationPage() {
               <p>
                 The Nexus Club editorial desk:{" "}
                 <a
-                  href="mailto:yashpanchalsx@gmail.com"
+                  href="mailto:support@thenexusclub.org"
                   className="text-gold/90 underline underline-offset-4 decoration-gold/40 hover:decoration-gold transition-colors"
                 >
-                  yashpanchalsx@gmail.com
+                  support@thenexusclub.org
                 </a>
                 .
               </p>

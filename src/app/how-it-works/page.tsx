@@ -149,7 +149,7 @@ export default async function HowItWorksPage() {
               <div className="col-span-12 md:col-span-8 space-y-6">
                 <p className="text-[17px] leading-[1.75] text-ink-muted font-serif-book">
                   We currently operate as a single-editor desk. Brand partnerships are by
-                  introduction — write directly to <a className="text-forest underline underline-offset-4" href="mailto:yashpanchalsx@gmail.com">yashpanchalsx@gmail.com</a> with a rough brief, budget, and timing. We'll confirm fit and open a campaign on your behalf.
+                  introduction — write directly to <a className="text-forest underline underline-offset-4" href="mailto:support@thenexusclub.org">support@thenexusclub.org</a> with a rough brief, budget, and timing. We'll confirm fit and open a campaign on your behalf.
                 </p>
                 <p className="text-[17px] leading-[1.75] text-ink-muted font-serif-book">
                   Fees are a flat commission on the final payout — no retainer, no minimums.
