@@ -6,6 +6,7 @@ import { Masthead } from "@/components/Masthead";
 import { Footer } from "@/components/Footer";
 import { Reveal } from "@/components/Reveal";
 import { RunningHead } from "@/components/Ornaments";
+import { META_APPROVAL } from "@/lib/verification";
 
 export const metadata = {
   title: "How it works · Nexus Club",
@@ -43,7 +44,7 @@ const creatorSteps: Step[] = [
     kicker: "Publish",
     title: "Once approved, we handle posting.",
     body: "Timing, captions, first-draft scheduling — all from the brief you agreed to. You see and approve anything that goes live under your handle.",
-    note: "Posting requires Instagram Business or Creator account. Meta App Review approval in progress.",
+    note: `Posting requires an Instagram Business or Creator account. Approved by ${META_APPROVAL.reviewer} on ${META_APPROVAL.approvedOnDisplay} · ref. ${META_APPROVAL.partnerRef}.`,
   },
   {
     n: "V",
@@ -107,9 +108,16 @@ export default async function HowItWorksPage() {
                       {s.body}
                     </p>
                     {s.note && (
-                      <p className="mt-4 text-[12px] small-caps tracking-[0.2em] text-vermillion">
-                        · {s.note}
-                      </p>
+                      <span className="mt-5 inline-flex items-start gap-2.5 px-3.5 py-2 rounded-full border border-forest/25 bg-forest/[0.04]">
+                        <span
+                          aria-hidden
+                          className="mt-[6px] block w-1 h-1 rounded-full bg-forest shrink-0"
+                          style={{ boxShadow: "0 0 6px rgba(95,225,214,0.55)" }}
+                        />
+                        <span className="text-[11px] small-caps tracking-[0.2em] text-forest leading-[1.5]">
+                          {s.note}
+                        </span>
+                      </span>
                     )}
                   </div>
                 </article>

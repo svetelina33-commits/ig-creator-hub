@@ -246,8 +246,8 @@ function NcRuleDot() {
   );
 }
 
-const STANDARDS: { kicker: string; body: string }[] = [
-  { kicker: "Platform", body: "Operations within Meta's Platform Terms" },
+const STANDARDS: { kicker: string; body: string; tone?: "forest" }[] = [
+  { kicker: "Platform", body: "Approved · Meta App Review · Instagram Graph API", tone: "forest" },
   { kicker: "Contract", body: "eIDAS · ESIGN · UETA — enforceable in 110 jurisdictions" },
   { kicker: "Data", body: "GDPR · UK GDPR · DPDP · CCPA baseline" },
   { kicker: "Transit", body: "TLS 1.3 in flight · encrypted at rest" },
@@ -283,7 +283,8 @@ function StandardsLedger() {
                 {String(i + 1).padStart(2, "0")} / {String(STANDARDS.length).padStart(2, "0")}
               </span>
             </div>
-            <div className="text-[13.5px] text-ink-soft leading-[1.45] font-serif-book">
+            <div className={`text-[13.5px] leading-[1.45] font-serif-book ${s.tone === "forest" ? "text-forest" : "text-ink-soft"}`}>
+              {s.tone === "forest" && <span aria-hidden className="mr-1.5">●</span>}
               {s.body}
             </div>
           </li>
@@ -302,7 +303,8 @@ function StandardsLedger() {
             <div className="small-caps text-[9.5px] tracking-[0.28em] text-ink-faint">
               {s.kicker}
             </div>
-            <div className="mt-1 text-[12.5px] text-ink-soft leading-[1.45]">
+            <div className={`mt-1 text-[12.5px] leading-[1.45] ${s.tone === "forest" ? "text-forest" : "text-ink-soft"}`}>
+              {s.tone === "forest" && <span aria-hidden className="mr-1.5">●</span>}
               {s.body}
             </div>
           </li>

@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { NexusSeal } from "@/components/NexusSeal";
+import { META_APPROVAL } from "@/lib/verification";
 
 export function Footer() {
   return (
@@ -17,6 +19,25 @@ export function Footer() {
               A private network for creators with a voice
             </p>
           </div>
+
+          {/* Meta App Review approval stamp — links to the certificate page */}
+          <Link
+            href="/verification"
+            className="mt-3 inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-white/10 hover:border-forest/40 hover:bg-white/[0.025] group transition-colors"
+          >
+            <span
+              aria-hidden
+              className="block w-1.5 h-1.5 rounded-full bg-forest"
+              style={{ boxShadow: "0 0 8px rgba(95,225,214,0.55)" }}
+            />
+            <span className="small-caps text-[10px] tracking-[0.32em] text-ink-muted group-hover:text-ink-soft transition-colors">
+              Approved · Meta App Review
+              <span className="text-ink-faint mx-1.5">·</span>
+              <span className="font-mono-numeric tracking-[0.18em] text-ink-faint group-hover:text-forest transition-colors">
+                № {META_APPROVAL.partnerRef}
+              </span>
+            </span>
+          </Link>
         </div>
 
         <div className="glass rounded-3xl px-6 sm:px-10 py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 text-ink-muted">

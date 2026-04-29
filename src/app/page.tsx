@@ -9,6 +9,7 @@ import { Reveal } from "@/components/Reveal";
 import { CenteredRule, RunningHead, ToneChip } from "@/components/Ornaments";
 import { AmbientOrbs } from "@/components/AmbientOrbs";
 import { NexusSeal } from "@/components/NexusSeal";
+import { VerificationStrip } from "@/components/VerificationStrip";
 import SignupForm from "./SignupForm";
 
 export default async function Home() {
@@ -210,6 +211,9 @@ export default async function Home() {
             </div>
           </div>
         </section>
+
+        {/* ===== VERIFICATION STRIP ===== */}
+        <VerificationStrip />
 
         {/* ===== OPEN CAMPAIGNS — horizontal slider ===== */}
         <section className="pb-24">
