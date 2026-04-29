@@ -44,7 +44,7 @@ const creatorSteps: Step[] = [
     kicker: "Publish",
     title: "Once approved, we handle posting.",
     body: "Timing, captions, first-draft scheduling — all from the brief you agreed to. You see and approve anything that goes live under your handle.",
-    note: `Posting requires an Instagram Business or Creator account. Approved by ${META_APPROVAL.reviewer} on ${META_APPROVAL.approvedOnDisplay} · ref. ${META_APPROVAL.partnerRef}.`,
+    note: `Posting requires an Instagram Business or Creator account. Authorized by ${META_APPROVAL.reviewer} · on the ${META_APPROVAL.programName} · letter № ${META_APPROVAL.partnerRef}.`,
   },
   {
     n: "V",
@@ -108,13 +108,20 @@ export default async function HowItWorksPage() {
                       {s.body}
                     </p>
                     {s.note && (
-                      <span className="mt-5 inline-flex items-start gap-2.5 px-3.5 py-2 rounded-full border border-forest/25 bg-forest/[0.04]">
+                      <span
+                        className="mt-5 inline-flex items-start gap-2.5 px-3.5 py-2 rounded-full"
+                        style={{
+                          background:
+                            "linear-gradient(90deg, rgba(231,206,148,0.04), rgba(231,206,148,0.08), rgba(231,206,148,0.04))",
+                          boxShadow: "inset 0 0 0 1px rgba(231,206,148,0.25)",
+                        }}
+                      >
                         <span
                           aria-hidden
-                          className="mt-[6px] block w-1 h-1 rounded-full bg-forest shrink-0"
-                          style={{ boxShadow: "0 0 6px rgba(95,225,214,0.55)" }}
+                          className="mt-[6px] block w-1 h-1 rounded-full bg-gold shrink-0"
+                          style={{ boxShadow: "0 0 6px rgba(231,206,148,0.55)" }}
                         />
-                        <span className="text-[11px] small-caps tracking-[0.2em] text-forest leading-[1.5]">
+                        <span className="text-[11px] small-caps tracking-[0.2em] text-gold/90 leading-[1.5]">
                           {s.note}
                         </span>
                       </span>

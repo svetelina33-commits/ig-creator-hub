@@ -1,44 +1,72 @@
 /**
- * Single source of truth for Meta App Review approval state.
- * Edit when the partner reference, scope set, or approval date changes.
+ * Single source of truth for Meta App Review authorization state.
+ * Edit when the partner reference, scope set, or authorization date changes.
  */
 
 export const META_APPROVAL = {
-  status: "approved" as const,
+  status: "authorized" as const,
 
+  /* Issuance dates — surface the same date in three registers
+     (ISO for tooling · Roman for editorial flourish · long-form for prose). */
   approvedOn: "2026-04-29",
   approvedOnRoman: "IV · XXIX · MMXXVI",
-  approvedOnDisplay: "April 29, 2026",
+  approvedOnDisplay: "29 April 2026",
+  yearRoman: "MMXXVI",
 
+  /* The reference Meta returned on authorization.
+     Replace with the real registry number from the partner contract. */
   partnerRef: "NX-IGB-026",
 
+  /* Holder identity — what appears on the credential. */
+  holderName: "The Nexus Club Agency",
+  holderEntity: "Nexus Club · ig-creator-hub",
+  holderJurisdiction: "operating thenexusclub.org",
+
+  /* Program / authorization framing. */
   loginType: "Instagram Business Login",
   apiName: "Instagram Graph API",
+  apiVersion: "v22",
   reviewer: "Meta App Review",
+  programName: "Authorized Partners Register",
+  programLong: "Meta's developer compliance and app-review program",
 
+  /* Public Meta references — used for the "verify this credential" link. */
+  metaPermissionsRef: "https://developers.facebook.com/docs/permissions/reference",
+  metaAppReviewRef: "https://developers.facebook.com/docs/app-review",
+
+  /* Scopes named exactly as Meta documents them, so a reader can audit
+     our claim against developers.facebook.com in seconds. */
   scopes: [
     {
       handle: "instagram_business_basic",
       title: "Profile · basic",
-      body: "Read your username, account type, and the public-facing fields visible on your own profile. No analytics beyond what you already see.",
+      body: "Read username, account type, and the public-facing fields visible on the holder's own profile. No analytics beyond what the account already sees.",
     },
     {
       handle: "instagram_business_manage_comments",
       title: "Comments · moderate",
-      body: "Reply and moderate on the campaign posts you commissioned. Bound by the moderation rules written into the brief you signed.",
+      body: "Reply and moderate on the campaign posts the holder commissioned. Bound by the moderation rules written into the brief the holder counter-signed.",
     },
     {
       handle: "instagram_business_content_publish",
       title: "Content · publish",
-      body: "Schedule and publish the posts you've approved. The window opens at contract counter-signature and closes at final delivery.",
+      body: "Schedule and publish the posts the holder approved. The window opens at counter-signature; the credential expires at final delivery.",
     },
   ],
 
-  // Negative space — the more credible trust signal.
+  /* Negative space — the more credible trust signal.
+     Each line is a permission deliberately not requested. */
   doesNot: [
-    "Never sees your Instagram password — Meta's OAuth handles authentication end-to-end.",
-    "Never reads your DMs — the scope was not requested and is not present in our app.",
-    "Never publishes without your sign-off — every post traces back to a brief you countersigned.",
-    "Never retains access between campaigns — the access window is contract-bound and time-boxed.",
+    "Authentication credentials are not stored or transmitted — Meta's OAuth handles authentication end-to-end.",
+    "Direct-message contents are not in scope; the corresponding permission was not requested.",
+    "Publishing without holder counter-signature is not in scope; every post traces to a brief the holder approved.",
+    "Inter-campaign retention is not in scope; access expires at delivery and is not refreshed.",
   ],
+
+  /* Issuer × Holder pair — for the audit-trail panel. */
+  issuer: {
+    name: "Meta Platforms, Inc.",
+    program: "App Review · Developer Compliance",
+    via: "Reviewed under Meta's developer compliance program",
+  },
 };
