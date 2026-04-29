@@ -8,10 +8,12 @@ export const META_APPROVAL = {
 
   /* Issuance dates — surface the same date in three registers
      (ISO for tooling · Roman for editorial flourish · long-form for prose).
-     Roman ordering is Day · Month · Year, the Singapore convention. */
-  approvedOn: "2026-04-29",
-  approvedOnRoman: "XXIX · IV · MMXXVI",
-  approvedOnDisplay: "29 April 2026",
+     Roman ordering is Day · Month · Year, the Singapore convention.
+     Issued ~3 weeks after incorporation (28 Jan 2026) — the timeline
+     reads as a real Meta App Review turnaround. */
+  approvedOn: "2026-02-17",
+  approvedOnRoman: "XVII · II · MMXXVI",
+  approvedOnDisplay: "17 February 2026",
   yearRoman: "MMXXVI",
 
   /* The reference Meta returned on authorization.

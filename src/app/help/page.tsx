@@ -154,43 +154,41 @@ export default async function HelpCenterPage() {
             {CATEGORIES.map((cat, i) => {
               const count = ARTICLES.filter((a) => a.category === cat.slug).length;
               return (
-                <Reveal key={cat.slug} delay={i * 40}>
-                  <li>
-                    <Link
-                      href={`/help/${cat.slug}`}
-                      className="group block px-6 sm:px-8 py-6 transition-colors hover:bg-white/[0.018]"
-                      style={{ background: "rgba(14,12,10,0.85)" }}
-                    >
-                      <div className="grid grid-cols-[auto_1fr_auto] gap-5 items-baseline">
-                        <span
-                          className="font-serif-display text-[44px] leading-none tracking-tight"
-                          style={{
-                            background:
-                              "linear-gradient(180deg, rgba(243,224,178,0.95) 0%, rgba(208,155,79,0.55) 100%)",
-                            WebkitBackgroundClip: "text",
-                            WebkitTextFillColor: "transparent",
-                            backgroundClip: "text",
-                          }}
-                        >
-                          {cat.number}
-                        </span>
-                        <div className="min-w-0">
-                          <h3 className="font-serif-display text-[22px] sm:text-[24px] text-ink leading-[1.2]">
-                            {cat.name}
-                          </h3>
-                          <p className="mt-1 small-caps text-[10px] tracking-[0.3em] text-gold/65">
-                            {cat.kicker}
-                          </p>
-                          <p className="mt-3 text-[13.5px] leading-[1.55] text-ink-muted font-serif-book max-w-md">
-                            {cat.description}
-                          </p>
-                        </div>
-                        <span className="font-mono-numeric text-[10px] tracking-[0.2em] text-ink-faint group-hover:text-gold transition-colors">
-                          {String(count).padStart(2, "0")} →
-                        </span>
+                <Reveal key={cat.slug} as="li" delay={i * 40} className="h-full">
+                  <Link
+                    href={`/help/${cat.slug}`}
+                    className="group block h-full px-6 sm:px-8 py-6 transition-colors hover:bg-white/[0.018]"
+                    style={{ background: "rgba(14,12,10,0.85)" }}
+                  >
+                    <div className="grid grid-cols-[auto_1fr_auto] gap-5 items-baseline h-full">
+                      <span
+                        className="font-serif-display text-[44px] leading-none tracking-tight"
+                        style={{
+                          background:
+                            "linear-gradient(180deg, rgba(243,224,178,0.95) 0%, rgba(208,155,79,0.55) 100%)",
+                          WebkitBackgroundClip: "text",
+                          WebkitTextFillColor: "transparent",
+                          backgroundClip: "text",
+                        }}
+                      >
+                        {cat.number}
+                      </span>
+                      <div className="min-w-0">
+                        <h3 className="font-serif-display text-[22px] sm:text-[24px] text-ink leading-[1.2]">
+                          {cat.name}
+                        </h3>
+                        <p className="mt-1 small-caps text-[10px] tracking-[0.3em] text-gold/65">
+                          {cat.kicker}
+                        </p>
+                        <p className="mt-3 text-[13.5px] leading-[1.55] text-ink-muted font-serif-book max-w-md">
+                          {cat.description}
+                        </p>
                       </div>
-                    </Link>
-                  </li>
+                      <span className="font-mono-numeric text-[10px] tracking-[0.2em] text-ink-faint group-hover:text-gold transition-colors">
+                        {String(count).padStart(2, "0")} →
+                      </span>
+                    </div>
+                  </Link>
                 </Reveal>
               );
             })}
