@@ -87,6 +87,11 @@ export default async function AboutPage() {
                 h: "Payouts are flat and upfront.",
                 b: "No performance clauses. No clawbacks tied to metrics you don't control. What the brief says is what you're paid.",
               },
+              {
+                n: "05",
+                h: "Quiet is a protection.",
+                b: "We don't print members' names without their say-so. Members don't print other members' details without theirs. The non-disclosure clause that runs through this club is the article that earns the word 'private' — read it in the Terms, kept in the House Rules.",
+              },
             ].map((item, idx) => (
               <Reveal key={item.n} delay={idx * 100}>
                 <article className="grid grid-cols-12 gap-6 hairline-top pt-8">
@@ -109,6 +114,66 @@ export default async function AboutPage() {
           </div>
         </section>
 
+        {/* ===== Volume to date — place-based proof, honest counts ===== */}
+        <section className="mx-auto max-w-6xl py-20 hairline-top">
+          <Reveal>
+            <div className="flex items-baseline justify-between mb-12">
+              <h2 className="font-serif-italic text-3xl sm:text-4xl md:text-5xl text-ink leading-[0.95]">
+                Volume to date.
+              </h2>
+              <span className="font-mono-numeric text-[11px] text-ink-faint">§ III</span>
+            </div>
+          </Reveal>
+          <Reveal delay={120}>
+            <p className="mb-10 max-w-2xl text-[15.5px] leading-[1.75] text-ink-muted font-serif-book">
+              We do not publish creator-count metrics; the small club we want to run is
+              the kind a number cannot describe. Below is what is on the shelf today —
+              the documents the desk holds itself to, and the editorial volume in flight.
+              The full transparency dispatch arrives at the close of Volume I.
+            </p>
+          </Reveal>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+            {[
+              { l: "Volume", v: "I", s: "MMXXVI · in flight", a: "ink" },
+              { l: "Dispatches", v: "3", s: "Editor's notes published", a: "violet" },
+              { l: "Trust chapters", v: "7", s: "On the standing shelf", a: "forest" },
+              { l: "Authorization", v: "I", s: "Letter № NX-IGB-026", a: "gold" },
+            ].map((t, i) => (
+              <Reveal key={t.l} delay={i * 60}>
+                <div
+                  className="rounded-2xl p-6 h-full"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, rgba(20,18,28,0.55) 0%, rgba(12,11,16,0.7) 100%)",
+                    boxShadow:
+                      "inset 0 1px 0 rgba(255,255,255,0.04), 0 0 0 1px rgba(255,255,255,0.06)",
+                  }}
+                >
+                  <div className="small-caps text-[10px] tracking-[0.3em] text-ink-muted">
+                    {t.l}
+                  </div>
+                  <div
+                    className={`mt-3 font-serif-display text-5xl leading-none ${
+                      t.a === "violet"
+                        ? "text-violet"
+                        : t.a === "forest"
+                          ? "text-forest"
+                          : t.a === "gold"
+                            ? "text-gold"
+                            : "text-ink"
+                    }`}
+                  >
+                    {t.v}
+                  </div>
+                  <div className="mt-4 small-caps text-[9.5px] tracking-[0.28em] text-ink-faint">
+                    {t.s}
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </section>
+
         {/* ===== Colophon ===== */}
         <section className="mx-auto max-w-6xl py-20 hairline-top">
           <Reveal>
@@ -118,19 +183,51 @@ export default async function AboutPage() {
                   Colophon
                 </span>
                 <h2 className="mt-3 font-serif-italic text-2xl sm:text-3xl md:text-4xl text-ink">
-                  Set in Fraunces<br />&amp; Figtree.
+                  Set in Bricolage<br />&amp; Cormorant.
                 </h2>
               </div>
               <div className="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-8 text-[15px] leading-[1.7] text-ink-muted font-serif-book">
                 <p>
-                  Type is by Undercase (Fraunces) and Erik D. Kennedy (Figtree). Numerics set in
-                  JetBrains Mono. Paper tone is a warm bone of our own mixing; ink is <em>
-                    Nexus Green
-                  </em> — dark forest with a hint of gunmetal.
+                  Display set in Bricolage Grotesque (Mathieu Triay, OFL) — geometric grotesque
+                  with width and optical-sizing axes. Italic accent in Cormorant Garamond
+                  (Christian Thalmann, Catharsis Fonts, OFL). Body in Onest. Numerics set in
+                  JetBrains Mono. The paper tone is a near-black of our own mixing; the ink
+                  is a warm bone.
                 </p>
                 <p>
-                  Hosted on Vercel. Data in Neon Postgres. Email by Resend. All tiers free or at
-                  cost — we keep Nexus Club lean so campaign payouts stay intact.
+                  Hosted on Vercel. Data in Neon Postgres. Email by Resend. Payouts via
+                  Stripe Connect. The full subprocessor list — what each touches and where it
+                  sits — is at <Link href="/subprocessors" className="link-ed">/subprocessors</Link>.
+                </p>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Editor's signature — to be filled with the editor's name */}
+          <Reveal delay={120}>
+            <div className="mt-12 hairline-top pt-8 grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
+              <div className="md:col-span-7">
+                <p className="text-[15px] leading-[1.7] text-ink-muted font-serif-book max-w-xl">
+                  Every document on this site — terms, privacy, house rules, standards,
+                  disputes, the Letter of Authorization — passes through one editor before
+                  it is published. The desk is the same person who reads applications.
+                  The signature below is theirs.
+                </p>
+              </div>
+              <div className="md:col-span-5 md:text-right">
+                <p className="small-caps text-[10px] tracking-[0.3em] text-ink-faint">
+                  — from the desk —
+                </p>
+                {/*
+                  EDITOR'S NAME — replace the placeholder below with the founding editor's
+                  full name. A named editor is the single most premium addition to /about
+                  per the credibility audit; a placeholder is shown until it is filled.
+                */}
+                <p className="mt-3 font-serif-italic text-3xl sm:text-4xl text-ink leading-tight">
+                  [ the founding editor ]
+                </p>
+                <p className="mt-2 small-caps text-[10px] tracking-[0.3em] text-ink-faint">
+                  Founding editor · The Nexus Club Agency
                 </p>
               </div>
             </div>

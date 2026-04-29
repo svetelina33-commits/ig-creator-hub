@@ -22,7 +22,7 @@ export default function PrivacyPage() {
               </h1>
             </div>
             <span className="font-mono-numeric text-[11px] text-ink-faint">
-              Rev. 2026-04-20
+              Rev. 2026-04-30
             </span>
           </div>
 
@@ -99,9 +99,57 @@ export default function PrivacyPage() {
                 HTTP-only and signed. No third-party analytics or advertising cookies.
               </p>
             </Section>
+
+            <Section n="VIII" title="Data residency">
+              <p>
+                Member records, encrypted access tokens, applications, campaigns, support
+                tickets, and withdrawal requests live in our primary database — Neon
+                Postgres on AWS, region <code className="font-mono-numeric text-forest">ap-south-1</code> (Mumbai).
+                Daily encrypted snapshots are taken in the same region. Application
+                requests transit Vercel's global edge before reaching the database;
+                Vercel's cache windows are stated in our subprocessor list.
+              </p>
+              <p>
+                Email is sent through Resend (United States). Support-ticket attachments
+                are stored on Vercel Blob (multi-region under Vercel). Where personal
+                data leaves a member's region of residence in the course of normal
+                operation, the transfer is covered by the safeguards in our{" "}
+                <Link href="/dpa" className="link-ed">
+                  Data Processing Addendum
+                </Link>
+                . The full vendor list, what each touches, and the region of each is at{" "}
+                <Link href="/subprocessors" className="link-ed">
+                  /subprocessors
+                </Link>
+                .
+              </p>
+            </Section>
+
+            <Section n="IX" title="Your rights, by region">
+              <p>
+                If you live in the European Economic Area or the United Kingdom, you
+                hold the rights under the GDPR / UK GDPR — access, rectification,
+                erasure, restriction, portability, objection, and to lodge a complaint
+                with your local supervisory authority. If you live in California, you
+                hold the rights under the CCPA / CPRA — to know, to delete, to correct,
+                to opt out of sale or sharing (we do not sell or share), and to limit
+                use of sensitive personal information. If you live in India, you hold
+                the rights under the Digital Personal Data Protection Act, 2023.
+              </p>
+              <p>
+                The route is the same for all three: write to{" "}
+                <a className="link-ed" href="mailto:support@thenexusclub.org">
+                  support@thenexusclub.org
+                </a>
+                . We respond within thirty days, in writing.
+              </p>
+            </Section>
           </div>
 
-          <div className="mt-16 hairline-top pt-6 text-[11px] small-caps tracking-[0.25em] text-ink-muted">
+          <div className="mt-16 hairline-top pt-6 flex items-center justify-between text-[11px] small-caps tracking-[0.25em] text-ink-muted">
+            <Link href="/subprocessors" className="hover:text-ink">
+              Subprocessors
+            </Link>
             <Link href="/terms" className="hover:text-ink">
               Read the terms →
             </Link>

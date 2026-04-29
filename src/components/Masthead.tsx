@@ -69,6 +69,7 @@ export function Masthead({ email, isAdmin, issue }: Props) {
               {email && <NavLink href="/earnings">Withdraw</NavLink>}
               <NavLink href="/how-it-works">How it works</NavLink>
               <NavLink href="/about">About</NavLink>
+              <NavLink href="/trust">Trust</NavLink>
               <NavLink href="/dispatches">Dispatches</NavLink>
               {email && <NavLink href="/support">Support</NavLink>}
               {isAdmin && (
@@ -232,6 +233,7 @@ function MobileMenuOverlay({
             ...(email ? [{ href: "/earnings", label: "Withdraw" }] : []),
             { href: "/how-it-works", label: "How it works" },
             { href: "/about", label: "About" },
+            { href: "/trust", label: "Trust" },
             { href: "/dispatches", label: "Dispatches" },
             ...(email ? [{ href: "/support", label: "Support" }] : []),
             ...(isAdmin ? [{ href: "/admin", label: "Atelier", accent: true }] : []),

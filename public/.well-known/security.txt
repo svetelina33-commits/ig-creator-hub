@@ -1,0 +1,13 @@
+# The Nexus Club — security disclosure
+# Per RFC 9116. Plain English follows.
+#
+# If you have found a security issue affecting thenexusclub.org or any
+# integration described in our Letter of Authorization, please write to
+# the editor below. We read every report. We answer every report.
+
+Contact: mailto:security@thenexusclub.org
+Contact: https://thenexusclub.org/security
+Expires: 2027-04-30T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://thenexusclub.org/.well-known/security.txt
+Policy: https://thenexusclub.org/security

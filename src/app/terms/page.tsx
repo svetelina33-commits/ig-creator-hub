@@ -22,7 +22,7 @@ export default function TermsPage() {
               </h1>
             </div>
             <span className="font-mono-numeric text-[11px] text-ink-faint">
-              Rev. 2026-04-20
+              Rev. 2026-04-30
             </span>
           </div>
 
@@ -46,7 +46,38 @@ export default function TermsPage() {
               </p>
             </Section>
 
-            <Section n="III" title="Instagram publishing rights">
+            <Section n="III" title="Member non-disclosure">
+              <p>
+                The quiet of the club is the protection of the member. As a condition of
+                membership, you agree not to share other members' details — names,
+                handles, application material, payout figures, draft briefs, or brand
+                contracts you have seen through the platform — in press, on social
+                media, or in any public domain. You may speak about your own membership
+                and your own work; you may not speak for other members or for the desk.
+              </p>
+              <p>
+                The same expectation runs in both directions. The desk holds the same
+                line about you: your application, your campaign correspondence, your
+                payout figures, and the contents of any support ticket you file are not
+                shared outside the small set of people on the desk who need to read them.
+                Where the law requires disclosure — a court order, a regulator's lawful
+                request — we comply, and we tell you in writing unless we are barred
+                from doing so.
+              </p>
+              <p>
+                The{" "}
+                <Link href="/house-rules" className="link-ed">
+                  House Rules
+                </Link>{" "}
+                describe the standing form of this duty. The{" "}
+                <Link href="/community-guidelines" className="link-ed">
+                  Community Guidelines
+                </Link>{" "}
+                name the breach of it. Both are read into this clause.
+              </p>
+            </Section>
+
+            <Section n="IV" title="Instagram publishing rights">
               <p>
                 When you are approved for a campaign and have connected Instagram, you
                 grant Nexus Club the limited right to publish content to your Instagram
@@ -56,7 +87,7 @@ export default function TermsPage() {
               </p>
             </Section>
 
-            <Section n="IV" title="Gmail publishing rights">
+            <Section n="V" title="Gmail publishing rights">
               <p>
                 When you connect your Gmail account, you grant Nexus Club the limited right to
                 <em> send email on your behalf </em>for campaigns you have been approved for.
@@ -74,7 +105,7 @@ export default function TermsPage() {
               </p>
             </Section>
 
-            <Section n="V" title="What we won't do">
+            <Section n="VI" title="What we won't do">
               <p>
                 We will never capture your Instagram password, post content you haven't
                 approved, or use your token for campaigns you haven't been approved for.
@@ -82,14 +113,14 @@ export default function TermsPage() {
               </p>
             </Section>
 
-            <Section n="VI" title="Payouts">
+            <Section n="VII" title="Payouts">
               <p>
                 Campaign payouts are stated upfront per brief. Payment is owed by the
                 commissioning brand and disbursed per the terms agreed in the brief.
               </p>
             </Section>
 
-            <Section n="VII" title="Termination">
+            <Section n="VIII" title="Termination">
               <p>
                 Either party may end membership at any time. Delete your account from
                 your dashboard or write to{" "}
@@ -100,7 +131,7 @@ export default function TermsPage() {
               </p>
             </Section>
 
-            <Section n="VIII" title="Liability">
+            <Section n="IX" title="Liability">
               <p>
                 The service is provided as-is. We make no warranty that the platform will
                 be uninterrupted or error-free. Our liability is limited to the greatest
