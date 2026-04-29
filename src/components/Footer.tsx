@@ -223,17 +223,13 @@ export function Footer() {
             © {new Date().getFullYear()} The Nexus Club Agency Pte. Ltd.
           </span>
           <span className="font-mono-numeric text-[10.5px] tracking-[0.16em] text-ink-faint uppercase">
-            {/* security.txt and sitemap.xml are static files in /public,
-                so use plain anchors — Next's Link tries client-side
-                navigation and silently fails on non-React resources. */}
-            <a
-              href="/.well-known/security.txt"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-ink transition-colors"
-            >
+            {/* "security.txt" routes to the styled /security policy page,
+                which surfaces the raw RFC 9116 file for tools that need
+                it. Sitemap is a static XML file, so it stays a plain
+                anchor with target="_blank". */}
+            <Link href="/security" className="hover:text-ink transition-colors">
               security.txt
-            </a>
+            </Link>
             <span aria-hidden className="text-ink-ghost mx-2">·</span>
             <a
               href="/sitemap.xml"
