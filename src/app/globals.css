@@ -797,6 +797,26 @@ html { scroll-padding-top: 80px; }
   .nc-cursor-dot { display: none; }
 }
 
+/* ───── Footer canvas ─────
+   Paper-colour background that fades in from transparent at the top so
+   the body's fixed radial gradients (which sit at viewport positions
+   and would otherwise bleed into the footer's empty space below the
+   centrepiece) dissolve cleanly. The fade is ~120px of soft transition,
+   then opaque all the way down. */
+footer {
+  position: relative;
+  isolation: isolate;
+}
+footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, transparent 0%, var(--paper) 120px, var(--paper) 100%);
+  pointer-events: none;
+  z-index: -1;
+}
+
 /* ───── Footer flourish divider ───── */
 .nc-flourish {
   position: relative;
