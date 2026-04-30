@@ -1423,11 +1423,15 @@ html { scroll-padding-top: 80px; }
 .nc-card:hover {
   transform: perspective(1200px) translateY(-3px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
 }
-/* Per-theme spotlight overrides — apply alongside nc-card. */
+/* Per-theme spotlight overrides — apply alongside nc-card. The cursor
+   halo always reads the same family as the card it's hovering over. */
 .nc-card.spot-gold       { --nc-spot: rgba(231, 206, 148, 0.22); }
 .nc-card.spot-forest     { --nc-spot: rgba(95, 225, 214, 0.22); }
 .nc-card.spot-vermillion { --nc-spot: rgba(255, 94, 103, 0.20); }
 .nc-card.spot-peach      { --nc-spot: rgba(255, 180, 148, 0.22); }
+.nc-card.spot-ochre      { --nc-spot: rgba(243, 193, 121, 0.22); }
+.nc-card.spot-violet     { --nc-spot: rgba(125, 90, 255, 0.20); }
+.nc-card.spot-ink        { --nc-spot: rgba(125, 90, 255, 0.20); }
 @media (hover: none) {
   .nc-card { transform: none !important; }
   .nc-card::before { display: none; }

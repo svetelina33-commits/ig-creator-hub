@@ -210,7 +210,13 @@ function FeaturedCard({
   const redactedHandle = redactHandle(page.handle);
 
   return (
-    <div className="nc-card glass glass-hover rounded-2xl h-full block overflow-hidden relative group">
+    <div
+      className="nc-card glass glass-hover rounded-2xl h-full block overflow-hidden relative group"
+      /* Spot color tracks the creator's accent — `38` hex alpha (~22%)
+         keeps the halo subtle. Each card's hover halo therefore matches
+         its accent hairline up top. */
+      style={{ ["--nc-spot" as string]: `${accentHex}38` } as React.CSSProperties}
+    >
       {/* Accent hairline at top */}
       <span
         aria-hidden

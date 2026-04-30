@@ -11,6 +11,7 @@ import { AmbientOrbs } from "@/components/AmbientOrbs";
 import { NexusSeal } from "@/components/NexusSeal";
 import { VerificationStrip } from "@/components/VerificationStrip";
 import { AuthorizedBadge } from "@/components/AuthorizedBadge";
+import { spotClass } from "@/lib/spot";
 import SignupForm from "./SignupForm";
 
 export default async function Home() {
@@ -269,7 +270,10 @@ export default async function Home() {
                 <ul className="nc-slider-track">
                 {open.map((c) => (
                   <li key={c.id} className="nc-slider-item">
-                    <Link href={`/campaigns/${c.id}`} className="nc-card block group h-full">
+                    <Link
+                      href={`/campaigns/${c.id}`}
+                      className={`nc-card ${spotClass(c.coverTone)} block group h-full`}
+                    >
                       <div className="glass glass-hover rounded-2xl overflow-hidden h-full flex flex-col">
                         <CampaignCover
                           campaign={c}
@@ -301,7 +305,7 @@ export default async function Home() {
                 <li className="nc-slider-item">
                   <Link
                     href="/campaigns/pitch"
-                    className="nc-card block h-full group"
+                    className="nc-card spot-violet block h-full group"
                   >
                     <div className="glass glass-hover rounded-2xl h-full p-6 flex flex-col justify-between border border-violet/25 bg-violet/[0.04]">
                       <div>

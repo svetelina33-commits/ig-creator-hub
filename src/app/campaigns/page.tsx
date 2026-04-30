@@ -8,6 +8,7 @@ import { Footer } from "@/components/Footer";
 import { CampaignCover } from "@/components/CampaignCover";
 import { Reveal } from "@/components/Reveal";
 import { RunningHead, ToneChip } from "@/components/Ornaments";
+import { spotClass } from "@/lib/spot";
 
 type SearchParams = Promise<{
   q?: string;
@@ -216,7 +217,7 @@ function Select({
 
 function CampaignGridCard({ c }: { c: CampaignRecord }) {
   return (
-    <Link href={`/campaigns/${c.id}`} className="nc-card block group">
+    <Link href={`/campaigns/${c.id}`} className={`nc-card ${spotClass(c.coverTone)} block group`}>
       <div className="glass glass-hover rounded-2xl overflow-hidden">
         <CampaignCover campaign={c} variant="rectangle" className="rounded-none" />
         <div className="p-5 space-y-2">

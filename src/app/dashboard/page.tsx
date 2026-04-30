@@ -13,6 +13,7 @@ import { Masthead } from "@/components/Masthead";
 import { Footer } from "@/components/Footer";
 import { CampaignCover } from "@/components/CampaignCover";
 import { ToneChip } from "@/components/Ornaments";
+import { spotClass } from "@/lib/spot";
 import DashboardInstagramCard from "./DashboardInstagramCard";
 
 type SearchParams = Promise<{
@@ -195,7 +196,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
                     <li key={c.id} className="nc-slider-item">
                       <Link
                         href={`/campaigns/${c.id}`}
-                        className="nc-card group block h-full"
+                        className={`nc-card ${spotClass(c.coverTone)} group block h-full`}
                       >
                         <div className="glass glass-hover rounded-2xl overflow-hidden h-full flex flex-col">
                           <CampaignCover
