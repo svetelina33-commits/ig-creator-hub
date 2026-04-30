@@ -62,75 +62,69 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Authorized-partner stamp.
-              Reads as a wax seal: animated shimmer along the top edge,
-              double-hairline border, a left signal-dot that breathes,
-              an italic-serif "Authorized" set against the small-caps
-              body, and the Instagram glyph as the right-end payoff.
-              The whole thing is one Link to /verification. */}
+          {/* Authorized-partner badge — rectangle, premium, minimal text.
+              Left: Instagram glyph framed like a postage emblem.
+              Right: two-line credential — "AUTHORIZED PARTNER" + reference.
+              Decorative: corner brackets, double hairline, top shimmer,
+              and a faint MMXXVI watermark in the upper-right corner that
+              rewards close inspection. */}
           <Link
             href="/verification"
-            className="nc-stamp group mt-3 relative inline-flex items-center gap-3 sm:gap-4 px-5 sm:px-6 py-2.5 rounded-full transition-all duration-500 hover:-translate-y-px"
+            className="nc-badge group mt-3 relative inline-flex items-stretch gap-0 rounded-xl transition-all duration-500 hover:-translate-y-px"
           >
-            {/* Animated gold shimmer along the top hairline */}
-            <span className="nc-stamp-shimmer" aria-hidden />
+            {/* Animated gold shimmer along the top edge */}
+            <span className="nc-badge-shimmer" aria-hidden />
 
-            {/* Left signal — pulsing dot + diamond */}
-            <span className="flex items-center gap-2 shrink-0 relative z-[1]">
-              <span
-                aria-hidden
-                className="block w-1.5 h-1.5 rounded-full bg-gold nc-stamp-dot"
-                style={{ boxShadow: "0 0 10px rgba(231,206,148,0.65)" }}
-              />
-              <span aria-hidden className="nc-stamp-diamond" />
+            {/* Four L-shaped corner brackets — anchor the rectangle */}
+            <span className="nc-badge-corner nc-badge-corner-tl" aria-hidden />
+            <span className="nc-badge-corner nc-badge-corner-tr" aria-hidden />
+            <span className="nc-badge-corner nc-badge-corner-bl" aria-hidden />
+            <span className="nc-badge-corner nc-badge-corner-br" aria-hidden />
+
+            {/* Watermark — Roman year, faint, rewards close looking */}
+            <span aria-hidden className="nc-badge-watermark">
+              {META_APPROVAL.yearRoman}
             </span>
 
-            {/* Body — italic accent + small-caps prose + mono reference */}
-            <span className="flex items-baseline gap-2 sm:gap-2.5 relative z-[1]">
-              <span className="font-serif-italic text-[13px] sm:text-[14px] leading-none text-gold/95 tracking-[-0.005em]">
+            {/* LEFT — Instagram glyph framed as a postage emblem */}
+            <span className="nc-badge-emblem relative">
+              <svg width="26" height="26" viewBox="0 0 14 14" aria-hidden>
+                <rect
+                  x="1.5"
+                  y="1.5"
+                  width="11"
+                  height="11"
+                  rx="3"
+                  ry="3"
+                  fill="none"
+                  stroke="rgba(231,206,148,0.95)"
+                  strokeWidth="0.85"
+                />
+                <circle
+                  cx="7"
+                  cy="7"
+                  r="2.7"
+                  fill="none"
+                  stroke="rgba(231,206,148,0.95)"
+                  strokeWidth="0.85"
+                />
+                <circle cx="10.4" cy="3.6" r="0.6" fill="rgba(231,206,148,0.95)" />
+              </svg>
+            </span>
+
+            {/* Vertical separator between emblem and text */}
+            <span aria-hidden className="nc-badge-divide" />
+
+            {/* RIGHT — minimal stacked text */}
+            <span className="nc-badge-body relative z-[1]">
+              <span className="small-caps text-[10.5px] tracking-[0.34em] text-gold leading-none">
                 Authorized
               </span>
-              <span aria-hidden className="nc-stamp-sep" />
-              <span className="small-caps text-[10px] tracking-[0.3em] text-gold/80 group-hover:text-gold transition-colors">
-                Instagram Graph API Partner
+              <span className="small-caps text-[10.5px] tracking-[0.34em] text-gold/65 leading-none mt-1.5">
+                Partner
               </span>
-              <span aria-hidden className="nc-stamp-sep" />
-              <span className="font-mono-numeric text-[10px] tracking-[0.18em] text-gold/70 group-hover:text-gold/90 transition-colors">
+              <span className="font-mono-numeric text-[9.5px] tracking-[0.18em] text-gold/45 leading-none mt-3 group-hover:text-gold/80 transition-colors">
                 № {META_APPROVAL.partnerRef}
-              </span>
-            </span>
-
-            {/* Right payoff — Instagram glyph + arrow on hover */}
-            <span className="flex items-center gap-2 shrink-0 relative z-[1]">
-              <span aria-hidden className="nc-stamp-ig">
-                <svg width="13" height="13" viewBox="0 0 14 14">
-                  <rect
-                    x="1.5"
-                    y="1.5"
-                    width="11"
-                    height="11"
-                    rx="3"
-                    ry="3"
-                    fill="none"
-                    stroke="rgba(231,206,148,0.85)"
-                    strokeWidth="0.85"
-                  />
-                  <circle
-                    cx="7"
-                    cy="7"
-                    r="2.65"
-                    fill="none"
-                    stroke="rgba(231,206,148,0.85)"
-                    strokeWidth="0.85"
-                  />
-                  <circle cx="10.4" cy="3.6" r="0.55" fill="rgba(231,206,148,0.85)" />
-                </svg>
-              </span>
-              <span
-                aria-hidden
-                className="font-mono-numeric text-[11px] text-gold/40 transition-all duration-500 group-hover:text-gold group-hover:translate-x-0.5"
-              >
-                ↗
               </span>
             </span>
           </Link>

@@ -893,10 +893,124 @@ html { scroll-padding-top: 80px; }
   user-select: none;
 }
 
-/* ───── Authorized-partner wax stamp ─────
-   Used in the footer centerpiece. Layered detail: double-hairline
-   border, slow gold shimmer along the top edge, breathing left-dot,
-   rotated micro-diamond, italic accent against small-caps body. */
+/* ───── Authorized-partner badge ─────
+   Rectangular emblem in the footer centerpiece. Premium-curious:
+   double hairline, animated top shimmer, four corner brackets, a
+   faint Roman-year watermark in the upper-right, the Instagram
+   glyph as the focal emblem on the left, and minimal stacked text
+   on the right. Reads as a postage seal, not a status badge. */
+.nc-badge {
+  position: relative;
+  background:
+    /* faint diagonal guilloche so the surface has texture */
+    repeating-linear-gradient(
+      135deg,
+      rgba(231, 206, 148, 0.05) 0px,
+      rgba(231, 206, 148, 0.05) 1px,
+      transparent 1px,
+      transparent 6px
+    ),
+    /* subtle gold sheen along the inner field */
+    radial-gradient(
+      ellipse 120% 60% at 50% 0%,
+      rgba(231, 206, 148, 0.10),
+      rgba(231, 206, 148, 0.04) 50%,
+      rgba(0, 0, 0, 0) 90%
+    ),
+    /* dark base */
+    linear-gradient(180deg, rgba(20, 18, 14, 0.8), rgba(12, 11, 9, 0.92));
+  box-shadow:
+    inset 0 0 0 1px rgba(231, 206, 148, 0.32),
+    inset 0 0 0 5px rgba(231, 206, 148, 0.0),
+    inset 0 0 0 5.5px rgba(231, 206, 148, 0.07),
+    0 14px 36px -16px rgba(231, 206, 148, 0.22);
+  overflow: hidden;
+  isolation: isolate;
+}
+.nc-badge:hover {
+  box-shadow:
+    inset 0 0 0 1px rgba(231, 206, 148, 0.6),
+    inset 0 0 0 5px rgba(231, 206, 148, 0.0),
+    inset 0 0 0 5.5px rgba(231, 206, 148, 0.12),
+    0 18px 42px -16px rgba(231, 206, 148, 0.4);
+}
+.nc-badge-shimmer {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(231, 206, 148, 0) 20%,
+    rgba(243, 224, 178, 0.95) 50%,
+    rgba(231, 206, 148, 0) 80%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: nc-stamp-shimmer 5.6s linear infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+.nc-badge-corner {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-color: rgba(231, 206, 148, 0.7);
+  border-style: solid;
+  border-width: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+.nc-badge-corner-tl { top: 7px; left: 7px;  border-top-width: 1px; border-left-width: 1px; }
+.nc-badge-corner-tr { top: 7px; right: 7px; border-top-width: 1px; border-right-width: 1px; }
+.nc-badge-corner-bl { bottom: 7px; left: 7px;  border-bottom-width: 1px; border-left-width: 1px; }
+.nc-badge-corner-br { bottom: 7px; right: 7px; border-bottom-width: 1px; border-right-width: 1px; }
+.nc-badge-watermark {
+  position: absolute;
+  top: 6px;
+  right: 14px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 7.5px;
+  letter-spacing: 0.32em;
+  color: rgba(231, 206, 148, 0.18);
+  pointer-events: none;
+  z-index: 1;
+  user-select: none;
+}
+.nc-badge-emblem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  flex-shrink: 0;
+  padding: 16px 14px 16px 18px;
+  filter: drop-shadow(0 0 8px rgba(231, 206, 148, 0.25));
+  transition: filter 480ms ease;
+}
+.nc-badge:hover .nc-badge-emblem {
+  filter: drop-shadow(0 0 14px rgba(231, 206, 148, 0.55));
+}
+.nc-badge-divide {
+  display: block;
+  width: 1px;
+  margin: 16px 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(231, 206, 148, 0.35) 50%,
+    transparent 100%
+  );
+  flex-shrink: 0;
+}
+.nc-badge-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 14px 18px 14px 16px;
+  flex: 1;
+}
+
+/* Stamp pill — kept for backwards reference, no longer used. */
 .nc-stamp {
   background:
     /* faint guilloché — diagonal hatching at very low opacity */
