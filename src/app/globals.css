@@ -875,7 +875,8 @@ html { scroll-padding-top: 80px; }
 /* Vertical hairline separator — used inline between footer policy
    links so the "On the shelf" row reads as discrete entries rather
    than a run-on sentence. Fades top + bottom to dissolve at the
-   tracking edges of the surrounding mono caps. */
+   tracking edges of the surrounding mono caps. Painted in the Nexus
+   primary violet so the rule belongs to the brand, not the credential. */
 .nc-sep-v {
   display: inline-block;
   width: 1px;
@@ -884,9 +885,9 @@ html { scroll-padding-top: 80px; }
   background: linear-gradient(
     180deg,
     transparent 0%,
-    rgba(231, 206, 148, 0.35) 35%,
-    rgba(231, 206, 148, 0.5) 50%,
-    rgba(231, 206, 148, 0.35) 65%,
+    rgba(125, 90, 255, 0.35) 35%,
+    rgba(125, 90, 255, 0.55) 50%,
+    rgba(125, 90, 255, 0.35) 65%,
     transparent 100%
   );
   pointer-events: none;
