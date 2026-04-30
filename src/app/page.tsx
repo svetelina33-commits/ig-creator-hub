@@ -30,7 +30,7 @@ export default async function Home() {
 
       <main>
         {/* ===== HERO ===== */}
-        <section className="relative px-5 sm:px-10 pt-12 sm:pt-28 pb-16 sm:pb-28 overflow-hidden">
+        <section className="relative px-5 sm:px-10 pt-12 sm:pt-28 pb-16 sm:pb-28 overflow-x-clip">
           <AmbientOrbs />
           <div className="mx-auto max-w-7xl relative">
             <Reveal className="mb-8">
@@ -324,7 +324,7 @@ export default async function Home() {
         </section>
 
         {/* ===== APPLY ===== */}
-        <section id="apply" className="px-5 sm:px-10 py-14 sm:py-24 relative overflow-hidden">
+        <section id="apply" className="px-5 sm:px-10 py-14 sm:py-24 relative overflow-x-clip">
           <span className="ambient-glow" aria-hidden />
           <div className="mx-auto max-w-5xl grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
             <Reveal className="lg:col-span-5">
