@@ -131,15 +131,15 @@ export function Footer() {
                 className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full font-mono-numeric text-[9.5px] tracking-[0.22em] uppercase"
                 style={{
                   background:
-                    "linear-gradient(90deg, rgba(231,206,148,0.05), rgba(231,206,148,0.09), rgba(231,206,148,0.05))",
-                  boxShadow: "inset 0 0 0 1px rgba(231,206,148,0.22)",
-                  color: "rgba(231,206,148,0.85)",
+                    "linear-gradient(90deg, rgba(125,90,255,0.06), rgba(125,90,255,0.12), rgba(125,90,255,0.06))",
+                  boxShadow: "inset 0 0 0 1px rgba(125,90,255,0.32)",
+                  color: "rgba(176,154,255,0.95)",
                 }}
               >
                 <span
                   aria-hidden
-                  className="block w-1 h-1 rounded-full bg-gold"
-                  style={{ boxShadow: "0 0 6px rgba(231,206,148,0.55)" }}
+                  className="block w-1 h-1 rounded-full bg-violet"
+                  style={{ boxShadow: "0 0 6px rgba(125,90,255,0.65)" }}
                 />
                 Singapore
               </span>

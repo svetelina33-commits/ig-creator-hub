@@ -894,45 +894,48 @@ html { scroll-padding-top: 80px; }
 }
 
 /* ───── Authorized-partner badge ─────
-   Rectangular emblem in the footer centerpiece. Premium-curious:
-   double hairline, animated top shimmer, four corner brackets, a
-   faint Roman-year watermark in the upper-right, the Instagram
-   glyph as the focal emblem on the left, and minimal stacked text
-   on the right. Reads as a postage seal, not a status badge. */
+   Same anatomy as before — postage-seal emblem with framed Instagram
+   glyph, minimal text, corner brackets, top shimmer, watermark — but
+   the gold is dialled back across every layer so the badge reads as
+   premium-quiet rather than premium-loud. Original alphas were too
+   saturated against a near-black field; these values keep the colour
+   identity (it is still gold) without the eye-burn at idle. Hover
+   restores most of the brightness, so the interactive state still
+   pays off. */
 .nc-badge {
   position: relative;
   background:
-    /* faint diagonal guilloche so the surface has texture */
+    /* even fainter diagonal guilloche */
     repeating-linear-gradient(
       135deg,
-      rgba(231, 206, 148, 0.05) 0px,
-      rgba(231, 206, 148, 0.05) 1px,
+      rgba(231, 206, 148, 0.028) 0px,
+      rgba(231, 206, 148, 0.028) 1px,
       transparent 1px,
       transparent 6px
     ),
-    /* subtle gold sheen along the inner field */
+    /* very subtle gold sheen along the inner field */
     radial-gradient(
       ellipse 120% 60% at 50% 0%,
-      rgba(231, 206, 148, 0.10),
-      rgba(231, 206, 148, 0.04) 50%,
+      rgba(231, 206, 148, 0.06),
+      rgba(231, 206, 148, 0.02) 50%,
       rgba(0, 0, 0, 0) 90%
     ),
     /* dark base */
-    linear-gradient(180deg, rgba(20, 18, 14, 0.8), rgba(12, 11, 9, 0.92));
+    linear-gradient(180deg, rgba(20, 18, 14, 0.85), rgba(12, 11, 9, 0.94));
   box-shadow:
-    inset 0 0 0 1px rgba(231, 206, 148, 0.32),
+    inset 0 0 0 1px rgba(231, 206, 148, 0.18),
     inset 0 0 0 5px rgba(231, 206, 148, 0.0),
-    inset 0 0 0 5.5px rgba(231, 206, 148, 0.07),
-    0 14px 36px -16px rgba(231, 206, 148, 0.22);
+    inset 0 0 0 5.5px rgba(231, 206, 148, 0.04),
+    0 14px 36px -18px rgba(231, 206, 148, 0.12);
   overflow: hidden;
   isolation: isolate;
 }
 .nc-badge:hover {
   box-shadow:
-    inset 0 0 0 1px rgba(231, 206, 148, 0.6),
+    inset 0 0 0 1px rgba(231, 206, 148, 0.4),
     inset 0 0 0 5px rgba(231, 206, 148, 0.0),
-    inset 0 0 0 5.5px rgba(231, 206, 148, 0.12),
-    0 18px 42px -16px rgba(231, 206, 148, 0.4);
+    inset 0 0 0 5.5px rgba(231, 206, 148, 0.08),
+    0 18px 42px -16px rgba(231, 206, 148, 0.26);
 }
 .nc-badge-shimmer {
   position: absolute;
@@ -942,25 +945,27 @@ html { scroll-padding-top: 80px; }
     90deg,
     transparent 0%,
     rgba(231, 206, 148, 0) 20%,
-    rgba(243, 224, 178, 0.95) 50%,
+    rgba(231, 206, 148, 0.55) 50%,
     rgba(231, 206, 148, 0) 80%,
     transparent 100%
   );
   background-size: 200% 100%;
-  animation: nc-stamp-shimmer 5.6s linear infinite;
+  animation: nc-stamp-shimmer 7.4s linear infinite;
   pointer-events: none;
   z-index: 2;
+  opacity: 0.7;
 }
 .nc-badge-corner {
   position: absolute;
   width: 8px;
   height: 8px;
-  border-color: rgba(231, 206, 148, 0.7);
+  border-color: rgba(231, 206, 148, 0.42);
   border-style: solid;
   border-width: 0;
   pointer-events: none;
   z-index: 2;
 }
+.nc-badge:hover .nc-badge-corner { border-color: rgba(231, 206, 148, 0.7); }
 .nc-badge-corner-tl { top: 7px; left: 7px;  border-top-width: 1px; border-left-width: 1px; }
 .nc-badge-corner-tr { top: 7px; right: 7px; border-top-width: 1px; border-right-width: 1px; }
 .nc-badge-corner-bl { bottom: 7px; left: 7px;  border-bottom-width: 1px; border-left-width: 1px; }
@@ -972,7 +977,7 @@ html { scroll-padding-top: 80px; }
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 7.5px;
   letter-spacing: 0.32em;
-  color: rgba(231, 206, 148, 0.18);
+  color: rgba(231, 206, 148, 0.12);
   pointer-events: none;
   z-index: 1;
   user-select: none;
@@ -984,11 +989,11 @@ html { scroll-padding-top: 80px; }
   width: 56px;
   flex-shrink: 0;
   padding: 16px 14px 16px 18px;
-  filter: drop-shadow(0 0 8px rgba(231, 206, 148, 0.25));
+  filter: drop-shadow(0 0 6px rgba(231, 206, 148, 0.14));
   transition: filter 480ms ease;
 }
 .nc-badge:hover .nc-badge-emblem {
-  filter: drop-shadow(0 0 14px rgba(231, 206, 148, 0.55));
+  filter: drop-shadow(0 0 12px rgba(231, 206, 148, 0.4));
 }
 .nc-badge-divide {
   display: block;
@@ -997,7 +1002,7 @@ html { scroll-padding-top: 80px; }
   background: linear-gradient(
     180deg,
     transparent 0%,
-    rgba(231, 206, 148, 0.35) 50%,
+    rgba(231, 206, 148, 0.22) 50%,
     transparent 100%
   );
   flex-shrink: 0;
