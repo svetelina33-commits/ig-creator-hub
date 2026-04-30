@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-type Star = {
+type Meteor = {
   x: number;
   y: number;
   vx: number;
@@ -12,19 +12,27 @@ type Star = {
   ttl: number;
   bright: number;
   size: number;
-  white: boolean;
+  drama: boolean;
+  igniteAt: number;
 };
 
-type Dust = {
+type StarPoint = {
   x: number;
   y: number;
-  vx: number;
-  vy: number;
   r: number;
   baseAlpha: number;
   phase: number;
   speed: number;
-  warm: boolean;
+};
+
+type BurstParticle = { vx: number; vy: number; r: number; alpha: number };
+
+type Burst = {
+  x: number;
+  y: number;
+  born: number;
+  ttl: number;
+  particles: BurstParticle[];
 };
 
 export function ShootingStars() {
@@ -56,62 +64,95 @@ export function ShootingStars() {
       typeof window.matchMedia === "function" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    const stars: Star[] = [];
-    const dust: Dust[] = [];
+    const stars: StarPoint[] = [];
+    const meteors: Meteor[] = [];
+    const bursts: Burst[] = [];
 
-    const dustCount = Math.min(80, Math.max(28, Math.floor((width * height) / 22000)));
-    for (let i = 0; i < dustCount; i++) {
-      dust.push({
+    // ── deep parallax field — barely-twinkling distant points
+    const starCount = Math.min(110, Math.floor((width * height) / 16000));
+    for (let i = 0; i < starCount; i++) {
+      stars.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.35) * 0.04,
-        vy: -Math.random() * 0.06 - 0.005,
-        r: Math.random() * 1.2 + 0.3,
-        baseAlpha: Math.random() * 0.32 + 0.05,
+        r: Math.random() * 0.7 + 0.25,
+        baseAlpha: Math.random() * 0.42 + 0.05,
         phase: Math.random() * Math.PI * 2,
-        speed: 0.0008 + Math.random() * 0.0014,
-        warm: Math.random() < 0.18,
+        speed: 0.0005 + Math.random() * 0.0014,
       });
     }
 
-    const spawnStar = () => {
-      const goLeft = Math.random() < 0.72;
-      const angleFromHoriz = (12 + Math.random() * 38) * (Math.PI / 180);
-      const speed = 7 + Math.random() * 8;
-      const len = 110 + Math.random() * 260;
-      const ttl = 900 + Math.random() * 1500;
-      const bright = 0.55 + Math.random() * 0.45;
-      const size = 1 + Math.random() * 1.6;
-      const white = Math.random() < 0.45;
+    const triggerBurst = (x: number, y: number, scale = 1) => {
+      const count = 32 + Math.floor(Math.random() * 18);
+      const particles: BurstParticle[] = [];
+      for (let i = 0; i < count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = (1.5 + Math.random() * 4.2) * scale;
+        particles.push({
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          r: Math.random() * 1.3 + 0.5,
+          alpha: 0.7 + Math.random() * 0.3,
+        });
+      }
+      bursts.push({
+        x,
+        y,
+        born: performance.now(),
+        ttl: 1200 + Math.random() * 700,
+        particles,
+      });
+    };
 
-      const vx = (goLeft ? -1 : 1) * speed * Math.cos(angleFromHoriz);
-      const vy = speed * Math.sin(angleFromHoriz);
+    const spawnMeteor = () => {
+      const drama = Math.random() < 0.28;
+      const goLeft = Math.random() < 0.7;
+      const angle = (18 + Math.random() * 32) * (Math.PI / 180);
+      const speed = drama ? 12 + Math.random() * 8 : 7 + Math.random() * 6;
+      const len = drama ? 220 + Math.random() * 220 : 120 + Math.random() * 180;
+      const ttl = drama ? 1400 + Math.random() * 700 : 1000 + Math.random() * 1100;
+      const bright = drama ? 0.9 + Math.random() * 0.1 : 0.55 + Math.random() * 0.3;
+      const size = drama ? 1.6 + Math.random() * 1.2 : 1 + Math.random() * 0.8;
+
+      const vx = (goLeft ? -1 : 1) * speed * Math.cos(angle);
+      const vy = speed * Math.sin(angle);
 
       let x: number;
       let y: number;
       if (goLeft) {
         if (Math.random() < 0.55) {
-          x = Math.random() * (width * 1.25);
-          y = -70;
+          x = Math.random() * width * 1.3;
+          y = -100;
         } else {
-          x = width + 70;
-          y = Math.random() * height * 0.65;
+          x = width + 100;
+          y = Math.random() * height * 0.6;
         }
       } else {
         if (Math.random() < 0.55) {
-          x = Math.random() * (width * 1.25) - width * 0.2;
-          y = -70;
+          x = Math.random() * width * 1.3 - width * 0.3;
+          y = -100;
         } else {
-          x = -70;
-          y = Math.random() * height * 0.65;
+          x = -100;
+          y = Math.random() * height * 0.6;
         }
       }
 
-      stars.push({ x, y, vx, vy, len, life: 0, ttl, bright, size, white });
+      meteors.push({
+        x,
+        y,
+        vx,
+        vy,
+        len,
+        life: 0,
+        ttl,
+        bright,
+        size,
+        drama,
+        igniteAt: drama ? ttl * (0.55 + Math.random() * 0.2) : -1,
+      });
     };
 
     let lastSpawn = 0;
-    let nextSpawnDelay = 600 + Math.random() * 1500;
+    let nextSpawnDelay = 1400 + Math.random() * 1700;
     let lastFrame = performance.now();
     let raf = 0;
 
@@ -121,112 +162,143 @@ export function ShootingStars() {
 
       ctx.clearRect(0, 0, width, height);
 
-      // ── drifting dust (base atmosphere)
-      for (const d of dust) {
-        d.x += d.vx * dt * 0.06;
-        d.y += d.vy * dt * 0.06;
-        d.phase += dt * d.speed;
-        if (d.y < -10) {
-          d.y = height + 10;
-          d.x = Math.random() * width;
-        }
-        if (d.x < -10) d.x = width + 10;
-        if (d.x > width + 10) d.x = -10;
-
-        const a = d.baseAlpha * (0.45 + 0.55 * Math.sin(d.phase));
+      // ── parallax field
+      for (const s of stars) {
+        s.phase += dt * s.speed;
+        const a = s.baseAlpha * (0.4 + 0.6 * Math.sin(s.phase));
         ctx.beginPath();
-        ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-        ctx.fillStyle = d.warm
-          ? `rgba(225, 200, 255, ${a})`
-          : `rgba(170, 140, 255, ${a})`;
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(180, 156, 255, ${a})`;
         ctx.fill();
       }
 
-      // ── spawn shooting stars
+      // ── spawn meteors
       if (!reduced) {
         lastSpawn += dt;
-        if (lastSpawn > nextSpawnDelay && stars.length < 11) {
-          spawnStar();
-          if (Math.random() < 0.18 && stars.length < 11) spawnStar();
+        if (lastSpawn > nextSpawnDelay && meteors.length < 5) {
+          spawnMeteor();
           lastSpawn = 0;
-          nextSpawnDelay = 600 + Math.random() * 1700;
+          nextSpawnDelay = 1300 + Math.random() * 1900;
         }
       }
 
-      // ── draw shooting stars (head + trail + glow)
-      for (let i = stars.length - 1; i >= 0; i--) {
-        const s = stars[i];
+      // ── meteors (single linear-gradient stroke per meteor: halo + core)
+      for (let i = meteors.length - 1; i >= 0; i--) {
+        const m = meteors[i];
         const step = dt / 16.67;
-        s.x += s.vx * step;
-        s.y += s.vy * step;
-        s.life += dt;
+        m.x += m.vx * step;
+        m.y += m.vy * step;
+        m.life += dt;
 
-        const p = s.life / s.ttl;
+        // drama meteors ignite mid-flight into a burst
+        if (m.drama && m.igniteAt > 0 && m.life >= m.igniteAt) {
+          triggerBurst(m.x, m.y, 1.25);
+          meteors.splice(i, 1);
+          continue;
+        }
+
+        const p = m.life / m.ttl;
         if (
           p >= 1 ||
-          s.y > height + s.len + 50 ||
-          s.x < -s.len - 50 ||
-          s.x > width + s.len + 50
+          m.y > height + m.len + 60 ||
+          m.x < -m.len - 60 ||
+          m.x > width + m.len + 60
         ) {
-          stars.splice(i, 1);
+          meteors.splice(i, 1);
           continue;
         }
 
         let env = 1;
-        if (p < 0.12) env = p / 0.12;
-        else if (p > 0.7) env = (1 - p) / 0.3;
-        const alpha = s.bright * env;
+        if (p < 0.1) env = p / 0.1;
+        else if (p > 0.78) env = (1 - p) / 0.22;
+        const alpha = m.bright * env;
 
-        const speedMag = Math.hypot(s.vx, s.vy);
-        const tailX = s.x - (s.vx / speedMag) * s.len;
-        const tailY = s.y - (s.vy / speedMag) * s.len;
+        const speedMag = Math.hypot(m.vx, m.vy);
+        const tailX = m.x - (m.vx / speedMag) * m.len;
+        const tailY = m.y - (m.vy / speedMag) * m.len;
 
-        // outer halo trail (soft, wide)
-        const halo = ctx.createLinearGradient(s.x, s.y, tailX, tailY);
-        halo.addColorStop(0, `rgba(170, 140, 255, ${alpha * 0.32})`);
-        halo.addColorStop(0.4, `rgba(125, 90, 255, ${alpha * 0.12})`);
-        halo.addColorStop(1, "rgba(125, 90, 255, 0)");
-        ctx.strokeStyle = halo;
-        ctx.lineWidth = s.size * 5.5;
+        // wide soft halo — single stroke
+        ctx.strokeStyle = `rgba(125, 90, 255, ${alpha * 0.16})`;
+        ctx.lineWidth = m.size * (m.drama ? 9 : 6);
         ctx.lineCap = "round";
         ctx.beginPath();
-        ctx.moveTo(s.x, s.y);
+        ctx.moveTo(m.x, m.y);
         ctx.lineTo(tailX, tailY);
         ctx.stroke();
 
-        // core trail (bright, sharp)
-        const core = ctx.createLinearGradient(s.x, s.y, tailX, tailY);
-        if (s.white) {
-          core.addColorStop(0, `rgba(255, 248, 255, ${alpha})`);
-          core.addColorStop(0.18, `rgba(200, 175, 255, ${alpha * 0.9})`);
-        } else {
-          core.addColorStop(0, `rgba(225, 210, 255, ${alpha})`);
-          core.addColorStop(0.18, `rgba(150, 115, 255, ${alpha * 0.95})`);
-        }
-        core.addColorStop(0.55, `rgba(125, 90, 255, ${alpha * 0.4})`);
+        // thin bright core — single linear-gradient stroke
+        const core = ctx.createLinearGradient(m.x, m.y, tailX, tailY);
+        core.addColorStop(0, `rgba(255, 248, 255, ${alpha})`);
+        core.addColorStop(0.16, `rgba(200, 175, 255, ${alpha * 0.95})`);
+        core.addColorStop(0.55, `rgba(125, 90, 255, ${alpha * 0.35})`);
         core.addColorStop(1, "rgba(125, 90, 255, 0)");
         ctx.strokeStyle = core;
-        ctx.lineWidth = s.size;
+        ctx.lineWidth = m.size * (m.drama ? 1.5 : 1);
         ctx.beginPath();
-        ctx.moveTo(s.x, s.y);
+        ctx.moveTo(m.x, m.y);
         ctx.lineTo(tailX, tailY);
         ctx.stroke();
 
         // glowing head
-        const headR = s.size * 7.5;
-        const headGrad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, headR);
-        if (s.white) {
-          headGrad.addColorStop(0, `rgba(255, 250, 255, ${alpha})`);
-          headGrad.addColorStop(0.32, `rgba(200, 170, 255, ${alpha * 0.55})`);
-        } else {
-          headGrad.addColorStop(0, `rgba(225, 210, 255, ${alpha})`);
-          headGrad.addColorStop(0.32, `rgba(150, 110, 255, ${alpha * 0.6})`);
-        }
+        const headR = m.size * (m.drama ? 7 : 5.5);
+        const headGrad = ctx.createRadialGradient(m.x, m.y, 0, m.x, m.y, headR);
+        headGrad.addColorStop(0, `rgba(255, 250, 255, ${alpha})`);
+        headGrad.addColorStop(0.32, `rgba(195, 170, 255, ${alpha * 0.55})`);
         headGrad.addColorStop(1, "rgba(125, 90, 255, 0)");
         ctx.fillStyle = headGrad;
         ctx.beginPath();
-        ctx.arc(s.x, s.y, headR, 0, Math.PI * 2);
+        ctx.arc(m.x, m.y, headR, 0, Math.PI * 2);
         ctx.fill();
+      }
+
+      // ── bursts (flash + radial debris with motion lines)
+      for (let i = bursts.length - 1; i >= 0; i--) {
+        const b = bursts[i];
+        const age = now - b.born;
+        if (age > b.ttl) {
+          bursts.splice(i, 1);
+          continue;
+        }
+        const p = age / b.ttl;
+        const env = 1 - p;
+
+        if (p < 0.18) {
+          const fp = p / 0.18;
+          const flashR = 32 + fp * 140;
+          const flashAlpha = (1 - fp) * 0.75;
+          const flashGrad = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, flashR);
+          flashGrad.addColorStop(0, `rgba(255, 250, 255, ${flashAlpha})`);
+          flashGrad.addColorStop(0.35, `rgba(195, 170, 255, ${flashAlpha * 0.5})`);
+          flashGrad.addColorStop(1, "rgba(125, 90, 255, 0)");
+          ctx.fillStyle = flashGrad;
+          ctx.beginPath();
+          ctx.arc(b.x, b.y, flashR, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        const expansion = age * 0.06;
+        for (const part of b.particles) {
+          const px = b.x + part.vx * expansion * 3;
+          const py = b.y + part.vy * expansion * 3 + p * p * 18;
+          const a = part.alpha * env * env;
+          const r = part.r * (1 - p * 0.4);
+
+          // motion-blur line trailing each particle
+          const tx = px - part.vx * 0.22;
+          const ty = py - part.vy * 0.22 + p * 1.5;
+          ctx.strokeStyle = `rgba(155, 115, 255, ${a * 0.45})`;
+          ctx.lineWidth = Math.max(0.5, r * 0.75);
+          ctx.lineCap = "round";
+          ctx.beginPath();
+          ctx.moveTo(tx, ty);
+          ctx.lineTo(px, py);
+          ctx.stroke();
+
+          ctx.beginPath();
+          ctx.arc(px, py, r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(225, 200, 255, ${a})`;
+          ctx.fill();
+        }
       }
 
       raf = requestAnimationFrame(frame);
@@ -264,8 +336,7 @@ export function ShootingStars() {
         height: "100vh",
         zIndex: 0,
         pointerEvents: "none",
-        mixBlendMode: "screen",
-        opacity: 0.92,
+        opacity: 0.58,
       }}
     />
   );
