@@ -10,6 +10,7 @@ import { CenteredRule, RunningHead, ToneChip } from "@/components/Ornaments";
 import { AmbientOrbs } from "@/components/AmbientOrbs";
 import { NexusSeal } from "@/components/NexusSeal";
 import { VerificationStrip } from "@/components/VerificationStrip";
+import { AuthorizedBadge } from "@/components/AuthorizedBadge";
 import SignupForm from "./SignupForm";
 
 export default async function Home() {
@@ -33,6 +34,12 @@ export default async function Home() {
         <section className="relative px-5 sm:px-10 pt-12 sm:pt-28 pb-16 sm:pb-28 overflow-x-clip">
           <AmbientOrbs />
           <div className="mx-auto max-w-7xl relative">
+            {/* Credential badge as the first-impression trust signal —
+                sits above the running head so a reader registers
+                "authorized partner" before the headline lands. */}
+            <Reveal className="mb-8">
+              <AuthorizedBadge />
+            </Reveal>
             <Reveal className="mb-8">
               <RunningHead
                 left="AN EDITORIAL — FOR CREATORS"
