@@ -164,8 +164,12 @@ export default async function Home() {
 
         <CenteredRule className="mx-auto max-w-7xl px-6 sm:px-10" />
 
-        {/* ===== MANIFESTO ===== */}
-        <section className="px-5 sm:px-10 py-14 sm:py-24 relative overflow-hidden">
+        {/* ===== MANIFESTO =====
+            overflow-x-clip prevents horizontal scroll without trapping the
+            ambient-glow-2 forest-tinted halo at the section bottom. The
+            glow's natural radial fade now dissolves past the section
+            boundary instead of getting clipped into a hard shadow line. */}
+        <section className="px-5 sm:px-10 py-14 sm:py-24 relative overflow-x-clip">
           <span className="ambient-glow-2" aria-hidden />
           <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-10">
             <Reveal className="lg:col-span-4">
