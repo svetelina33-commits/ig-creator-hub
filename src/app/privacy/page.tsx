@@ -104,7 +104,7 @@ export default function PrivacyPage() {
               <p>
                 Member records, encrypted access tokens, applications, campaigns, support
                 tickets, and withdrawal requests live in our primary database — Neon
-                Postgres on AWS, region <code className="font-mono-numeric text-forest">ap-south-1</code> (Mumbai).
+                Postgres on AWS, region <code className="font-mono-numeric text-forest">ap-southeast-1</code> (Singapore) — co-located with the registered office.
                 Daily encrypted snapshots are taken in the same region. Application
                 requests transit Vercel's global edge before reaching the database;
                 Vercel's cache windows are stated in our subprocessor list.

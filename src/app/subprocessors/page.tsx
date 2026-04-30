@@ -30,7 +30,7 @@ const SUBS: Sub[] = [
     purpose: "Primary application database (Postgres, serverless).",
     touches:
       "Member records, encrypted access tokens, applications, campaigns, support tickets, withdrawal requests.",
-    region: "AWS · ap-south-1 (primary), backups in same region",
+    region: "AWS · ap-southeast-1 (Singapore, primary), backups in same region",
     href: "https://neon.com/privacy-policy",
   },
   {
