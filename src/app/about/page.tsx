@@ -225,8 +225,22 @@ export default async function AboutPage() {
                   full name. A named editor is the single most premium addition to /about
                   per the credibility audit; a placeholder is shown until it is filled.
                 */}
-                <p className="mt-3 font-serif-italic text-3xl sm:text-4xl text-ink leading-tight">
-                  [ the founding editor ]
+                <p className="mt-3 font-serif-italic text-3xl sm:text-4xl leading-tight">
+                  <span
+                    /* Violet gradient signature — the editor's name reads
+                       as the colour signature of the publication, like ink
+                       on letterhead. Light-violet → primary → deep, on a
+                       diagonal so the stress lands on the descenders. */
+                    style={{
+                      background:
+                        "linear-gradient(135deg, rgba(176,154,255,0.98) 0%, rgba(125,90,255,0.95) 45%, rgba(99,70,216,0.85) 100%)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                    }}
+                  >
+                    [ the founding editor ]
+                  </span>
                 </p>
                 <p className="mt-2 small-caps text-[10px] tracking-[0.3em] text-ink-faint">
                   Founding editor · The Nexus Club Agency
