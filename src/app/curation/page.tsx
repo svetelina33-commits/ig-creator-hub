@@ -143,7 +143,7 @@ export default function CurationPage() {
           <Reveal>
             <header className="grid grid-cols-12 gap-6 mb-10">
               <div className="col-span-12 md:col-span-3">
-                <div className="small-caps text-[10px] tracking-[0.3em] text-gold/85">
+                <div className="small-caps text-[10px] tracking-[0.3em] text-violet/85">
                   § I · Tenets
                 </div>
               </div>
@@ -184,7 +184,7 @@ export default function CurationPage() {
                   }}
                 >
                   <div className="flex items-baseline justify-between mb-4">
-                    <span className="small-caps text-[10px] tracking-[0.3em] text-gold/75">
+                    <span className="small-caps text-[10px] tracking-[0.3em] text-violet/75">
                       Tenet § {p.k}
                     </span>
                     <span className="font-mono-numeric text-[10px] text-ink-faint">
@@ -210,7 +210,7 @@ export default function CurationPage() {
           <Reveal>
             <header className="grid grid-cols-12 gap-6 mb-12">
               <div className="col-span-12 md:col-span-3">
-                <div className="small-caps text-[10px] tracking-[0.3em] text-gold/85">
+                <div className="small-caps text-[10px] tracking-[0.3em] text-violet/85">
                   § II · Procedure
                 </div>
               </div>
@@ -274,7 +274,7 @@ export default function CurationPage() {
           <Reveal>
             <header className="grid grid-cols-12 gap-6 mb-10">
               <div className="col-span-12 md:col-span-3">
-                <div className="small-caps text-[10px] tracking-[0.3em] text-gold/85">
+                <div className="small-caps text-[10px] tracking-[0.3em] text-violet/85">
                   § III · Standard
                 </div>
               </div>
@@ -356,7 +356,7 @@ export default function CurationPage() {
         <section className="mx-auto max-w-4xl pb-24 pt-20">
           <Reveal>
             <header className="mb-10">
-              <div className="small-caps text-[10px] tracking-[0.3em] text-gold/85">
+              <div className="small-caps text-[10px] tracking-[0.3em] text-violet/85">
                 § IV · On the answer
               </div>
               <h2 className="mt-3 font-serif-display text-3xl sm:text-4xl md:text-5xl text-ink leading-[1.05]">

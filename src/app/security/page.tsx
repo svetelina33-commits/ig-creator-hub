@@ -228,7 +228,7 @@ export default function SecurityPage() {
           <Reveal>
             <header className="grid grid-cols-12 gap-6 mb-10">
               <div className="col-span-12 md:col-span-3">
-                <div className="small-caps text-[10px] tracking-[0.3em] text-gold/85">
+                <div className="small-caps text-[10px] tracking-[0.3em] text-violet/85">
                   § I · Posture
                 </div>
               </div>
@@ -280,7 +280,7 @@ export default function SecurityPage() {
           <Reveal>
             <header className="grid grid-cols-12 gap-6 mb-10">
               <div className="col-span-12 md:col-span-3">
-                <div className="small-caps text-[10px] tracking-[0.3em] text-gold/85">
+                <div className="small-caps text-[10px] tracking-[0.3em] text-violet/85">
                   § II · Scope
                 </div>
               </div>
@@ -363,7 +363,7 @@ export default function SecurityPage() {
         <section className="mx-auto max-w-5xl pb-24 pt-16">
           <Reveal>
             <header className="mb-8">
-              <div className="small-caps text-[10px] tracking-[0.3em] text-gold/85">
+              <div className="small-caps text-[10px] tracking-[0.3em] text-violet/85">
                 § III · Asks
               </div>
               <h2 className="mt-3 font-serif-display text-3xl sm:text-4xl md:text-5xl text-ink leading-[1.05]">
@@ -390,7 +390,7 @@ export default function SecurityPage() {
                   }}
                 >
                   <div className="grid grid-cols-[auto_1fr] gap-4 items-baseline">
-                    <span className="font-mono-numeric text-[11px] tracking-[0.18em] text-gold/65">
+                    <span className="font-mono-numeric text-[11px] tracking-[0.18em] text-violet/65">
                       § III·{String(i + 1).padStart(2, "0")}
                     </span>
                     <span className="text-[15.5px] leading-[1.7] text-ink-soft font-serif-book">

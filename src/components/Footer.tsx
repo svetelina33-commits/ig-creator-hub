@@ -86,7 +86,7 @@ export function Footer() {
             <a href="/dispatches" className="hover:text-ink transition-colors">
               DISPATCHES
             </a>
-            <a href="/trust" className="hover:text-ink transition-colors text-gold/85">
+            <a href="/trust" className="hover:text-ink transition-colors text-violet/85">
               TRUST
             </a>
             <a href="/help" className="hover:text-ink transition-colors">

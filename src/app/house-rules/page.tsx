@@ -197,7 +197,7 @@ export default function HouseRulesPage() {
             <Reveal key={c.code} delay={idx * 60}>
               <article className="grid grid-cols-12 gap-6 md:gap-10 hairline-top pt-12 pb-14">
                 <header className="col-span-12 md:col-span-3">
-                  <div className="small-caps text-[10px] tracking-[0.3em] text-gold/85">
+                  <div className="small-caps text-[10px] tracking-[0.3em] text-violet/85">
                     Chapter §{c.code}
                   </div>
                   <h2 className="mt-3 font-serif-display text-3xl sm:text-4xl text-ink leading-[1.05]">
@@ -215,7 +215,7 @@ export default function HouseRulesPage() {
                       key={a.n}
                       className="grid grid-cols-[auto_1fr] gap-5 sm:gap-6"
                     >
-                      <span className="font-mono-numeric text-[11px] tracking-[0.18em] text-gold/60 pt-[7px]">
+                      <span className="font-mono-numeric text-[11px] tracking-[0.18em] text-violet/60 pt-[7px]">
                         §{c.code}·{a.n}
                       </span>
                       <p className="text-[16.5px] leading-[1.75] text-ink-soft font-serif-book">

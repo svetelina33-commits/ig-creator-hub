@@ -52,7 +52,7 @@ export default async function HelpCenterPage() {
 
           <Reveal delay={120}>
             <h1 className="mt-10 font-serif-display text-[clamp(2.8rem,7vw,6rem)] leading-[0.92] tracking-tight text-ink">
-              How can <span className="font-serif-italic text-gold/95">we help.</span>
+              How can <span className="font-serif-italic text-violet/95">we help.</span>
             </h1>
           </Reveal>
 
@@ -78,7 +78,7 @@ export default async function HelpCenterPage() {
           <Reveal>
             <div className="flex items-baseline justify-between gap-4 mb-6">
               <div className="flex items-baseline gap-3">
-                <span className="font-mono-numeric text-[10px] tracking-[0.3em] text-gold/70">
+                <span className="font-mono-numeric text-[10px] tracking-[0.3em] text-violet/70">
                   ◆
                 </span>
                 <h2 className="small-caps text-[12px] tracking-[0.3em] text-ink-muted">
@@ -104,16 +104,16 @@ export default async function HelpCenterPage() {
                         background:
                           "linear-gradient(180deg, rgba(20,18,14,0.7) 0%, rgba(12,11,9,0.85) 100%)",
                         boxShadow:
-                          "inset 0 1px 0 rgba(231,206,148,0.08), 0 0 0 1px rgba(231,206,148,0.12)",
+                          "inset 0 1px 0 rgba(125,90,255,0.08), 0 0 0 1px rgba(125,90,255,0.12)",
                       }}
                     >
                       <div className="flex items-baseline justify-between gap-3 mb-4">
-                        <span className="small-caps text-[9.5px] tracking-[0.3em] text-gold/70">
+                        <span className="small-caps text-[9.5px] tracking-[0.3em] text-violet/70">
                           §{cat.number} · {cat.name}
                         </span>
                         <span
                           aria-hidden
-                          className="font-mono-numeric text-[10px] text-ink-faint group-hover:text-gold transition-colors"
+                          className="font-mono-numeric text-[10px] text-ink-faint group-hover:text-violet transition-colors"
                         >
                           ↗
                         </span>
@@ -138,7 +138,7 @@ export default async function HelpCenterPage() {
             <div className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-4 items-end mb-10">
               <div className="md:col-span-7">
                 <div className="flex items-baseline gap-3">
-                  <span className="font-mono-numeric text-[10px] tracking-[0.3em] text-gold/70">
+                  <span className="font-mono-numeric text-[10px] tracking-[0.3em] text-violet/70">
                     ◆
                   </span>
                   <span className="small-caps text-[10px] tracking-[0.3em] text-ink-faint">
@@ -173,7 +173,7 @@ export default async function HelpCenterPage() {
                         className="font-serif-display text-[44px] leading-none tracking-tight"
                         style={{
                           background:
-                            "linear-gradient(180deg, rgba(243,224,178,0.95) 0%, rgba(208,155,79,0.55) 100%)",
+                            "linear-gradient(180deg, rgba(176,154,255,0.95) 0%, rgba(99,70,216,0.55) 100%)",
                           WebkitBackgroundClip: "text",
                           WebkitTextFillColor: "transparent",
                           backgroundClip: "text",
@@ -185,14 +185,14 @@ export default async function HelpCenterPage() {
                         <h3 className="font-serif-display text-[22px] sm:text-[24px] text-ink leading-[1.2]">
                           {cat.name}
                         </h3>
-                        <p className="mt-1 small-caps text-[10px] tracking-[0.3em] text-gold/65">
+                        <p className="mt-1 small-caps text-[10px] tracking-[0.3em] text-violet/65">
                           {cat.kicker}
                         </p>
                         <p className="mt-3 text-[13.5px] leading-[1.55] text-ink-muted font-serif-book max-w-md">
                           {cat.description}
                         </p>
                       </div>
-                      <span className="font-mono-numeric text-[10px] tracking-[0.2em] text-ink-faint group-hover:text-gold transition-colors">
+                      <span className="font-mono-numeric text-[10px] tracking-[0.2em] text-ink-faint group-hover:text-violet transition-colors">
                         {String(count).padStart(2, "0")} →
                       </span>
                     </div>
@@ -206,11 +206,11 @@ export default async function HelpCenterPage() {
         {/* ════════════ Still need help ════════════ */}
         <section className="mx-auto max-w-4xl py-20 text-center">
           <Reveal>
-            <span className="small-caps text-[10px] tracking-[0.32em] text-gold/70">
+            <span className="small-caps text-[10px] tracking-[0.32em] text-violet/70">
               Couldn&apos;t find it?
             </span>
             <h2 className="mt-3 font-serif-display text-[40px] sm:text-[52px] leading-[0.96] text-ink">
-              Write to <span className="font-serif-italic text-gold/95">the editor.</span>
+              Write to <span className="font-serif-italic text-violet/95">the editor.</span>
             </h2>
             <p className="mt-5 max-w-xl mx-auto text-[15px] leading-[1.7] text-ink-muted font-serif-book">
               The desk reads every message. Replies typically land within twenty-four to

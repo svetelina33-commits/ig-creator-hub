@@ -114,7 +114,7 @@ export default function DisputesPage() {
                     <div className="col-span-12 md:col-span-3">
                       <div
                         className={`small-caps text-[10px] tracking-[0.3em] ${
-                          isGuarantee ? "text-forest" : "text-gold/85"
+                          isGuarantee ? "text-forest" : "text-violet/85"
                         }`}
                       >
                         Step {s.n}
@@ -124,7 +124,7 @@ export default function DisputesPage() {
                         style={{
                           background: isGuarantee
                             ? "linear-gradient(180deg, rgba(95,225,214,0.95) 0%, rgba(60,196,184,0.6) 100%)"
-                            : "linear-gradient(180deg, rgba(243,224,178,0.92) 0%, rgba(208,155,79,0.6) 100%)",
+                            : "linear-gradient(180deg, rgba(176,154,255,0.92) 0%, rgba(99,70,216,0.6) 100%)",
                           WebkitBackgroundClip: "text",
                           WebkitTextFillColor: "transparent",
                           backgroundClip: "text",
@@ -179,7 +179,7 @@ export default function DisputesPage() {
           <Reveal>
             <header className="grid grid-cols-12 gap-6 mb-10">
               <div className="col-span-12 md:col-span-3">
-                <div className="small-caps text-[10px] tracking-[0.3em] text-gold/85">
+                <div className="small-caps text-[10px] tracking-[0.3em] text-violet/85">
                   § II · Pace
                 </div>
               </div>

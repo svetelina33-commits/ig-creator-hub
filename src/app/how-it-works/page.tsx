@@ -112,16 +112,16 @@ export default async function HowItWorksPage() {
                         className="mt-5 inline-flex items-start gap-2.5 px-3.5 py-2 rounded-full"
                         style={{
                           background:
-                            "linear-gradient(90deg, rgba(231,206,148,0.04), rgba(231,206,148,0.08), rgba(231,206,148,0.04))",
-                          boxShadow: "inset 0 0 0 1px rgba(231,206,148,0.25)",
+                            "linear-gradient(90deg, rgba(125,90,255,0.05), rgba(125,90,255,0.10), rgba(125,90,255,0.05))",
+                          boxShadow: "inset 0 0 0 1px rgba(125,90,255,0.32)",
                         }}
                       >
                         <span
                           aria-hidden
-                          className="mt-[6px] block w-1 h-1 rounded-full bg-gold shrink-0"
-                          style={{ boxShadow: "0 0 6px rgba(231,206,148,0.55)" }}
+                          className="mt-[6px] block w-1 h-1 rounded-full bg-violet shrink-0"
+                          style={{ boxShadow: "0 0 6px rgba(125,90,255,0.65)" }}
                         />
-                        <span className="text-[11px] small-caps tracking-[0.2em] text-gold/90 leading-[1.5]">
+                        <span className="text-[11px] small-caps tracking-[0.2em] text-violet/90 leading-[1.5]">
                           {s.note}
                         </span>
                       </span>
@@ -212,17 +212,23 @@ export default async function HowItWorksPage() {
                   <div className="small-caps text-[10px] tracking-[0.3em] text-forest">
                     The creator receives
                   </div>
-                  <div
-                    className="mt-3 font-serif-display text-5xl leading-none"
-                    style={{
-                      background:
-                        "linear-gradient(180deg, rgba(95,225,214,0.95) 0%, rgba(60,196,184,0.6) 100%)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      backgroundClip: "text",
-                    }}
-                  >
-                    85<span className="opacity-70 text-3xl align-top">%</span>
+                  <div className="mt-3 font-serif-display text-5xl leading-none">
+                    {/* Gradient is scoped to the "85" span — the outer
+                        text-fill-color: transparent was eating the % sign
+                        because its inner span had no background of its
+                        own to clip. % now renders in solid forest. */}
+                    <span
+                      style={{
+                        background:
+                          "linear-gradient(180deg, rgba(95,225,214,0.95) 0%, rgba(60,196,184,0.6) 100%)",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        backgroundClip: "text",
+                      }}
+                    >
+                      85
+                    </span>
+                    <span className="text-forest/70 text-3xl align-top">%</span>
                   </div>
                   <p className="mt-4 text-[14px] leading-[1.65] text-ink-muted font-serif-book">
                     Stated upfront in the brief. Paid via Stripe Connect. Day-fifteen

@@ -107,14 +107,14 @@ export default function CodeOfConductPage() {
               <Reveal key={s.n} delay={idx * 70}>
                 <li className="grid grid-cols-12 gap-6 md:gap-10 hairline-top pt-9">
                   <div className="col-span-12 md:col-span-3">
-                    <div className="small-caps text-[10px] tracking-[0.3em] text-gold/85">
+                    <div className="small-caps text-[10px] tracking-[0.3em] text-violet/85">
                       Step {s.n}
                     </div>
                     <div
                       className="mt-2 font-serif-display text-[4.6rem] leading-none tracking-tight"
                       style={{
                         background:
-                          "linear-gradient(180deg, rgba(243,224,178,0.92) 0%, rgba(208,155,79,0.65) 100%)",
+                          "linear-gradient(180deg, rgba(176,154,255,0.92) 0%, rgba(99,70,216,0.65) 100%)",
                         WebkitBackgroundClip: "text",
                         WebkitTextFillColor: "transparent",
                         backgroundClip: "text",

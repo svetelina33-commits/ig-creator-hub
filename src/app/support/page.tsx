@@ -61,17 +61,17 @@ export default async function SupportPage() {
               background:
                 "linear-gradient(180deg, rgba(20,18,14,0.7) 0%, rgba(12,11,9,0.85) 100%)",
               boxShadow:
-                "inset 0 1px 0 rgba(231,206,148,0.08), 0 0 0 1px rgba(231,206,148,0.18)",
+                "inset 0 1px 0 rgba(125,90,255,0.08), 0 0 0 1px rgba(125,90,255,0.18)",
             }}
           >
             <div className="flex items-center justify-between gap-4 flex-wrap">
               <div className="min-w-0">
-                <span className="small-caps text-[10px] tracking-[0.3em] text-gold/75">
+                <span className="small-caps text-[10px] tracking-[0.3em] text-violet/75">
                   ◆ Faster · check the help center first
                 </span>
                 <p className="mt-1.5 font-serif-display text-[18px] sm:text-[20px] text-ink leading-[1.25]">
                   Answers to most questions live at{" "}
-                  <span className="font-serif-italic text-gold/95">/help</span>.
+                  <span className="font-serif-italic text-violet/95">/help</span>.
                 </p>
                 <p className="mt-1 text-[12.5px] text-ink-muted">
                   Connecting Instagram, payouts, revoking access, and more — already written.
@@ -79,7 +79,7 @@ export default async function SupportPage() {
               </div>
               <span
                 aria-hidden
-                className="small-caps text-[10px] tracking-[0.3em] text-gold/85 group-hover:text-gold transition-colors whitespace-nowrap"
+                className="small-caps text-[10px] tracking-[0.3em] text-violet/85 group-hover:text-violet transition-colors whitespace-nowrap"
               >
                 Open help center →
               </span>
@@ -96,7 +96,7 @@ export default async function SupportPage() {
                     boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.07)",
                   }}
                 >
-                  <span aria-hidden className="text-gold/55">●</span>
+                  <span aria-hidden className="text-violet/55">●</span>
                   {a.title}
                 </li>
               ))}

@@ -128,10 +128,10 @@ export default function CopyrightPage() {
                   background:
                     "linear-gradient(180deg, rgba(20,18,14,0.7) 0%, rgba(12,11,9,0.85) 100%)",
                   boxShadow:
-                    "inset 0 1px 0 rgba(231,206,148,0.08), 0 0 0 1px rgba(231,206,148,0.1)",
+                    "inset 0 1px 0 rgba(125,90,255,0.08), 0 0 0 1px rgba(125,90,255,0.1)",
                 }}
               >
-                <div className="small-caps text-[10px] tracking-[0.3em] text-gold/75 mb-3">
+                <div className="small-caps text-[10px] tracking-[0.3em] text-violet/75 mb-3">
                   Designated Agent
                 </div>
                 <div className="font-serif-display text-xl text-ink leading-tight">

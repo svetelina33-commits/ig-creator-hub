@@ -114,7 +114,7 @@ export default function StandardsPage() {
           <Reveal>
             <header className="grid grid-cols-12 gap-6 mb-10">
               <div className="col-span-12 md:col-span-3">
-                <div className="small-caps text-[10px] tracking-[0.3em] text-gold/85">
+                <div className="small-caps text-[10px] tracking-[0.3em] text-violet/85">
                   § I · Disclosure
                 </div>
               </div>
@@ -183,7 +183,7 @@ export default function StandardsPage() {
           <Reveal>
             <header className="grid grid-cols-12 gap-6 mb-10">
               <div className="col-span-12 md:col-span-3">
-                <div className="small-caps text-[10px] tracking-[0.3em] text-gold/85">
+                <div className="small-caps text-[10px] tracking-[0.3em] text-violet/85">
                   § II · Jurisdiction
                 </div>
               </div>
@@ -265,7 +265,7 @@ export default function StandardsPage() {
           <Reveal>
             <header className="grid grid-cols-12 gap-6 mb-12">
               <div className="col-span-12 md:col-span-3">
-                <div className="small-caps text-[10px] tracking-[0.3em] text-gold/85">
+                <div className="small-caps text-[10px] tracking-[0.3em] text-violet/85">
                   § III · Briefs
                 </div>
               </div>

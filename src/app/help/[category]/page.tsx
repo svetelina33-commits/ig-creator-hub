@@ -69,7 +69,7 @@ export default async function CategoryPage({ params }: Props) {
                   className="font-serif-display text-[clamp(4.5rem,11vw,8.5rem)] leading-[0.9] tracking-tight block mb-4"
                   style={{
                     background:
-                      "linear-gradient(180deg, rgba(243,224,178,0.95) 0%, rgba(208,155,79,0.55) 100%)",
+                      "linear-gradient(180deg, rgba(176,154,255,0.95) 0%, rgba(99,70,216,0.55) 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -81,11 +81,11 @@ export default async function CategoryPage({ params }: Props) {
               <Reveal delay={240}>
                 <h1 className="font-serif-display text-[clamp(2.4rem,5.6vw,4.4rem)] leading-[0.95] tracking-tight text-ink">
                   {cat.name}
-                  <span className="text-gold/95">.</span>
+                  <span className="text-violet/95">.</span>
                 </h1>
               </Reveal>
               <Reveal delay={360}>
-                <p className="mt-3 small-caps text-[10px] tracking-[0.32em] text-gold/65">
+                <p className="mt-3 small-caps text-[10px] tracking-[0.32em] text-violet/65">
                   {cat.kicker}
                 </p>
               </Reveal>
@@ -103,7 +103,7 @@ export default async function CategoryPage({ params }: Props) {
           <section className="mx-auto max-w-5xl pb-12">
             <Reveal>
               <div className="flex items-baseline justify-between gap-4 mb-5">
-                <span className="small-caps text-[10px] tracking-[0.3em] text-gold/70">
+                <span className="small-caps text-[10px] tracking-[0.3em] text-violet/70">
                   ◆ Most-read in this section
                 </span>
               </div>
@@ -169,7 +169,7 @@ export default async function CategoryPage({ params }: Props) {
                     boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.07)",
                   }}
                 >
-                  <span className="font-mono-numeric text-[10px] tracking-[0.2em] text-gold/65">
+                  <span className="font-mono-numeric text-[10px] tracking-[0.2em] text-violet/65">
                     §{c.number}
                   </span>
                   {c.name}
@@ -181,11 +181,11 @@ export default async function CategoryPage({ params }: Props) {
 
         {/* Still need help */}
         <section className="mx-auto max-w-3xl py-16 text-center">
-          <p className="small-caps text-[10px] tracking-[0.3em] text-gold/65">
+          <p className="small-caps text-[10px] tracking-[0.3em] text-violet/65">
             Still stuck?
           </p>
           <h2 className="mt-3 font-serif-display text-[32px] sm:text-[40px] leading-[1] text-ink">
-            Write to <span className="font-serif-italic text-gold/95">the editor.</span>
+            Write to <span className="font-serif-italic text-violet/95">the editor.</span>
           </h2>
           <div className="mt-7 flex items-center justify-center gap-4 flex-wrap">
             <Link
@@ -223,7 +223,7 @@ function ArticleRow({
       style={{
         background: "rgba(14,12,10,0.78)",
         boxShadow: featured
-          ? "inset 0 0 0 1px rgba(231,206,148,0.22), 0 0 0 1px rgba(231,206,148,0.08)"
+          ? "inset 0 0 0 1px rgba(125,90,255,0.22), 0 0 0 1px rgba(125,90,255,0.08)"
           : "inset 0 0 0 1px rgba(255,255,255,0.07)",
       }}
     >
@@ -237,7 +237,7 @@ function ArticleRow({
         </h3>
         <span
           aria-hidden
-          className="font-mono-numeric text-[11px] text-ink-faint group-hover:text-gold transition-colors shrink-0"
+          className="font-mono-numeric text-[11px] text-ink-faint group-hover:text-violet transition-colors shrink-0"
         >
           →
         </span>

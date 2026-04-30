@@ -33,7 +33,7 @@ const CHAPTERS: {
     title: (
       <>
         On the{" "}
-        <span className="font-serif-italic text-gold/95">name</span> at the door.
+        <span className="font-serif-italic text-violet/95">name</span> at the door.
       </>
     ),
     preface:
@@ -54,7 +54,7 @@ const CHAPTERS: {
     title: (
       <>
         On the{" "}
-        <span className="font-serif-italic text-gold/95">data</span>, plainly.
+        <span className="font-serif-italic text-violet/95">data</span>, plainly.
       </>
     ),
     preface:
@@ -119,7 +119,7 @@ const CHAPTERS: {
     title: (
       <>
         On the{" "}
-        <span className="font-serif-italic text-gold/95">manners</span> of the room.
+        <span className="font-serif-italic text-violet/95">manners</span> of the room.
       </>
     ),
     preface:
@@ -171,7 +171,7 @@ const CHAPTERS: {
     title: (
       <>
         On{" "}
-        <span className="font-serif-italic text-gold/95">honest labelling</span>.
+        <span className="font-serif-italic text-violet/95">honest labelling</span>.
       </>
     ),
     preface:
@@ -269,7 +269,7 @@ export default function TrustPage() {
               >
                 <div className="flex items-center justify-between gap-3 mb-5">
                   <NexusSeal size="sm" />
-                  <span className="font-serif-italic text-gold/55 text-lg">×</span>
+                  <span className="font-serif-italic text-violet/55 text-lg">×</span>
                   <MetaSeal size="sm" />
                 </div>
                 <div className="small-caps text-[10px] tracking-[0.32em] text-violet/85 mb-2">
@@ -296,7 +296,7 @@ export default function TrustPage() {
             <Reveal key={chapter.code} delay={idx * 60}>
               <article className="grid grid-cols-12 gap-6 md:gap-12 hairline-top pt-12 pb-14">
                 <header className="col-span-12 md:col-span-4">
-                  <div className="small-caps text-[10px] tracking-[0.3em] text-gold/85">
+                  <div className="small-caps text-[10px] tracking-[0.3em] text-violet/85">
                     Chapter §{chapter.code}
                   </div>
                   <div className="mt-1 font-mono-numeric text-[10px] tracking-[0.22em] text-ink-faint uppercase">
@@ -327,7 +327,7 @@ export default function TrustPage() {
                           §{chapter.code}·{String(di + 1).padStart(2, "0")}
                         </span>
                         {doc.tag && (
-                          <span className="font-mono-numeric text-[9.5px] tracking-[0.22em] text-gold/85 uppercase">
+                          <span className="font-mono-numeric text-[9.5px] tracking-[0.22em] text-violet/85 uppercase">
                             {doc.tag}
                           </span>
                         )}

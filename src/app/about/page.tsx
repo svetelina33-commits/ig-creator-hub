@@ -159,7 +159,7 @@ export default async function AboutPage() {
                         : t.a === "forest"
                           ? "text-forest"
                           : t.a === "gold"
-                            ? "text-gold"
+                            ? "text-violet"
                             : "text-ink"
                     }`}
                   >

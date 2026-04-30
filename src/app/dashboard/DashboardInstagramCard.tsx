@@ -283,7 +283,7 @@ function StandardsLedger() {
                 {String(i + 1).padStart(2, "0")} / {String(STANDARDS.length).padStart(2, "0")}
               </span>
             </div>
-            <div className={`text-[13.5px] leading-[1.45] font-serif-book ${s.tone === "gold" ? "text-gold" : "text-ink-soft"}`}>
+            <div className={`text-[13.5px] leading-[1.45] font-serif-book ${s.tone === "gold" ? "text-violet" : "text-ink-soft"}`}>
               {s.tone === "gold" && <span aria-hidden className="mr-1.5">◆</span>}
               {s.body}
             </div>
@@ -303,7 +303,7 @@ function StandardsLedger() {
             <div className="small-caps text-[9.5px] tracking-[0.28em] text-ink-faint">
               {s.kicker}
             </div>
-            <div className={`mt-1 text-[12.5px] leading-[1.45] ${s.tone === "gold" ? "text-gold" : "text-ink-soft"}`}>
+            <div className={`mt-1 text-[12.5px] leading-[1.45] ${s.tone === "gold" ? "text-violet" : "text-ink-soft"}`}>
               {s.tone === "gold" && <span aria-hidden className="mr-1.5">◆</span>}
               {s.body}
             </div>

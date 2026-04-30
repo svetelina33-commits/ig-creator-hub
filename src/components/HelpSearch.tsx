@@ -30,7 +30,7 @@ export function HelpSearch({ articles }: { articles: Searchable[] }) {
         style={{
           background: "rgba(20,18,14,0.7)",
           boxShadow:
-            "inset 0 0 0 1px rgba(231,206,148,0.18), 0 20px 60px -30px rgba(0,0,0,0.7)",
+            "inset 0 0 0 1px rgba(125,90,255,0.18), 0 20px 60px -30px rgba(0,0,0,0.7)",
         }}
       >
         <SearchGlyph />
@@ -62,7 +62,7 @@ export function HelpSearch({ articles }: { articles: Searchable[] }) {
                solid background hides the layer underneath unconditionally. */
             background: "rgb(14, 12, 10)",
             boxShadow:
-              "inset 0 0 0 1px rgba(231,206,148,0.22), 0 30px 80px -20px rgba(0,0,0,0.85), 0 0 0 100vmax rgba(0,0,0,0.001)",
+              "inset 0 0 0 1px rgba(125,90,255,0.22), 0 30px 80px -20px rgba(0,0,0,0.85), 0 0 0 100vmax rgba(0,0,0,0.001)",
           }}
         >
           {results.map((r) => (
@@ -80,7 +80,7 @@ export function HelpSearch({ articles }: { articles: Searchable[] }) {
                       {r.excerpt}
                     </div>
                   </div>
-                  <span className="small-caps text-[9px] tracking-[0.32em] text-gold/70 shrink-0 group-hover:text-gold transition-colors">
+                  <span className="small-caps text-[9px] tracking-[0.32em] text-violet/70 shrink-0 group-hover:text-violet transition-colors">
                     {r.category}
                   </span>
                 </div>
@@ -96,7 +96,7 @@ export function HelpSearch({ articles }: { articles: Searchable[] }) {
           style={{
             background: "rgb(14, 12, 10)",
             boxShadow:
-              "inset 0 0 0 1px rgba(231,206,148,0.22), 0 30px 80px -20px rgba(0,0,0,0.85)",
+              "inset 0 0 0 1px rgba(125,90,255,0.22), 0 30px 80px -20px rgba(0,0,0,0.85)",
           }}
         >
           No articles match{" "}
@@ -104,7 +104,7 @@ export function HelpSearch({ articles }: { articles: Searchable[] }) {
           word, or write to{" "}
           <a
             href="mailto:support@thenexusclub.org"
-            className="text-gold/90 underline underline-offset-4 decoration-gold/40 hover:decoration-gold"
+            className="text-violet/90 underline underline-offset-4 decoration-violet/40 hover:decoration-violet"
           >
             support
           </a>
@@ -123,7 +123,7 @@ function SearchGlyph() {
       viewBox="0 0 24 24"
       fill="none"
       aria-hidden
-      className="shrink-0 text-gold/70"
+      className="shrink-0 text-violet/70"
     >
       <circle cx="11" cy="11" r="6.5" stroke="currentColor" strokeWidth="1.5" />
       <path

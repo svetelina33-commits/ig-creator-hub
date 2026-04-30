@@ -107,12 +107,12 @@ export default async function ArticlePage({ params }: Props) {
                 background:
                   "linear-gradient(180deg, rgba(20,18,14,0.7) 0%, rgba(12,11,9,0.85) 100%)",
                 boxShadow:
-                  "inset 0 1px 0 rgba(231,206,148,0.1), 0 0 0 1px rgba(231,206,148,0.16)",
+                  "inset 0 1px 0 rgba(125,90,255,0.1), 0 0 0 1px rgba(125,90,255,0.16)",
               }}
             >
               <div className="flex items-baseline justify-between gap-4 flex-wrap">
                 <div>
-                  <span className="small-caps text-[10px] tracking-[0.3em] text-gold/70">
+                  <span className="small-caps text-[10px] tracking-[0.3em] text-violet/70">
                     Was this helpful?
                   </span>
                   <p className="mt-2 font-serif-display text-[20px] sm:text-[22px] text-ink leading-tight">
@@ -138,7 +138,7 @@ export default async function ArticlePage({ params }: Props) {
         {related.length > 0 && (
           <section className="mx-auto max-w-3xl py-12 hairline-top">
             <Reveal>
-              <span className="small-caps text-[10px] tracking-[0.3em] text-gold/70 block mb-5">
+              <span className="small-caps text-[10px] tracking-[0.3em] text-violet/70 block mb-5">
                 ◆ Related articles
               </span>
             </Reveal>
@@ -157,12 +157,12 @@ export default async function ArticlePage({ params }: Props) {
                         }}
                       >
                         <div className="flex items-baseline justify-between gap-3 mb-1.5">
-                          <span className="small-caps text-[9.5px] tracking-[0.3em] text-gold/65">
+                          <span className="small-caps text-[9.5px] tracking-[0.3em] text-violet/65">
                             §{rcat.number} · {rcat.name}
                           </span>
                           <span
                             aria-hidden
-                            className="font-mono-numeric text-[10px] text-ink-faint group-hover:text-gold transition-colors"
+                            className="font-mono-numeric text-[10px] text-ink-faint group-hover:text-violet transition-colors"
                           >
                             →
                           </span>

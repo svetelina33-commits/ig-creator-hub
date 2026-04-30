@@ -27,7 +27,7 @@ function BlockRender({ block }: { block: Block }) {
         <ul className="space-y-2.5 pl-1">
           {block.items.map((item, i) => (
             <li key={i} className="grid grid-cols-[auto_1fr] gap-3 items-baseline">
-              <span aria-hidden className="text-gold/60 text-[10px] mt-[7px]">
+              <span aria-hidden className="text-violet/60 text-[10px] mt-[7px]">
                 ●
               </span>
               <span>{item}</span>
@@ -40,7 +40,7 @@ function BlockRender({ block }: { block: Block }) {
         <ol className="space-y-2.5 pl-1">
           {block.items.map((item, i) => (
             <li key={i} className="grid grid-cols-[auto_1fr] gap-3 items-baseline">
-              <span className="font-mono-numeric text-[11px] tracking-[0.18em] text-gold/65 w-7 shrink-0">
+              <span className="font-mono-numeric text-[11px] tracking-[0.18em] text-violet/65 w-7 shrink-0">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <span>{item}</span>
@@ -52,11 +52,11 @@ function BlockRender({ block }: { block: Block }) {
       const tone = block.tone ?? "ink";
       const palette = {
         gold: {
-          bg: "rgba(231,206,148,0.06)",
-          border: "rgba(231,206,148,0.28)",
+          bg: "rgba(125,90,255,0.06)",
+          border: "rgba(125,90,255,0.28)",
           text: "rgb(231 206 148 / 0.95)",
-          dot: "bg-gold",
-          dotShadow: "0 0 6px rgba(231,206,148,0.55)",
+          dot: "bg-violet",
+          dotShadow: "0 0 6px rgba(125,90,255,0.55)",
         },
         ink: {
           bg: "rgba(255,255,255,0.025)",
@@ -95,10 +95,10 @@ function BlockRender({ block }: { block: Block }) {
     }
     case "code":
       return (
-        <code className="block font-mono-numeric text-[12.5px] text-gold/85 px-3 py-2 rounded-md break-all"
+        <code className="block font-mono-numeric text-[12.5px] text-violet/85 px-3 py-2 rounded-md break-all"
           style={{
-            background: "rgba(231,206,148,0.05)",
-            boxShadow: "inset 0 0 0 1px rgba(231,206,148,0.2)",
+            background: "rgba(125,90,255,0.05)",
+            boxShadow: "inset 0 0 0 1px rgba(125,90,255,0.2)",
           }}
         >
           {block.text}
@@ -106,7 +106,7 @@ function BlockRender({ block }: { block: Block }) {
       );
     case "quote":
       return (
-        <blockquote className="border-l-2 border-gold/40 pl-5 italic text-ink-muted">
+        <blockquote className="border-l-2 border-violet/40 pl-5 italic text-ink-muted">
           {block.text}
           {block.cite && (
             <cite className="block mt-2 not-italic small-caps text-[10px] tracking-[0.28em] text-ink-faint">
