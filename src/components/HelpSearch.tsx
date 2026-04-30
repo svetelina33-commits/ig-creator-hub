@@ -54,12 +54,15 @@ export function HelpSearch({ articles }: { articles: Searchable[] }) {
 
       {results.length > 0 && (
         <ul
-          className="absolute left-0 right-0 mt-2 z-30 rounded-2xl overflow-hidden divide-y divide-white/5"
+          className="absolute left-0 right-0 mt-2 z-50 rounded-2xl overflow-hidden divide-y divide-white/5"
           style={{
-            background: "rgba(14,12,10,0.96)",
-            backdropFilter: "blur(20px)",
+            /* Fully opaque — Reveal's transform-based stacking contexts
+               break backdrop-filter on some browsers, which used to let
+               the popular-articles grid bleed through the dropdown. A
+               solid background hides the layer underneath unconditionally. */
+            background: "rgb(14, 12, 10)",
             boxShadow:
-              "inset 0 0 0 1px rgba(231,206,148,0.22), 0 30px 80px -20px rgba(0,0,0,0.85)",
+              "inset 0 0 0 1px rgba(231,206,148,0.22), 0 30px 80px -20px rgba(0,0,0,0.85), 0 0 0 100vmax rgba(0,0,0,0.001)",
           }}
         >
           {results.map((r) => (
@@ -89,10 +92,11 @@ export function HelpSearch({ articles }: { articles: Searchable[] }) {
 
       {q.trim().length > 0 && results.length === 0 && (
         <div
-          className="absolute left-0 right-0 mt-2 z-30 rounded-2xl px-5 py-4 text-[13px] text-ink-muted"
+          className="absolute left-0 right-0 mt-2 z-50 rounded-2xl px-5 py-4 text-[13px] text-ink-muted"
           style={{
-            background: "rgba(14,12,10,0.96)",
-            boxShadow: "inset 0 0 0 1px rgba(231,206,148,0.22)",
+            background: "rgb(14, 12, 10)",
+            boxShadow:
+              "inset 0 0 0 1px rgba(231,206,148,0.22), 0 30px 80px -20px rgba(0,0,0,0.85)",
           }}
         >
           No articles match{" "}

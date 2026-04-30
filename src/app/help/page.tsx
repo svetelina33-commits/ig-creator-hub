@@ -35,8 +35,13 @@ export default async function HelpCenterPage() {
       <main className="px-5 sm:px-10 relative">
         <span className="ambient-glow" aria-hidden />
 
-        {/* ════════════ Masthead + search ════════════ */}
-        <section className="mx-auto max-w-6xl pt-12 sm:pt-20 pb-12 relative">
+        {/* ════════════ Masthead + search ════════════
+            z-30 lifts this section above the popular-articles + categories
+            sections below, so the search dropdown's absolute children sit
+            on top of every page card while typing. Each Reveal creates a
+            transform-based stacking context that traps z-index inside it,
+            so the fix has to live on the section, not the dropdown. */}
+        <section className="mx-auto max-w-6xl pt-12 sm:pt-20 pb-12 relative z-30">
           <Reveal>
             <RunningHead
               left="HELP CENTER"
@@ -66,8 +71,10 @@ export default async function HelpCenterPage() {
           </Reveal>
         </section>
 
-        {/* ════════════ Popular articles ════════════ */}
-        <section className="mx-auto max-w-6xl pb-16">
+        {/* ════════════ Popular articles ════════════
+            relative z-10 keeps this below the search section's z-30 so
+            the dropdown overlays cleanly. */}
+        <section className="mx-auto max-w-6xl pb-16 relative z-10">
           <Reveal>
             <div className="flex items-baseline justify-between gap-4 mb-6">
               <div className="flex items-baseline gap-3">
@@ -126,7 +133,7 @@ export default async function HelpCenterPage() {
         </section>
 
         {/* ════════════ All categories ════════════ */}
-        <section className="mx-auto max-w-6xl pb-20 pt-10 hairline-top">
+        <section className="mx-auto max-w-6xl pb-20 pt-10 hairline-top relative z-10">
           <Reveal>
             <div className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-4 items-end mb-10">
               <div className="md:col-span-7">
