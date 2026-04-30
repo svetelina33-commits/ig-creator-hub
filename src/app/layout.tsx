@@ -9,7 +9,6 @@ import "./globals.css";
 import { GlobalChrome } from "@/components/GlobalChrome";
 import { MagneticAttach } from "@/components/MagneticAttach";
 import { CardInteractive } from "@/components/CardInteractive";
-import { ShootingStars } from "@/components/ShootingStars";
 import DesktopGate from "@/components/DesktopGate";
 
 /* Display: Newsreader (Production Type, OFL) — editorial serif with an
@@ -78,7 +77,6 @@ export default function RootLayout({
       className={`${newsreader.variable} ${instrumentSerif.variable} ${schibsted.variable} ${jetbrainsMono.variable} antialiased`}
     >
       <body className="min-h-screen">
-        <ShootingStars />
         <MagneticAttach />
         <CardInteractive />
         {children}
