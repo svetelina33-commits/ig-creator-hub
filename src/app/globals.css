@@ -1388,8 +1388,13 @@ html { scroll-padding-top: 80px; }
 .nc-press { transition: transform 160ms cubic-bezier(0.22, 1, 0.36, 1); }
 .nc-press:active { transform: scale(0.975); }
 
-/* ───── Card lift + cursor-aware spotlight + subtle tilt ───── */
+/* ───── Card lift + cursor-aware spotlight + subtle tilt ─────
+   Spotlight colour is driven by --nc-spot. The default is violet
+   (Nexus primary). Cards that are themed differently (gold credential
+   cards, forest commitment cards, etc.) override the variable so the
+   cursor halo matches the card's accent rather than fighting it. */
 .nc-card {
+  --nc-spot: rgba(125, 90, 255, 0.20);
   position: relative;
   transform: perspective(1200px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
   transition:
@@ -1406,7 +1411,7 @@ html { scroll-padding-top: 80px; }
   border-radius: inherit;
   background: radial-gradient(
     420px circle at var(--mx, 50%) var(--my, 50%),
-    rgba(125, 90, 255, 0.18),
+    var(--nc-spot),
     transparent 60%
   );
   opacity: 0;
@@ -1418,6 +1423,11 @@ html { scroll-padding-top: 80px; }
 .nc-card:hover {
   transform: perspective(1200px) translateY(-3px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
 }
+/* Per-theme spotlight overrides — apply alongside nc-card. */
+.nc-card.spot-gold       { --nc-spot: rgba(231, 206, 148, 0.22); }
+.nc-card.spot-forest     { --nc-spot: rgba(95, 225, 214, 0.22); }
+.nc-card.spot-vermillion { --nc-spot: rgba(255, 94, 103, 0.20); }
+.nc-card.spot-peach      { --nc-spot: rgba(255, 180, 148, 0.22); }
 @media (hover: none) {
   .nc-card { transform: none !important; }
   .nc-card::before { display: none; }

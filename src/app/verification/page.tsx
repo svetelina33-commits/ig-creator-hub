@@ -114,7 +114,7 @@ export default async function VerificationPage() {
             {META_APPROVAL.scopes.map((s, i) => (
               <li
                 key={s.handle}
-                className="nc-card relative overflow-hidden rounded-2xl"
+                className="nc-card spot-gold relative overflow-hidden rounded-2xl"
                 style={{
                   background:
                     "linear-gradient(180deg, rgba(20,18,14,0.85) 0%, rgba(12,11,9,0.92) 100%)",
@@ -347,7 +347,7 @@ export default async function VerificationPage() {
             </div>
             <div className="lg:col-span-5">
               <div
-                className="nc-card relative rounded-2xl overflow-hidden p-7"
+                className="nc-card spot-gold relative rounded-2xl overflow-hidden p-7"
                 style={{
                   background:
                     "linear-gradient(180deg, rgba(28,22,14,0.85) 0%, rgba(14,12,10,0.92) 100%)",
@@ -495,7 +495,7 @@ function RevokeCard({
 }) {
   return (
     <div
-      className="nc-card rounded-2xl p-6"
+      className="nc-card spot-gold rounded-2xl p-6"
       style={{
         background:
           "linear-gradient(180deg, rgba(20,18,14,0.7) 0%, rgba(12,11,9,0.85) 100%)",
