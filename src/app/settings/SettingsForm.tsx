@@ -177,7 +177,7 @@ export default function SettingsForm({ existing, defaultDisplayName, email, memb
           title="Voice"
           italic="how you write"
           kicker="Two or three sentences. Lead with what you make and how. Sixty characters reads as a stub; a hundred and forty as a paragraph."
-          spot="forest"
+          spot="violet"
         >
           <TextArea
             label="The standing line"
@@ -195,7 +195,7 @@ export default function SettingsForm({ existing, defaultDisplayName, email, memb
           title="Place & accent"
           italic="the city, the register"
           kicker="Where you write from, and the hue we'll set your page in."
-          spot="ochre"
+          spot="violet"
         >
           <div className="space-y-7">
             <Field
@@ -216,7 +216,7 @@ export default function SettingsForm({ existing, defaultDisplayName, email, memb
           title="Niches"
           italic="what you cover"
           kicker="Up to six. These are the rooms a brief lands in. Press enter to add."
-          spot="vermillion"
+          spot="violet"
         >
           <Label>Standing terms</Label>
           <div className="mt-3 flex flex-wrap gap-2">
@@ -331,7 +331,7 @@ export default function SettingsForm({ existing, defaultDisplayName, email, memb
           title="Publish"
           italic="put it on the record"
           kicker="Go public, or keep your colophon a private draft until you're ready."
-          spot={accent}
+          spot="violet"
         >
           <label className="flex items-start justify-between gap-6 cursor-pointer group">
             <div className="flex-1">
