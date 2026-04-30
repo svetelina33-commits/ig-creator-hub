@@ -7,11 +7,17 @@ export function VerificationStrip() {
   return (
     <section className="px-5 sm:px-10 pt-12 pb-8 sm:pb-14">
       <div className="mx-auto max-w-7xl">
-        {/* Editorial flourish — fades from transparent to gold-tinged
-            hairline with a small diamond ornament centered. Reads as
-            a chapter break before the credential card. */}
-        <div className="nc-flourish-gold relative mb-10" aria-hidden>
-          <span className="nc-flourish-gold-mark" />
+        {/* Editorial flourish — symmetric fade-in/out from both edges
+            with a centered diamond ornament. Flex layout guarantees the
+            diamond sits at the optical centre regardless of parent
+            stacking-context quirks. */}
+        <div
+          aria-hidden
+          className="mb-10 flex items-center justify-center gap-4"
+        >
+          <span className="nc-flourish-segment-left flex-1" />
+          <span className="nc-flourish-diamond" />
+          <span className="nc-flourish-segment-right flex-1" />
         </div>
 
         <div className="flex items-baseline justify-between gap-4 mb-5">

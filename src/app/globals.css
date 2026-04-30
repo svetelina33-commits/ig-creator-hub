@@ -821,45 +821,55 @@ html { scroll-padding-top: 80px; }
   50%      { opacity: 1;   transform: translateX(-50%) scale(1.25); }
 }
 
-/* Gold variant — same anatomy, ochre/gold tones. Used as a chapter
-   break above the credential strip on the homepage so the reader's
-   eye registers an "and now, the credential" beat. The diamond glyph
-   replaces the dot to echo the seal and credential vocabulary. */
-.nc-flourish-gold {
-  position: relative;
+/* Gold flourish — chapter break above the credential strip.
+   Two flanking line segments fade outward from a centred diamond
+   ornament. Built with three flex children so the diamond is always
+   at the optical centre — the line never ends abruptly past the
+   ornament, and the fade is symmetric in both directions. */
+.nc-flourish-segment-left,
+.nc-flourish-segment-right {
+  display: block;
   height: 1px;
+  pointer-events: none;
+}
+.nc-flourish-segment-left {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(231, 206, 148, 0) 18%,
-    rgba(231, 206, 148, 0.32) 50%,
-    rgba(231, 206, 148, 0) 82%,
+    rgba(231, 206, 148, 0.05) 18%,
+    rgba(231, 206, 148, 0.4) 100%
+  );
+}
+.nc-flourish-segment-right {
+  background: linear-gradient(
+    90deg,
+    rgba(231, 206, 148, 0.4) 0%,
+    rgba(231, 206, 148, 0.05) 82%,
     transparent 100%
   );
 }
-.nc-flourish-gold-mark {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 8px;
-  height: 8px;
-  transform: translate(-50%, -50%) rotate(45deg);
-  background: linear-gradient(180deg, rgba(243,224,178,0.92), rgba(208,155,79,0.6));
-  box-shadow: 0 0 14px 1px rgba(231, 206, 148, 0.45);
+.nc-flourish-diamond {
+  position: relative;
+  display: block;
+  width: 9px;
+  height: 9px;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, rgba(243,224,178,0.95), rgba(208,155,79,0.6));
+  transform: rotate(45deg);
+  box-shadow: 0 0 12px 1px rgba(231, 206, 148, 0.4);
   animation: nc-flourish-gold-pulse 4.2s ease-in-out infinite;
   pointer-events: none;
 }
-.nc-flourish-gold-mark::before {
+.nc-flourish-diamond::before {
   content: "";
   position: absolute;
   inset: -3px;
   border: 0.5px solid rgba(231, 206, 148, 0.45);
-  transform: rotate(0deg);
   pointer-events: none;
 }
 @keyframes nc-flourish-gold-pulse {
-  0%, 100% { opacity: 0.7; box-shadow: 0 0 10px 1px rgba(231, 206, 148, 0.35); }
-  50%      { opacity: 1;   box-shadow: 0 0 18px 2px rgba(231, 206, 148, 0.55); }
+  0%, 100% { opacity: 0.78; box-shadow: 0 0 10px 1px rgba(231, 206, 148, 0.32); }
+  50%      { opacity: 1;    box-shadow: 0 0 18px 2px rgba(231, 206, 148, 0.55); }
 }
 
 /* Vertical hairline separator — used inline between footer policy
