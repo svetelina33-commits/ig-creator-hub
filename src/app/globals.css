@@ -893,6 +893,115 @@ html { scroll-padding-top: 80px; }
   user-select: none;
 }
 
+/* ───── Authorized-partner wax stamp ─────
+   Used in the footer centerpiece. Layered detail: double-hairline
+   border, slow gold shimmer along the top edge, breathing left-dot,
+   rotated micro-diamond, italic accent against small-caps body. */
+.nc-stamp {
+  background:
+    /* faint guilloché — diagonal hatching at very low opacity */
+    repeating-linear-gradient(
+      135deg,
+      rgba(231, 206, 148, 0.04) 0px,
+      rgba(231, 206, 148, 0.04) 1px,
+      transparent 1px,
+      transparent 5px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(231, 206, 148, 0.05),
+      rgba(231, 206, 148, 0.10) 50%,
+      rgba(231, 206, 148, 0.05)
+    );
+  box-shadow:
+    inset 0 0 0 1px rgba(231, 206, 148, 0.28),
+    inset 0 0 0 2.5px rgba(231, 206, 148, 0.06),
+    0 12px 30px -14px rgba(231, 206, 148, 0.18);
+  overflow: hidden;
+}
+.nc-stamp:hover {
+  box-shadow:
+    inset 0 0 0 1px rgba(231, 206, 148, 0.5),
+    inset 0 0 0 2.5px rgba(231, 206, 148, 0.1),
+    0 16px 36px -14px rgba(231, 206, 148, 0.32);
+}
+.nc-stamp-shimmer {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(231, 206, 148, 0) 20%,
+    rgba(243, 224, 178, 0.85) 50%,
+    rgba(231, 206, 148, 0) 80%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: nc-stamp-shimmer 5.6s linear infinite;
+  pointer-events: none;
+}
+@keyframes nc-stamp-shimmer {
+  0%   { background-position: 220% 0; opacity: 0; }
+  20%  { opacity: 0.7; }
+  80%  { opacity: 0.7; }
+  100% { background-position: -120% 0; opacity: 0; }
+}
+.nc-stamp-dot {
+  animation: nc-stamp-dot-breathe 3.6s ease-in-out infinite;
+}
+@keyframes nc-stamp-dot-breathe {
+  0%, 100% { opacity: 0.7; box-shadow: 0 0 6px rgba(231, 206, 148, 0.45); }
+  50%      { opacity: 1;   box-shadow: 0 0 14px rgba(231, 206, 148, 0.85); }
+}
+.nc-stamp-diamond {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background: linear-gradient(180deg, rgba(243, 224, 178, 0.95), rgba(208, 155, 79, 0.6));
+  transform: rotate(45deg);
+  box-shadow: 0 0 6px rgba(231, 206, 148, 0.4);
+}
+.nc-stamp-sep {
+  display: inline-block;
+  width: 1px;
+  height: 10px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(231, 206, 148, 0.45) 50%,
+    transparent 100%
+  );
+  align-self: center;
+}
+.nc-stamp-ig {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 0 6px rgba(231, 206, 148, 0.25));
+  transition: filter 480ms ease;
+}
+.nc-stamp:hover .nc-stamp-ig {
+  filter: drop-shadow(0 0 10px rgba(231, 206, 148, 0.5));
+}
+
+/* Hide the seal's secondary ornaments on the smallest screens so the
+   pill doesn't crowd. The dot, italic, IG glyph, and arrow stay. */
+@media (max-width: 480px) {
+  .nc-stamp-diamond,
+  .nc-stamp-sep:first-of-type {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nc-stamp-shimmer,
+  .nc-stamp-dot {
+    animation: none !important;
+  }
+  .nc-stamp-shimmer { opacity: 0.6; }
+}
+
 /* ───── Respect reduced-motion preference ───── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

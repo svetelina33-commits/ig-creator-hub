@@ -62,26 +62,75 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Authorized partner stamp — links to the Letter of Authorization */}
+          {/* Authorized-partner stamp.
+              Reads as a wax seal: animated shimmer along the top edge,
+              double-hairline border, a left signal-dot that breathes,
+              an italic-serif "Authorized" set against the small-caps
+              body, and the Instagram glyph as the right-end payoff.
+              The whole thing is one Link to /verification. */}
           <Link
             href="/verification"
-            className="mt-3 inline-flex items-center gap-2.5 px-4 py-2 rounded-full group transition-colors"
-            style={{
-              background:
-                "linear-gradient(90deg, rgba(231,206,148,0.04), rgba(231,206,148,0.08), rgba(231,206,148,0.04))",
-              boxShadow: "inset 0 0 0 1px rgba(231,206,148,0.22)",
-            }}
+            className="nc-stamp group mt-3 relative inline-flex items-center gap-3 sm:gap-4 px-5 sm:px-6 py-2.5 rounded-full transition-all duration-500 hover:-translate-y-px"
           >
-            <span
-              aria-hidden
-              className="block w-1.5 h-1.5 rounded-full bg-gold"
-              style={{ boxShadow: "0 0 8px rgba(231,206,148,0.55)" }}
-            />
-            <span className="small-caps text-[10px] tracking-[0.32em] text-gold/85 group-hover:text-gold transition-colors">
-              Authorized · Instagram Graph API Partner
-              <span className="text-gold/40 mx-1.5">·</span>
-              <span className="font-mono-numeric tracking-[0.18em]">
+            {/* Animated gold shimmer along the top hairline */}
+            <span className="nc-stamp-shimmer" aria-hidden />
+
+            {/* Left signal — pulsing dot + diamond */}
+            <span className="flex items-center gap-2 shrink-0 relative z-[1]">
+              <span
+                aria-hidden
+                className="block w-1.5 h-1.5 rounded-full bg-gold nc-stamp-dot"
+                style={{ boxShadow: "0 0 10px rgba(231,206,148,0.65)" }}
+              />
+              <span aria-hidden className="nc-stamp-diamond" />
+            </span>
+
+            {/* Body — italic accent + small-caps prose + mono reference */}
+            <span className="flex items-baseline gap-2 sm:gap-2.5 relative z-[1]">
+              <span className="font-serif-italic text-[13px] sm:text-[14px] leading-none text-gold/95 tracking-[-0.005em]">
+                Authorized
+              </span>
+              <span aria-hidden className="nc-stamp-sep" />
+              <span className="small-caps text-[10px] tracking-[0.3em] text-gold/80 group-hover:text-gold transition-colors">
+                Instagram Graph API Partner
+              </span>
+              <span aria-hidden className="nc-stamp-sep" />
+              <span className="font-mono-numeric text-[10px] tracking-[0.18em] text-gold/70 group-hover:text-gold/90 transition-colors">
                 № {META_APPROVAL.partnerRef}
+              </span>
+            </span>
+
+            {/* Right payoff — Instagram glyph + arrow on hover */}
+            <span className="flex items-center gap-2 shrink-0 relative z-[1]">
+              <span aria-hidden className="nc-stamp-ig">
+                <svg width="13" height="13" viewBox="0 0 14 14">
+                  <rect
+                    x="1.5"
+                    y="1.5"
+                    width="11"
+                    height="11"
+                    rx="3"
+                    ry="3"
+                    fill="none"
+                    stroke="rgba(231,206,148,0.85)"
+                    strokeWidth="0.85"
+                  />
+                  <circle
+                    cx="7"
+                    cy="7"
+                    r="2.65"
+                    fill="none"
+                    stroke="rgba(231,206,148,0.85)"
+                    strokeWidth="0.85"
+                  />
+                  <circle cx="10.4" cy="3.6" r="0.55" fill="rgba(231,206,148,0.85)" />
+                </svg>
+              </span>
+              <span
+                aria-hidden
+                className="font-mono-numeric text-[11px] text-gold/40 transition-all duration-500 group-hover:text-gold group-hover:translate-x-0.5"
+              >
+                ↗
               </span>
             </span>
           </Link>
