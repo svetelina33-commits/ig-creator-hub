@@ -184,7 +184,7 @@ export default async function Home() {
               <span className="small-caps text-[10px] tracking-[0.3em] text-ink-muted">
                 Dispatch · I
               </span>
-              <h2 className="mt-3 font-serif-display text-5xl text-ink leading-[0.95]">
+              <h2 className="mt-3 font-serif-display text-4xl sm:text-5xl text-ink leading-[0.95]">
                 A different
                 <br />
                 <span className="font-serif-italic text-forest">arrangement.</span>

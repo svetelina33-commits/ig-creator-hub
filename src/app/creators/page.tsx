@@ -36,7 +36,7 @@ export default async function CreatorsIndexPage() {
             />
           </Reveal>
           <Reveal delay={120}>
-            <h1 className="mt-8 font-serif-display text-[clamp(3rem,8vw,7rem)] leading-[0.9] text-ink">
+            <h1 className="mt-8 font-serif-display text-[clamp(2.4rem,7.5vw,7rem)] leading-[0.95] sm:leading-[0.9] text-ink">
               The <span className="font-serif-italic">roster</span>
               <span className="text-violet">.</span>
             </h1>

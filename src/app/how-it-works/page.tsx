@@ -69,7 +69,7 @@ export default async function HowItWorksPage() {
             <RunningHead left="HOW IT WORKS" center="· · ·" right="FOR CREATORS" />
           </Reveal>
           <Reveal delay={120}>
-            <h1 className="mt-8 font-serif-display text-[clamp(3rem,8vw,7rem)] leading-[0.9] text-ink">
+            <h1 className="mt-8 font-serif-display text-[clamp(2.4rem,7.5vw,7rem)] leading-[0.95] sm:leading-[0.9] text-ink">
               Five steps,
               <br />
               <span className="font-serif-italic">the editor,</span>
@@ -284,7 +284,7 @@ export default async function HowItWorksPage() {
 
         <section className="mx-auto max-w-4xl py-20 text-center">
           <Reveal>
-            <h2 className="font-serif-display text-5xl sm:text-6xl text-ink leading-[0.95]">
+            <h2 className="font-serif-display text-4xl sm:text-5xl md:text-6xl text-ink leading-[0.95]">
               Ready for
               <br />
               <span className="font-serif-italic">Step One?</span>

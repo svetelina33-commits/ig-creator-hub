@@ -29,7 +29,7 @@ export default async function AboutPage() {
             <RunningHead left="MANIFESTO" center="· NEXUS CLUB ·" right="VOL. I · 2026" />
           </Reveal>
           <Reveal delay={120}>
-            <h1 className="mt-8 font-serif-display text-[clamp(3rem,8vw,7rem)] leading-[0.9] text-ink">
+            <h1 className="mt-8 font-serif-display text-[clamp(2.4rem,7.5vw,7rem)] leading-[0.95] sm:leading-[0.9] text-ink">
               A club is not a
               <br />
               <span className="font-serif-italic text-violet">marketplace</span>
@@ -256,7 +256,7 @@ export default async function AboutPage() {
             <p className="small-caps text-[10px] tracking-[0.3em] text-ink-muted">
               — an invitation —
             </p>
-            <h2 className="mt-4 font-serif-display text-5xl sm:text-6xl text-ink leading-[0.95]">
+            <h2 className="mt-4 font-serif-display text-4xl sm:text-5xl md:text-6xl text-ink leading-[0.95]">
               If this resonates,
               <br />
               <span className="font-serif-italic">apply.</span>

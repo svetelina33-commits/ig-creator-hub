@@ -63,7 +63,7 @@ export default async function CampaignsPage({ searchParams }: { searchParams: Se
           </Reveal>
           <Reveal delay={80} className="mt-8 flex items-end justify-between gap-6 flex-wrap">
             <div>
-              <h1 className="font-serif-display text-[clamp(3rem,8vw,7rem)] leading-[0.9] text-ink">
+              <h1 className="font-serif-display text-[clamp(2.4rem,7.5vw,7rem)] leading-[0.95] sm:leading-[0.9] text-ink">
                 <span className="font-serif-italic text-violet">Now</span> commissioning.
               </h1>
               {campaigns.length !== all.length && (
