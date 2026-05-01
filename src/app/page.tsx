@@ -51,7 +51,7 @@ export default async function Home() {
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
               <div className="lg:col-span-8 relative">
-                <h1 className="font-serif-display text-[clamp(3.5rem,10vw,9.5rem)] leading-[0.88] text-ink">
+                <h1 className="font-serif-display text-[clamp(2.6rem,8.5vw,9.5rem)] leading-[0.92] sm:leading-[0.88] text-ink">
                   <span className="nc-word-in" style={{ animationDelay: "60ms" }}>The</span>{" "}
                   <span className="nc-word-in" style={{ animationDelay: "160ms" }}>quiet</span>{" "}
                   <span
@@ -78,14 +78,14 @@ export default async function Home() {
                     <Link
                       href="#apply"
                       data-magnetic
-                      className="btn-primary nc-magnetic inline-flex items-center gap-3 px-7 py-3.5 rounded-full text-[13px] font-medium tracking-wide"
+                      className="btn-primary nc-magnetic inline-flex items-center gap-3 px-7 py-4 sm:py-3.5 rounded-full text-[13px] font-medium tracking-wide min-h-[44px]"
                     >
                       Apply for membership
                       <span aria-hidden>→</span>
                     </Link>
                     <Link
                       href="/how-it-works"
-                      className="btn-ghost inline-flex items-center gap-2 px-6 py-3 rounded-full text-[13px]"
+                      className="btn-ghost inline-flex items-center gap-2 px-6 py-3.5 sm:py-3 rounded-full text-[13px] min-h-[44px]"
                     >
                       How it works
                     </Link>
@@ -153,12 +153,12 @@ export default async function Home() {
 
         {/* ===== MARQUEE ===== */}
         {open.length > 0 && (
-          <section className="py-10 overflow-hidden">
+          <section className="py-8 sm:py-10 overflow-hidden">
             <div className="nc-marquee whitespace-nowrap">
               {[...open, ...open, ...open].map((c, i) => (
                 <span
                   key={`${c.id}-${i}`}
-                  className="inline-flex items-center gap-6 px-10 font-serif-italic text-3xl text-ink-soft"
+                  className="inline-flex items-center gap-3 sm:gap-6 px-5 sm:px-10 font-serif-italic text-xl sm:text-3xl text-ink-soft"
                 >
                   {c.brand}
                   <span className="font-mono-numeric text-[10px] tracking-[0.3em] text-ink-faint">
@@ -246,14 +246,14 @@ export default async function Home() {
                 <Link
                   href="/campaigns/pitch"
                   data-magnetic
-                  className="btn-primary nc-magnetic inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-[12px]"
+                  className="btn-primary nc-magnetic inline-flex items-center gap-2 px-5 py-3 sm:py-2.5 rounded-full text-[12px] min-h-[40px]"
                 >
                   Pitch your own
                   <span aria-hidden>+</span>
                 </Link>
                 <Link
                   href="/campaigns"
-                  className="btn-ghost inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-[12px]"
+                  className="btn-ghost inline-flex items-center gap-2 px-4 py-3 sm:py-2.5 rounded-full text-[12px] min-h-[40px]"
                 >
                   View all
                   <span aria-hidden>→</span>

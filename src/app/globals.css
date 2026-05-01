@@ -660,19 +660,19 @@ html { scroll-padding-top: 80px; }
   mask-image: linear-gradient(
     to right,
     transparent 0,
-    rgba(0, 0, 0, 0.4) 40px,
-    #000 120px,
-    #000 calc(100% - 180px),
-    rgba(0, 0, 0, 0.4) calc(100% - 60px),
+    rgba(0, 0, 0, 0.6) 16px,
+    #000 32px,
+    #000 calc(100% - 48px),
+    rgba(0, 0, 0, 0.6) calc(100% - 16px),
     transparent 100%
   );
   -webkit-mask-image: linear-gradient(
     to right,
     transparent 0,
-    rgba(0, 0, 0, 0.4) 40px,
-    #000 120px,
-    #000 calc(100% - 180px),
-    rgba(0, 0, 0, 0.4) calc(100% - 60px),
+    rgba(0, 0, 0, 0.6) 16px,
+    #000 32px,
+    #000 calc(100% - 48px),
+    rgba(0, 0, 0, 0.6) calc(100% - 16px),
     transparent 100%
   );
 }
@@ -1603,6 +1603,17 @@ html { scroll-behavior: smooth; overflow-x: clip; }
   border-radius: 0.5rem;
   font-size: 16px;
   transition: border-color 220ms ease, background 220ms ease;
+}
+
+/* Mobile floor: keep every text input at ≥16px so iOS Safari doesn't
+   auto-zoom the page on focus. Smaller values can still be set per
+   element on `sm:` and up — that's where iOS zoom doesn't apply. */
+@media (max-width: 640px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="submit"]):not([type="button"]),
+  textarea,
+  select {
+    font-size: max(16px, 1rem);
+  }
 }
 .nc-input:focus {
   outline: none;

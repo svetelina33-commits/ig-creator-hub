@@ -195,8 +195,8 @@ function MobileMenuOverlay({
           top: 0,
           right: 0,
           bottom: 0,
-          width: "100%",
-          maxWidth: "24rem",
+          width: "min(24rem, 100%)",
+          maxWidth: "100vw",
           padding: "1.5rem 1.5rem 2.5rem",
           backgroundColor: "#0A0A0E",
           borderLeft: "1px solid rgba(255,255,255,0.08)",
@@ -204,6 +204,7 @@ function MobileMenuOverlay({
           transform: open ? "translateX(0)" : "translateX(100%)",
           transition: "transform 300ms cubic-bezier(0.22, 1, 0.36, 1)",
           overflowY: "auto",
+          WebkitOverflowScrolling: "touch",
         }}
       >
         <div className="flex items-center justify-between mb-10">

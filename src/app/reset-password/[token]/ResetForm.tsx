@@ -84,7 +84,7 @@ function Field({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="nc-input mt-2 w-full text-[15px]"
+        className="nc-input mt-2 w-full text-[16px]"
       />
     </label>
   );

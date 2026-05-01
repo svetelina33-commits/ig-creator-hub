@@ -142,6 +142,50 @@ export default function SettingsForm({ existing, defaultDisplayName, email, memb
       {/* ============ LEFT · FORM ============ */}
       <form onSubmit={submit} className="col-span-12 lg:col-span-7 space-y-8">
 
+        {/* MOBILE-ONLY mini-preview at top of form so the live state stays
+            visible while editing. Tapping the chip jumps to the full
+            preview at the bottom of the page. */}
+        <a
+          href="#nc-live-preview"
+          className="lg:hidden -mb-2 flex items-center gap-3 rounded-2xl glass px-4 py-3.5 group active:scale-[0.99] transition-transform"
+        >
+          <span
+            aria-hidden
+            className="relative inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full"
+            style={{
+              background: `radial-gradient(circle at 50% 35%, ${ACCENT_META[accent].spot}, rgba(125,90,255,0.10) 70%)`,
+              boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.10)",
+            }}
+          >
+            <span className={`block h-2.5 w-2.5 rounded-sm ${ACCENT_META[accent].swatch}`} />
+          </span>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-baseline justify-between gap-2">
+              <span className="small-caps text-[9.5px] tracking-[0.28em] text-ink-faint shrink-0">
+                Drafting · {completeness.pct.toString().padStart(2, "0")}%
+              </span>
+              <span
+                className={`small-caps text-[9px] tracking-[0.25em] shrink-0 ${
+                  isPublic ? "text-forest" : "text-ink-faint"
+                }`}
+              >
+                {isPublic ? "● PUBLIC" : "○ DRAFT"}
+              </span>
+            </div>
+            <div className="mt-1 font-serif-display text-[15px] text-ink truncate">
+              {displayName.trim() || (
+                <span className="text-ink-faint italic">Your name here</span>
+              )}
+            </div>
+          </div>
+          <span
+            aria-hidden
+            className="text-[11px] small-caps tracking-[0.22em] text-ink-faint group-active:text-violet"
+          >
+            preview ↓
+          </span>
+        </a>
+
         {/* §I IDENTITY */}
         <SectionCard
           number="I"
@@ -246,7 +290,7 @@ export default function SettingsForm({ existing, defaultDisplayName, email, memb
                     }
                   }}
                   placeholder={niches.length === 0 ? "fashion, food, slow travel…" : "Add another…"}
-                  className="nc-input text-sm px-3 py-1.5"
+                  className="nc-input text-[16px] px-3 py-2"
                 />
                 <button
                   type="button"
@@ -301,13 +345,13 @@ export default function SettingsForm({ existing, defaultDisplayName, email, memb
                     placeholder="Label"
                     value={l.label}
                     onChange={(e) => updateLink(i, "label", e.target.value)}
-                    className="w-32 px-2 py-1.5 border-b border-hairline-strong bg-transparent text-[13px] focus:outline-none focus:border-violet small-caps tracking-[0.15em] transition-colors"
+                    className="w-28 sm:w-32 px-2 py-2 border-b border-hairline-strong bg-transparent text-[16px] sm:text-[13px] focus:outline-none focus:border-violet small-caps tracking-[0.15em] transition-colors"
                   />
                   <input
                     placeholder="https://..."
                     value={l.url}
                     onChange={(e) => updateLink(i, "url", e.target.value)}
-                    className="flex-1 px-2 py-1.5 border-b border-hairline-strong bg-transparent text-[13px] font-mono-numeric text-ink-soft focus:outline-none focus:border-violet transition-colors"
+                    className="flex-1 min-w-0 px-2 py-2 border-b border-hairline-strong bg-transparent text-[16px] sm:text-[13px] font-mono-numeric text-ink-soft focus:outline-none focus:border-violet transition-colors"
                   />
                   <button
                     type="button"
@@ -409,7 +453,7 @@ export default function SettingsForm({ existing, defaultDisplayName, email, memb
       </form>
 
       {/* ============ RIGHT · LIVE PREVIEW ============ */}
-      <aside className="col-span-12 lg:col-span-5">
+      <aside id="nc-live-preview" className="col-span-12 lg:col-span-5 scroll-mt-24">
         <div className="lg:sticky lg:top-24 space-y-5">
 
           {/* Completeness meter */}
@@ -672,7 +716,7 @@ function Field({
           className={`flex-1 bg-transparent ${
             size === "lg"
               ? "text-[20px] sm:text-[22px] font-serif-display"
-              : "text-[15.5px] font-serif-display"
+              : "text-[16px] font-serif-display"
           } text-ink placeholder:text-ink-faint focus:outline-none`}
         />
       </div>
@@ -713,7 +757,7 @@ function TextArea({
           value={value}
           onChange={(e) => onChange(e.target.value.slice(0, max))}
           placeholder={placeholder}
-          className="block w-full bg-transparent px-4 py-3 text-[15px] leading-[1.7] font-serif-book text-ink placeholder:text-ink-faint focus:outline-none resize-none"
+          className="block w-full bg-transparent px-4 py-3 text-[16px] leading-[1.65] font-serif-book text-ink placeholder:text-ink-faint focus:outline-none resize-none"
         />
       </div>
       <div className="mt-1.5 flex items-center justify-between font-mono-numeric text-[10px] tracking-[0.15em]">

@@ -69,27 +69,27 @@ export function Footer() {
         </div>
 
         {/* ── ② Primary nav pill ────────────────────────────────── */}
-        <div className="glass rounded-3xl px-6 sm:px-10 py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 text-ink-muted">
-          <span className="font-mono-numeric text-[12px] tracking-[0.18em] text-ink-faint">
+        <div className="glass rounded-3xl px-5 sm:px-10 py-5 sm:py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-5 text-ink-muted">
+          <span className="font-mono-numeric text-[11px] sm:text-[12px] tracking-[0.16em] sm:tracking-[0.18em] text-ink-faint">
             Founded MMXXVI · Singapore · VOL. I
           </span>
-          <div className="flex items-center gap-5 sm:gap-7 font-mono-numeric flex-wrap text-[12px] tracking-[0.14em]">
-            <a href="/about" className="hover:text-ink transition-colors">
+          <div className="flex items-center gap-x-4 gap-y-2 sm:gap-x-5 md:gap-x-7 font-mono-numeric flex-wrap text-[11px] sm:text-[12px] tracking-[0.1em] sm:tracking-[0.14em]">
+            <a href="/about" className="hover:text-ink transition-colors py-1">
               ABOUT
             </a>
-            <a href="/how-it-works" className="hover:text-ink transition-colors">
+            <a href="/how-it-works" className="hover:text-ink transition-colors py-1">
               HOW IT WORKS
             </a>
-            <a href="/curation" className="hover:text-ink transition-colors">
+            <a href="/curation" className="hover:text-ink transition-colors py-1">
               CURATION
             </a>
-            <a href="/dispatches" className="hover:text-ink transition-colors">
+            <a href="/dispatches" className="hover:text-ink transition-colors py-1">
               DISPATCHES
             </a>
-            <a href="/trust" className="hover:text-ink transition-colors text-violet/85">
+            <a href="/trust" className="hover:text-ink transition-colors text-violet/85 py-1">
               TRUST
             </a>
-            <a href="/help" className="hover:text-ink transition-colors">
+            <a href="/help" className="hover:text-ink transition-colors py-1">
               HELP
             </a>
           </div>
@@ -104,11 +104,13 @@ export function Footer() {
           </div>
           <nav
             aria-label="Policies and standing documents"
-            className="flex flex-wrap items-center gap-x-4 sm:gap-x-5 gap-y-2 font-mono-numeric text-[10.5px] tracking-[0.16em] text-ink-faint uppercase"
+            className="flex flex-wrap items-center gap-x-3 sm:gap-x-5 gap-y-1.5 sm:gap-y-2 font-mono-numeric text-[10px] sm:text-[10.5px] tracking-[0.1em] sm:tracking-[0.16em] text-ink-faint uppercase"
           >
             {SHELF.map((item, i) => (
               <Fragment key={item.href}>
-                {i > 0 && <span aria-hidden className="nc-sep-v" />}
+                {i > 0 && (
+                  <span aria-hidden className="nc-sep-v hidden sm:inline-block" />
+                )}
                 <FootLink href={item.href}>{item.label}</FootLink>
               </Fragment>
             ))}

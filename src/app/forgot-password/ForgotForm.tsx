@@ -42,7 +42,7 @@ export default function ForgotForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@your-domain.com"
-          className="nc-input mt-2 w-full text-[15px]"
+          className="nc-input mt-2 w-full text-[16px]"
         />
       </label>
       <button
